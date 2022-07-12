@@ -1,2 +1,81 @@
 #include <stdio.h>
+#define MAX_SIZE 100
 
+typedef struct {
+    int stack[MAX_SIZE];
+    int top;
+}StackType;
+
+void init(StackType *s){
+    s->top = -1;
+}
+
+int is_empty(StackType *s){
+    if(s->top == -1)
+        return 1;
+    else
+        return 0;
+}
+
+int is_full(StackType *s){
+    if(s->top == MAX_SIZE - 1)
+        return 1;
+    else
+        return 0;
+}
+
+void push(StackType *s, int item){
+    if(is_full(s)){
+        printf("Stack is full\n");
+        return;
+    }
+    else
+        s->stack[++(s->top)] = item;
+}
+
+int pop(StackType *s){
+    if(is_empty(s)){
+        printf("Stack is empty\n");
+        return -1;
+    }
+    else{
+        return s->stack[(s->top)--];
+    }
+}
+
+int main()
+{
+    StackType s;
+    int menu, item, tdata;
+    init(&s);
+    
+    while(menu != 3){
+        printf("1. push 2. pop 3. exit\n");
+        printf(">> ");
+        scanf("%d", &menu);
+        
+        switch(menu){
+            case 1:
+                printf("Enter the number : ");
+                scanf("%d", &item);
+                if(item < 0){
+                    printf("Number input error\n");
+                    continue;
+                }
+                else
+                    push(&s, item);
+                break;
+            case 2:
+                tdata = pop(&s);
+                if(tdata == -1)
+                    continue;
+                else
+                    printf("%d\n", tdata);
+                break;
+            default:
+                break;
+        }
+    }
+
+    return 0;
+}
