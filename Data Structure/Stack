@@ -43,8 +43,7 @@ int pop(StackType *s){
     }
 }
 
-int main()
-{
+int main(){
     StackType s;
     int menu, item, data;
     init(&s);
