@@ -72,8 +72,10 @@ int main()
                 else
                     printf("%d\n", data);
                 break;
-            default:
+            case 3:
                 break;
+            default:
+                printf("Menu selection error\n");
         }
     }
 
