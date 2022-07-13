@@ -46,7 +46,7 @@ int pop(StackType *s){
 int main()
 {
     StackType s;
-    int menu, item, tdata;
+    int menu, item, data;
     init(&s);
     
     while(menu != 3){
@@ -66,11 +66,11 @@ int main()
                     push(&s, item);
                 break;
             case 2:
-                tdata = pop(&s);
-                if(tdata == -1)
+                data = pop(&s);
+                if(data == -1)
                     continue;
                 else
-                    printf("%d\n", tdata);
+                    printf("%d\n", data);
                 break;
             default:
                 break;
