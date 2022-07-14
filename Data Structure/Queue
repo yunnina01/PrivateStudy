@@ -50,7 +50,7 @@ int main(){
     init(&q);
     
     while(menu != 3){
-        printf("1. Enqueue 2. Dequeue 3. exit\n");
+        printf("1. Enqueue 2. Dequeue 3. Exit\n");
         printf(">> ");
         scanf("%d", &menu);
         
@@ -59,7 +59,7 @@ int main(){
                 printf("Enter the number : ");
                 scanf("%d", &item);
                 if(item < 0){
-                    printf("Number input error\n");
+                    printf("Number Input Error\n");
                     continue;
                 }
                 else
@@ -75,7 +75,7 @@ int main(){
             case 3:
                 break;
             default:
-                printf("Menu selection error\n");
+                printf("Menu Selection Error\n");
         }
     }
     
