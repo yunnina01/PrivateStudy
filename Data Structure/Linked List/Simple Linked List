@@ -1,1 +1,209 @@
+#include <stdio.h>
+#include <stdlib.h>
 
+typedef struct ListNode{
+    int data;
+    struct ListNode* link;
+}ListNode;
+
+typedef struct {
+    ListNode* head;
+    int length;
+}ListType;
+
+void init(ListType **L){
+    (*L)->head = NULL;
+    (*L)->length = 0;
+}
+
+ListNode* get_node(int item){
+    ListNode* new_node = (ListNode*)malloc(sizeof(ListNode*));
+    if(new_node == NULL)
+        printf("Memory Allocation Error\n");
+    else{
+        new_node->data = item;
+        new_node->link = NULL;
+    }
+    return new_node;
+}
+
+void add_first(ListType **L, int item){
+    ListNode* new_node = get_node(item);
+    if(new_node == NULL)
+        return;
+    else{
+        ListNode* temp = (*L)->head;
+        new_node->link = temp;
+        (*L)->head = new_node;
+        (*L)->length++;
+    }
+}
+
+void add_last(ListType **L, int item){
+    ListNode* new_node = get_node(item);
+    if(new_node == NULL)
+        return;
+    else{
+        ListNode* temp = (*L)->head;
+        if(temp == NULL)
+            (*L)->head = new_node;
+        else{
+            while(temp->link != NULL){
+                temp = temp->link;
+            }
+            temp->link = new_node;
+        }
+        (*L)->length++;
+    }
+}
+
+void add(ListType **L, int pos, int item){
+    if(pos > (*L)->length){
+        printf("Position Input Error\n");
+        return;
+    }
+    else{
+        ListNode* new_node = get_node(item);
+        if(new_node == NULL)
+            return;
+        else{
+            if(pos == 0)
+                add_first(L, item);
+            else if(pos == (*L)->length)
+                add_last(L, item);
+            else{
+                ListNode* temp = (*L)->head;
+                for(int i=0; i<pos; i++){
+                    temp = temp->link
+                }
+                new_node->link = temp->link;
+                temp = new_node;
+            }
+            (*L)->length++;
+        }
+    }
+}
+
+void search(ListType *L, int item){
+    ListNode* temp = L->head;
+    int cnt = 0;
+    if(L->length == 0){
+        printf("List is empty\n");
+        return;
+    }
+    else{
+        while(temp != NULL){
+            if(temp->data == item){
+                printf("%d is position %d\n", item, cnt);
+                return;
+            }
+            temp = temp->link;
+            cnt++;
+        }
+        printf("No data about %d\n", item);
+        return;
+    }
+}
+
+void delete(ListType **L, int pos){
+    if(pos < 0 || pos > (*L)->length){
+        printf("Position Input Error\n");
+        return;
+    }
+    else if(pos == 0){
+        ListNode* removed = (*L)->head;
+        (*L)->head = removed->link;
+        free(removed);
+        (*L)->length--;
+    }
+    else{
+        ListNode* temp = (*L)->head;
+        for(int i=0; i<pos-1; i++){
+            temp = temp->link;
+        }
+        ListNode* removed = temp->link;
+        temp->link = removed->link;
+        free(removed);
+        (*L)->length--;
+    }
+}
+
+void clear(ListType *L){
+    ListNode* temp = L->head;
+    ListNode* removed = temp;
+    if(temp == NULL)
+        return;
+    else{
+        while(removed != NULL){
+            temp = temp->link;
+            free(removed);
+            removed = temp;
+        }
+    }
+    init(&L);
+}
+
+void replace(ListType *L, int pos, int item){
+    if(pos < 0 || pos > L->length){
+        printf("Position Input Error\n");
+        return;
+    }
+    ListNode* temp = L->head;
+    for(int i=0; i<pos; i++){
+        temp = temp->link;
+    }
+    temp->data = item;
+}
+
+void display(ListType *L){
+    
+}
+
+int main(){
+    ListType* list;
+    int menu, item;
+    init(&list);
+    
+    while(menu != 0){
+        printf("1. Add_First 2. Add_Last 3. Add 4. Delete 5. Clear 6. Replace 7. Search 8. Length 9. Display 0. Exit\n");
+        printf(">> ");
+        scanf("%d", &menu);
+        
+        switch(menu){
+            case 1:
+                
+                break;
+            case 2:
+            
+                break;
+                
+            case 3:
+            
+                break;
+            case 4:
+            
+                break;
+            case 5:
+            
+                break;
+            case 6:
+            
+                break;
+            case 7:
+            
+                break;
+            case 8:
+            
+                break;
+            case 9:
+            
+                break;
+            case 0:
+                break;
+            default:
+                printf("Menu Selection Error\n");
+        }
+    }
+    
+    return 0;
+}
