@@ -1,1 +1,175 @@
+#include <stdio.h>
+#include <stdlib.h>
 
+typedef struct ListNode{
+    int data;
+    struct ListNode* link;
+}ListNode;
+
+void init(ListNode **head){
+    *head = NULL;
+}
+
+void add_last(ListNode **head, int item){
+    ListNode* new_node = (ListNode*)malloc(sizeof(ListNode*));
+    if(new_node == NULL){
+        printf("Memory Allocation Error\n");
+        return;
+    }
+    new_node->data = item;
+    new_node->link = NULL;
+    ListNode* temp = *head;
+    if(temp == NULL){
+        *head = new_node;
+        new_node->link = new_node;
+    }
+    else{
+        ListNode* temp = *head;
+        while(temp->link != *head){
+            temp = temp->link;
+        }
+        new_node->link = *head;
+        temp->link = new_node;
+    }
+}
+
+void delete_last(ListNode **head){
+    ListNode* temp = *head;
+    ListNode* removed = temp->link;
+    if(temp == NULL){
+        printf("List is empty\n");
+        return;
+    }
+    while(removed->link != *head){
+        removed = removed->link;
+        temp = temp->link;
+    }
+    temp->link = removed->link;
+    free(removed);
+}
+
+void clear(ListNode **head){
+    if(head == NULL){
+        printf("List is empty\n");
+        return;
+    }
+    init(head);
+}
+
+
+int get_length(ListNode *head){
+    int cnt = 0;
+    ListNode* temp = head;
+    if(temp == NULL)
+        return cnt;
+    while(temp->link != head){
+        temp = temp->link;
+        cnt++;
+    }
+    return cnt+1;
+}
+
+void replace(ListNode *head, int pos, int item){
+    int cnt = 1;
+    int length = get_length(head);
+    ListNode* temp = head;
+    if(pos <= 0 || pos > length){
+        printf("Position Input Error\n");
+        return;
+    }
+    else{
+        for(int i=0; i<pos-1; i++){
+            temp = temp->link;
+        }
+        temp->data = item;
+    }
+}
+
+void search(ListNode *head, int item){
+    int cnt = 1;
+    ListNode* temp = head;
+    if(temp == NULL){
+        printf("List is empty\n");
+        return;
+    }
+    while(temp->link != head){
+        if(temp->data == item){
+            printf("%d's position is %d\n", item, cnt);
+            return;
+        }
+        temp = temp->link;
+        cnt++;
+    }
+    if(temp->data == item){
+        cnt = get_length(head);
+        printf("%d's position is %d\n", item, cnt);
+    }
+    else
+        printf("No data about %d\n", item);
+}
+
+void display(ListNode *head){
+    int cnt = 1;
+    ListNode* temp = head;
+    if(temp == NULL){
+        printf("List is empty\n");
+        return;
+    }
+    while(temp->link != head){
+        printf("[%d] : %d\n", cnt, temp->data);
+        temp = temp->link;
+        cnt++;
+    }
+    printf("[%d] : %d\n", cnt, temp->data);
+}
+
+int main(){
+    ListNode* list;
+    int menu, item, pos, length;
+    init(&list);
+    
+    while(menu != 8){
+        printf("1. Add 2. Delete 3. Clear 4. Replace 5. Search 6. Length 7. Display 8. Exit\n");
+        printf(">> ");
+        scanf("%d", &menu);
+        
+        switch(menu){
+            case 1:
+                printf("Enter the number : ");
+                scanf("%d", &item);
+                add_last(&list, item);
+                break;
+            case 2:
+                delete_last(&list);
+                break;
+            case 3:
+                clear(&list);
+                break;
+            case 4:
+                printf("Enter the position : ");
+                scanf("%d", &pos);
+                printf("Enter the number : ");
+                scanf("%d", &item);
+                replace(list, pos, item);
+                break;
+            case 5:
+                printf("Enter the number : ");
+                scanf("%d", &item);
+                search(list, item);
+                break;
+            case 6:
+                length = get_length(list);
+                printf("List's length is %d\n", length);
+                break;
+            case 7:
+                display(list);
+                break;
+            case 8:
+                break;
+            default:
+                printf("Menu Selection Error\n");
+        }
+    }
+    
+    return 0;
+}
