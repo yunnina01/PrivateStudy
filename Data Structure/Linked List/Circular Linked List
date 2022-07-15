@@ -73,14 +73,16 @@ void replace(ListNode *head, int pos, int item){
     int cnt = 1;
     int length = get_length(head);
     ListNode* temp = head;
-    if(pos <= 0 || pos > length){
+    if(pos <= 0)
         printf("Position Input Error\n");
-        return;
+    else if(pos > length)
+        printf("This position is empty\n");
+    else{
+        for(int i=0; i<pos-1; i++){
+            temp = temp->link;
+        }
+        temp->data = item;
     }
-    for(int i=0; i<pos-1; i++){
-        temp = temp->link;
-    }
-    temp->data = item;
 }
 
 void search(ListNode *head, int item){
