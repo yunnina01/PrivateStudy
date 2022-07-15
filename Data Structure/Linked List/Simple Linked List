@@ -31,56 +31,49 @@ void add_first(ListType **L, int item){
     ListNode* new_node = get_node(item);
     if(new_node == NULL)
         return;
-    else{
-        ListNode* temp = (*L)->head;
-        new_node->link = temp;
-        (*L)->head = new_node;
-        (*L)->length++;
-    }
+    ListNode* temp = (*L)->head;
+    new_node->link = temp;
+    (*L)->head = new_node;
+    (*L)->length++;
 }
 
 void add_last(ListType **L, int item){
     ListNode* new_node = get_node(item);
     if(new_node == NULL)
         return;
+    ListNode* temp = (*L)->head;
+    if(temp == NULL)
+        (*L)->head = new_node;
     else{
-        ListNode* temp = (*L)->head;
-        if(temp == NULL)
-            (*L)->head = new_node;
-        else{
-            while(temp->link != NULL){
-                temp = temp->link;
-            }
-            temp->link = new_node;
+        while(temp->link != NULL){
+            temp = temp->link;
         }
-        (*L)->length++;
+        temp->link = new_node;
     }
+    (*L)->length++;
 }
 
 void add(ListType **L, int pos, int item){
+    ListNode* new_node = get_node(item);
+    if(new_node == NULL)
+        return;
     if(pos <= 0 || pos > (*L)->length + 1){
         printf("Position Input Error\n");
+        free(new_node);
         return;
     }
+    else if(pos == 1)
+        add_first(L, item);
+    else if(pos == (*L)->length + 1)
+        add_last(L, item);
     else{
-        ListNode* new_node = get_node(item);
-        if(new_node == NULL)
-            return;
-        else{
-            if(pos == 1)
-                add_first(L, item);
-            else if(pos == (*L)->length + 1)
-                add_last(L, item);
-            else{
-                ListNode* temp = (*L)->head;
-                for(int i=0; i<pos-2; i++){
-                    temp = temp->link;
-                }
-                new_node->link = temp->link;
-                temp->link = new_node;
-                (*L)->length++;
-            }
+        ListNode* temp = (*L)->head;
+        for(int i=0; i<pos-2; i++){
+            temp = temp->link;
         }
+        new_node->link = temp->link;
+        temp->link = new_node;
+        (*L)->length++;
     }
 }
 
@@ -91,18 +84,15 @@ void search(ListType *L, int item){
         printf("List is empty\n");
         return;
     }
-    else{
-        while(temp != NULL){
-            if(temp->data == item){
-                printf("%d's position is %d\n", item, cnt);
-                return;
-            }
-            temp = temp->link;
-            cnt++;
+    while(temp != NULL){
+        if(temp->data == item){
+            printf("%d's position is %d\n", item, cnt);
+            return;
         }
-        printf("No data about %d\n", item);
-        return;
+        temp = temp->link;
+        cnt++;
     }
+    printf("No data about %d\n", item);
 }
 
 void delete(ListType **L, int pos){
@@ -137,18 +127,9 @@ void delete(ListType **L, int pos){
 }
 
 void clear(ListType *L){
-    ListNode* temp = L->head;
-    ListNode* removed = temp;
-    if(temp == NULL){
+    if(L->length == 0){
         printf("List is empty\n");
         return;
-    }
-    else{
-        while(removed != NULL){
-            temp = temp->link;
-            free(removed);
-            removed = temp;
-        }
     }
     init(&L);
 }
