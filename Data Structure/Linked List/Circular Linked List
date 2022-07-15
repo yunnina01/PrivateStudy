@@ -77,12 +77,10 @@ void replace(ListNode *head, int pos, int item){
         printf("Position Input Error\n");
         return;
     }
-    else{
-        for(int i=0; i<pos-1; i++){
-            temp = temp->link;
-        }
-        temp->data = item;
+    for(int i=0; i<pos-1; i++){
+        temp = temp->link;
     }
+    temp->data = item;
 }
 
 void search(ListNode *head, int item){
