@@ -106,6 +106,10 @@ void search(ListType *L, int item){
 }
 
 void delete(ListType **L, int pos){
+    if((*L)->length == 0){
+        printf("List is empty\n");
+        return;
+    }
     if(pos <= 0){
         printf("Position Input Error\n");
         return;
@@ -135,8 +139,10 @@ void delete(ListType **L, int pos){
 void clear(ListType *L){
     ListNode* temp = L->head;
     ListNode* removed = temp;
-    if(temp == NULL)
+    if(temp == NULL){
+        printf("List is empty\n");
         return;
+    }
     else{
         while(removed != NULL){
             temp = temp->link;
