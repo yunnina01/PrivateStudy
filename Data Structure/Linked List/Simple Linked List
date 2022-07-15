@@ -101,7 +101,7 @@ void delete(ListType **L, int pos){
     else if(pos <= 0)
         printf("Position Input Error\n");
     else if(pos > (*L)->length)
-        printf("The position is empty\n");
+        printf("This position is empty\n");
     else if(pos == 1){
         ListNode* removed = (*L)->head;
         (*L)->head = removed->link;
