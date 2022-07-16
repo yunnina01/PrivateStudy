@@ -120,12 +120,12 @@ void delete(ListType **L, int pos){
     }
 }
 
-void clear(ListType *L){
-    if(L->length == 0){
+void clear(ListType **L){
+    if((*L)->length == 0){
         printf("List is empty\n");
         return;
     }
-    init(&L);
+    init(L);
 }
 
 void replace(ListType *L, int pos, int item){
@@ -140,16 +140,14 @@ void replace(ListType *L, int pos, int item){
 }
 
 void display(ListType *L){
-    int cnt = 1;
     ListNode* temp = L->head;
     if(L->length == 0){
         printf("List is empty\n");
         return;
     }
-    while(temp != NULL){
-        printf("[%d] : %d\n", cnt, temp->data);
+    for(int i=1; i<=L->length; i++){
+        printf("[%d] : %d\n", i, temp->data);
         temp = temp->link;
-        cnt++;
     }
 }
 
@@ -187,7 +185,7 @@ int main(){
                 delete(&list, pos);
                 break;
             case 5:
-                clear(list);
+                clear(&list);
                 break;
             case 6:
                 printf("Enter the position : ");
