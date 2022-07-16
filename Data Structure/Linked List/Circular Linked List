@@ -49,7 +49,7 @@ void delete_last(ListNode **head){
 }
 
 void clear(ListNode **head){
-    if(head == NULL){
+    if(*head == NULL){
         printf("List is empty\n");
         return;
     }
