@@ -93,17 +93,13 @@ void search(ListNode *head, int item){
         return;
     }
     while(temp->link != head){
-        if(temp->data == item){
-            printf("%d's position is %d\n", item, cnt);
-            return;
-        }
+        if(temp->data == item)
+            break;
         temp = temp->link;
         cnt++;
     }
-    if(temp->data == item){
-        cnt = get_length(head);
+    if(temp->data == item)
         printf("%d's position is %d\n", item, cnt);
-    }
     else
         printf("No data about %d\n", item);
 }
