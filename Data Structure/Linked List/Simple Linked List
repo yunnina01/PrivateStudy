@@ -129,15 +129,14 @@ void clear(ListType *L){
 }
 
 void replace(ListType *L, int pos, int item){
-    if(pos <= 0 || pos > L->length + 1){
+    if(pos <= 0)
         printf("Position Input Error\n");
-        return;
+    else if(pos > L->length)
+        printf("This position is empty\n");
+    else{
+        add(&L, pos, item);
+        delete(&L, pos+1);
     }
-    ListNode* temp = L->head;
-    for(int i=0; i<pos-1; i++){
-        temp = temp->link;
-    }
-    temp->data = item;
 }
 
 void display(ListType *L){
