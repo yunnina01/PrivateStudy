@@ -105,18 +105,16 @@ void search(ListNode *head, int item){
 }
 
 void display(ListNode *head){
-    int cnt = 1;
+    int length = get_length(head);
     ListNode* temp = head;
     if(temp == NULL){
         printf("List is empty\n");
         return;
     }
-    while(temp->link != head){
-        printf("[%d] : %d\n", cnt, temp->data);
+    for(int i=1; i<=length; i++){
+        printf("[%d] : %d\n", i, temp->data);
         temp = temp->link;
-        cnt++;
     }
-    printf("[%d] : %d\n", cnt, temp->data);
 }
 
 int main(){
