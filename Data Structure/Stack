@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define MAX_SIZE 100
+#define MAX_SIZE 10
 
 typedef struct {
     int stack[MAX_SIZE];
@@ -25,10 +25,8 @@ int is_full(StackType *s){
 }
 
 void push(StackType *s, int item){
-    if(is_full(s)){
+    if(is_full(s))
         printf("Stack is full\n");
-        return;
-    }
     else
         s->stack[++(s->top)] = item;
 }
@@ -38,9 +36,8 @@ int pop(StackType *s){
         printf("Stack is empty\n");
         return -1;
     }
-    else{
+    else
         return s->stack[(s->top)--];
-    }
 }
 
 int main(){
@@ -61,15 +58,13 @@ int main(){
                     printf("Number Input Error\n");
                     continue;
                 }
-                else
-                    push(&s, item);
+                push(&s, item);
                 break;
             case 2:
                 data = pop(&s);
                 if(data == -1)
                     continue;
-                else
-                    printf("%d\n", data);
+                printf("%d\n", data);
                 break;
             case 3:
                 break;
