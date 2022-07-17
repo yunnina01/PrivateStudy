@@ -17,12 +17,10 @@ void add_last(ListNode **head, int item){
         return;
     }
     new_node->data = item;
-    new_node->link = NULL;
+    new_node->link = new_node;
     ListNode* temp = *head;
-    if(temp == NULL){
+    if(temp == NULL)
         *head = new_node;
-        new_node->link = new_node;
-    }
     else{
         ListNode* temp = *head;
         while(temp->link != *head){
@@ -70,7 +68,6 @@ int get_length(ListNode *head){
 }
 
 void replace(ListNode *head, int pos, int item){
-    int cnt = 1;
     int length = get_length(head);
     ListNode* temp = head;
     if(pos <= 0)
