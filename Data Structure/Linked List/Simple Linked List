@@ -31,8 +31,7 @@ void add_first(ListType **L, int item){
     ListNode* new_node = get_node(item);
     if(new_node == NULL)
         return;
-    ListNode* temp = (*L)->head;
-    new_node->link = temp;
+    new_node->link = (*L)->head;
     (*L)->head = new_node;
     (*L)->length++;
 }
@@ -60,7 +59,6 @@ void add(ListType **L, int pos, int item){
     if(pos <= 0 || pos > (*L)->length + 1){
         printf("Position Input Error\n");
         free(new_node);
-        return;
     }
     else if(pos == 1)
         add_first(L, item);
