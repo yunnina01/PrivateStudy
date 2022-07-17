@@ -37,8 +37,10 @@ void add_last(ListNode **last, int item){
     ListNode* new_node = get_node(item);
     if(new_node == NULL)
         return;
-    new_node->link = (*last)->link;
-    (*last)->link = new_node;
+    if(*last != NULL){
+        new_node->link = (*last)->link;
+        (*last)->link = new_node;
+    }
     *last = new_node;
 }
 
@@ -62,11 +64,12 @@ void delete(ListNode **last, int pos){
     else if(pos > length)
         printf("This position is empty\n");
     else{
+        ListNode* temp = *last;
         if(length == 1){
             init(last);
+            free(temp);
             return;
         }
-        ListNode* temp = *last;
         for(int i=0; i<pos-1; i++){
             temp = temp->link;
         }
