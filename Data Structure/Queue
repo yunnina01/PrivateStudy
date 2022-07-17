@@ -27,10 +27,8 @@ int is_full(QueueType *q){
 }
 
 void enqueue(QueueType *q, int item){
-    if(is_full(q)){
+    if(is_full(q))
         printf("Queue is full\n");
-        return;
-    }
     else
         q->queue[(++q->rear) % MAX_SIZE] = item;
 }
@@ -40,8 +38,7 @@ int dequeue(QueueType *q){
         printf("Queue is empty\n");
         return -1;
     }
-    else
-        return q->queue[(++q->front) % MAX_SIZE];
+    return q->queue[(++q->front) % MAX_SIZE];
 }
 
 int main(){
@@ -62,15 +59,13 @@ int main(){
                     printf("Number Input Error\n");
                     continue;
                 }
-                else
-                    enqueue(&q, item);
+                enqueue(&q, item);
                 break;
             case 2:
                 data = dequeue(&q);
                 if(data == -1)
                     continue;
-                else
-                    printf("%d\n", data);
+                printf("%d\n", data);
                 break;
             case 3:
                 break;
