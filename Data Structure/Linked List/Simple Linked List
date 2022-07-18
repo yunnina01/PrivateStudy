@@ -62,8 +62,6 @@ void add(ListType** L, int pos, int item){
     }
     else if(pos == 1)
         add_first(L, item);
-    else if(pos == (*L)->length + 1)
-        add_last(L, item);
     else{
         ListNode* temp = (*L)->head;
         for(int i=0; i<pos-2; i++){
