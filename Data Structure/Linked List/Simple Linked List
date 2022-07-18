@@ -117,11 +117,10 @@ void delete(ListType** L, int pos){
 }
 
 void clear(ListType** L){
-    if((*L)->length == 0){
+    if((*L)->length == 0)
         printf("List is empty\n");
-        return;
-    }
-    init(L);
+    else
+        init(L);
 }
 
 void replace(ListType* L, int pos, int item){
