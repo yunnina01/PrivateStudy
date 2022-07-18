@@ -10,7 +10,7 @@ void init(ListNode **head){
     *head = NULL;
 }
 
-void add_last(ListNode **head, int item){
+void add_last(ListNode** head, int item){
     ListNode* new_node = (ListNode*)malloc(sizeof(ListNode*));
     if(new_node == NULL){
         printf("Memory Allocation Error\n");
@@ -31,22 +31,26 @@ void add_last(ListNode **head, int item){
     }
 }
 
-void delete_last(ListNode **head){
+void delete_last(ListNode** head){
     ListNode* temp = *head;
-    ListNode* removed = temp->link;
     if(temp == NULL){
         printf("List is empty\n");
         return;
     }
-    while(removed->link != *head){
-        removed = removed->link;
-        temp = temp->link;
+    ListNode* removed = temp->link;
+    if(removed == *head)
+        init(head);
+    else{
+        while(removed->link != *head){
+            removed = removed->link;
+            temp = temp->link;
+        }
+        temp->link = removed->link;
     }
-    temp->link = removed->link;
     free(removed);
 }
 
-void clear(ListNode **head){
+void clear(ListNode** head){
     if(*head == NULL){
         printf("List is empty\n");
         return;
@@ -55,7 +59,7 @@ void clear(ListNode **head){
 }
 
 
-int get_length(ListNode *head){
+int get_length(ListNode* head){
     int cnt = 0;
     ListNode* temp = head;
     if(temp == NULL)
@@ -67,7 +71,7 @@ int get_length(ListNode *head){
     return cnt+1;
 }
 
-void replace(ListNode *head, int pos, int item){
+void replace(ListNode* head, int pos, int item){
     int length = get_length(head);
     ListNode* temp = head;
     if(pos <= 0)
@@ -82,7 +86,7 @@ void replace(ListNode *head, int pos, int item){
     }
 }
 
-void search(ListNode *head, int item){
+void search(ListNode* head, int item){
     int cnt = 1;
     ListNode* temp = head;
     if(temp == NULL){
@@ -101,7 +105,7 @@ void search(ListNode *head, int item){
         printf("No data about %d\n", item);
 }
 
-void display(ListNode *head){
+void display(ListNode* head){
     int length = get_length(head);
     ListNode* temp = head;
     if(temp == NULL){
