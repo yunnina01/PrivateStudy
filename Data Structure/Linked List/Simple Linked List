@@ -124,7 +124,9 @@ void clear(ListType** L){
 }
 
 void replace(ListType* L, int pos, int item){
-    if(pos <= 0)
+    if(L->length == 0)
+        printf("List is empty\n");
+    else if(pos <= 0)
         printf("Position Input Error\n");
     else if(pos > L->length)
         printf("This position is empty\n");
