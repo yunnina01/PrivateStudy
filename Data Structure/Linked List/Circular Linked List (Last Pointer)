@@ -21,7 +21,7 @@ ListNode* get_node(int item){
     return new_node;
 }
 
-void add_first(ListNode **last, int item){
+void add_first(ListNode** last, int item){
     ListNode* new_node = get_node(item);
     if(new_node == NULL)
         return;
@@ -33,7 +33,7 @@ void add_first(ListNode **last, int item){
     }
 }
 
-void add_last(ListNode **last, int item){
+void add_last(ListNode** last, int item){
     ListNode* new_node = get_node(item);
     if(new_node == NULL)
         return;
@@ -44,7 +44,7 @@ void add_last(ListNode **last, int item){
     *last = new_node;
 }
 
-int get_length(ListNode *last){
+int get_length(ListNode* last){
     int cnt = 0;
     ListNode* temp = last;
     if(last != NULL){
@@ -57,7 +57,7 @@ int get_length(ListNode *last){
     return cnt;
 }
 
-void delete(ListNode **last, int pos){
+void delete(ListNode** last, int pos){
     int length = get_length(*last);
     if(pos <= 0)
         printf("Position Input Error\n");
@@ -81,7 +81,7 @@ void delete(ListNode **last, int pos){
     }
 }
 
-void clear(ListNode **last){
+void clear(ListNode** last){
     if(*last == NULL){
         printf("List is empty\n");
         return;
@@ -89,7 +89,7 @@ void clear(ListNode **last){
     init(last);
 }
 
-void replace(ListNode *last, int pos, int item){
+void replace(ListNode* last, int pos, int item){
     int length = get_length(last);
     ListNode* temp = last;
     if(pos <= 0)
@@ -104,7 +104,7 @@ void replace(ListNode *last, int pos, int item){
     }
 }
 
-void search(ListNode *last, int item){
+void search(ListNode* last, int item){
     int length = get_length(last);
     ListNode* temp = last;
     if(last == NULL){
@@ -121,7 +121,7 @@ void search(ListNode *last, int item){
     printf("No data about %d\n", item);
 }
 
-void display(ListNode *last){
+void display(ListNode* last){
     int length = get_length(last);
     ListNode* temp = last;
     if(temp == NULL){
