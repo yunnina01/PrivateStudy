@@ -82,11 +82,10 @@ void delete(ListNode** last, int pos){
 }
 
 void clear(ListNode** last){
-    if(*last == NULL){
+    if(*last == NULL)
         printf("List is empty\n");
-        return;
-    }
-    init(last);
+    else
+        init(last);
 }
 
 void replace(ListNode* last, int pos, int item){
@@ -139,8 +138,8 @@ int main(){
     int menu, item, pos, length;
     init(&list);
     
-    while(menu != 9){
-        printf("1. Add_First 2. Add_Last 3. Delete 4. Clear 5. Replace 6. Search 7. Length 8. Display 9. Exit\n");
+    while(menu != 99){
+        printf("1. Add_First 2. Add_Last 3. Delete 4. Clear 5. Replace 6. Search 7. Length 8. Display 99. Exit\n");
         printf(">> ");
         scanf("%d", &menu);
     
@@ -182,7 +181,7 @@ int main(){
             case 8:
                 display(list);
                 break;
-            case 9:
+            case 99:
                 break;
             default:
                 printf("Menu Selection Error\n");
