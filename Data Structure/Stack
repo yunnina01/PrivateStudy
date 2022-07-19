@@ -36,8 +36,7 @@ int pop(StackType *s){
         printf("Stack is empty\n");
         return -1;
     }
-    else
-        return s->stack[(s->top)--];
+    return s->stack[(s->top)--];
 }
 
 int main(){
