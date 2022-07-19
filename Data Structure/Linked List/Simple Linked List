@@ -75,18 +75,16 @@ void add(ListType** L, int pos, int item){
 
 void search(ListType* L, int item){
     ListNode* temp = L->head;
-    int cnt = 1;
     if(L->length == 0){
         printf("List is empty\n");
         return;
     }
-    while(temp != NULL){
+    for(int i=1; i<=L->length; i++){
         if(temp->data == item){
-            printf("%d's position is %d\n", item, cnt);
+            printf("%d's position is %d\n", item, i);
             return;
         }
         temp = temp->link;
-        cnt++;
     }
     printf("No data about %d\n", item);
 }
