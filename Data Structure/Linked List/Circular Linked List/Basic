@@ -86,22 +86,20 @@ void replace(ListNode* head, int pos, int item){
 }
 
 void search(ListNode* head, int item){
-    int cnt = 1;
+    int length = get_length(head);
     ListNode* temp = head;
     if(temp == NULL){
         printf("List is empty\n");
         return;
     }
-    while(temp->link != head){
-        if(temp->data == item)
-            break;
+    for(int i=1; i<=length; i++){
+        if(temp->data == item){
+            printf("%d's position is %d\n", item, i);
+            return;
+        }
         temp = temp->link;
-        cnt++;
     }
-    if(temp->data == item)
-        printf("%d's position is %d\n", item, cnt);
-    else
-        printf("No data about %d\n", item);
+    printf("No data about %d\n", item);
 }
 
 void display(ListNode* head){
