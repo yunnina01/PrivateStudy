@@ -74,7 +74,9 @@ int get_length(ListNode* head){
 void replace(ListNode* head, int pos, int item){
     int length = get_length(head);
     ListNode* temp = head;
-    if(pos <= 0)
+    if(length == 0)
+        printf("List is empty\n");
+    else if(pos <= 0)
         printf("Position Input Error\n");
     else if(pos > length)
         printf("This position is empty\n");
