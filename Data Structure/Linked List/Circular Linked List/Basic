@@ -61,13 +61,14 @@ void clear(ListNode** head){
 int get_length(ListNode* head){
     int cnt = 0;
     ListNode* temp = head;
-    if(temp == NULL)
-        return cnt;
-    while(temp->link != head){
-        temp = temp->link;
+    if(temp != NULL){
+        while(temp->link != head){
+            temp = temp->link;
+            cnt++;
+        }
         cnt++;
     }
-    return cnt+1;
+    return cnt;
 }
 
 void replace(ListNode* head, int pos, int item){
