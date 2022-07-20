@@ -53,16 +53,14 @@ void add_last(ListType** L, int item){
 }
 
 void add(ListType** L, int pos, int item){
-    ListNode* new_node = get_node(item);
-    if(new_node == NULL)
-        return;
-    if(pos <= 0 || pos > (*L)->length + 1){
+    if(pos <= 0 || pos > (*L)->length + 1)
         printf("Position Input Error\n");
-        free(new_node);
-    }
     else if(pos == 1)
         add_first(L, item);
     else{
+        ListNode* new_node = get_node(item);
+        if(new_node == NULL)
+            return;
         ListNode* temp = (*L)->head;
         for(int i=0; i<pos-2; i++){
             temp = temp->link;
