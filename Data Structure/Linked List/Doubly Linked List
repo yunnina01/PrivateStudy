@@ -58,9 +58,6 @@ void add_last(DListType** L, int item){
 }
 
 void add(DListType** L, int pos, int item){
-    ListNode* new_node = get_node(item);
-    if(new_node == NULL)
-        return;
     if(pos <= 0 || pos > (*L)->length + 1)
         printf("Position Input Error\n");
     else if(pos == 1)
@@ -68,6 +65,9 @@ void add(DListType** L, int pos, int item){
     else if(pos == (*L)->length + 1)
         add_last(L, item);
     else{
+        ListNode* new_node = get_node(item);
+        if(new_node == NULL)
+            return;
         ListNode* temp = (*L)->head;
         for(int i=0; i<pos-2; i++){
             temp = temp->rlink;
@@ -90,8 +90,6 @@ void delete(DListType** L, int pos){
     else if(pos == 1){
         ListNode* removed = (*L)->head;
         (*L)->head = removed->rlink;
-        if((*L)->head != NULL)
-            (*L)->head->llink = NULL;
         free(removed);
         (*L)->length--;
     }
