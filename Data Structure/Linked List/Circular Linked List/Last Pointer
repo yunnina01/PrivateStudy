@@ -59,14 +59,16 @@ int get_length(ListNode* last){
 
 void delete(ListNode** last, int pos){
     int length = get_length(*last);
-    if(pos <= 0)
+    if(length == 0)
+        printf("List is empty\n");
+    else if(pos <= 0)
         printf("Position Input Error\n");
     else if(pos > length)
         printf("This position is empty\n");
     else{
         ListNode* temp = *last;
         if(length == 1){
-            init(last);
+            *last = NULL;
             free(temp);
             return;
         }
@@ -91,7 +93,9 @@ void clear(ListNode** last){
 void replace(ListNode* last, int pos, int item){
     int length = get_length(last);
     ListNode* temp = last;
-    if(pos <= 0)
+    if(length == 0)
+        printf("List is empty\n");
+    else if(pos <= 0)
         printf("Position Input Error\n");
     else if(pos > length)
         printf("This position is empty\n");
