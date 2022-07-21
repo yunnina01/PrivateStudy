@@ -17,9 +17,9 @@ void init(DCListType** L){
     (*L)->length = 0;
 }
 
-void get_node(int item){
+ListNode* get_node(int item){
     ListNode* new_node = (ListNode*)malloc(sizeof(ListNode*));
-    if(new_node == null)
+    if(new_node == NULL)
         printf("Memory Allocation Error\n");
     else{
         new_node->data = item;
@@ -90,7 +90,80 @@ void add(DCListType** L, int pos, int item){
 }
 
 void delete(DCListType** L, int pos){
-    
+    ListNode* removed = (*L)->head;
+    if((*L)->length == 0)
+        printf("List is empty\n");
+    else if(pos <= 0)
+        printf("Position Input Error\n");
+    else if(pos > (*L)->length)
+        printf("This position is empty\n");
+    else{
+        if(pos == 1){
+            if((*L)->length == 1)
+                (*L)->head = NULL;
+            else{
+                (*L)->head = removed->rlink;
+                (*L)->head->llink = removed->llink;
+            }
+        }
+        else{
+            for(int i=0; i<pos-1; i++){
+                removed = removed->rlink;
+            }
+            removed->llink->rlink = removed->rlink;
+            removed->rlink->llink = removed->llink;
+        }
+        free(removed);
+        (*L)->length--;
+    }
+}
+
+void clear(DCListType** L){
+    if((*L)->length == 0)
+        printf("List is empty\n");
+    else
+        init(L);
+}
+
+void replace(DCListType* L, int pos, int item){
+    if(L->length == 0)
+        printf("List is empty\n");
+    else if(pos <= 0)
+        printf("Position Input Error\n");
+    else if(pos > L->length)
+        printf("This position is empty\n");
+    else{
+        delete(&L, pos);
+        add(&L, pos, item);
+    }
+}
+
+void search(DCListType* L, int item){
+    if(L->length == 0){
+        printf("List is empty\n");
+        return;
+    }
+    ListNode* temp = L->head;
+    for(int i=1; i<=L->length; i++){
+        if(temp->data == item){
+            printf("%d's position is %d\n", item, i);
+            return;
+        }
+        temp = temp->rlink;
+    }
+    printf("No data about %d\n", item);
+}
+
+void display(DCListType* L){
+    if(L->length == 0){
+        printf("List is empty\n");
+        return;
+    }
+    ListNode* temp = L->head;
+    for(int i=1; i<=L->length; i++){
+        printf("[%d] : %d\n", i, temp->data);
+        temp = temp->rlink;
+    }
 }
 
 int main(){
@@ -101,6 +174,58 @@ int main(){
     while(menu != 99){
         printf("1. Add_First 2. Add_Last 3. Add 4. Delete 5. Clear 6. Replace 7. Search 8. Length 9. Display 99. Exit\n");
         printf(">> ");
+        scanf("%d", &menu);
         
+        switch(menu){
+            case 1:
+                printf("Enter the number : ");
+                scanf("%d", &item);
+                add_first(&list, item);
+                break;
+            case 2:
+                printf("Enter the number : ");
+                scanf("%d", &item);
+                add_last(&list, item);
+                break;
+            case 3:
+                printf("Enter the position : ");
+                scanf("%d", &pos);
+                printf("Enter the number : ");
+                scanf("%d", &item);
+                add(&list, pos, item);
+                break;
+            case 4:
+                printf("Enter the position : ");
+                scanf("%d", &pos);
+                delete(&list, pos);
+                break;
+            case 5:
+                clear(&list);
+                break;
+            case 6:
+                printf("Enter the position : ");
+                scanf("%d", &pos);
+                printf("Enter the number : ");
+                scanf("%d", &item);
+                replace(list, pos, item);
+                break;
+            case 7:
+                printf("Enter the number : ");
+                scanf("%d", &item);
+                search(list, item);
+                break;
+            case 8:
+                printf("List's length is %d\n", list->length);
+                break;
+            case 9:
+                display(list);
+                break;
+            case 99:
+                break;
+            default:
+                printf("Menu Selection Error\n");
+        }
     }
+    
+    return 0;
 }
