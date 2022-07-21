@@ -81,8 +81,7 @@ void add(DListType** L, int pos, int item){
 }
 
 void delete(DListType** L, int pos){
-    ListNode* temp = (*L)->head;
-    ListNode* removed = temp;
+    ListNode* removed = (*L)->head;
     if((*L)->length == 0)
         printf("List is empty\n");
     else if(pos <= 0)
@@ -93,15 +92,14 @@ void delete(DListType** L, int pos){
         if(pos == 1)
             (*L)->head = removed->rlink;
         else{
-            for(int i=0; i<pos-2; i++){
-                temp = temp->rlink;
+            for(int i=0; i<pos-1; i++){
+                removed = removed->rlink;
             }
-            removed = temp->rlink;
             if(removed->rlink == NULL)
-                temp->rlink = NULL;
+                removed->llink->rlink = NULL;
             else{
-                temp->rlink = removed->rlink;
-                removed->rlink->llink = temp;
+                removed->llink->rlink = removed->rlink;
+                removed->rlink->llink = removed->llink;
             }
         }
         free(removed);
