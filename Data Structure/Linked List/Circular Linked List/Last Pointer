@@ -34,14 +34,8 @@ void add_first(ListNode** last, int item){
 }
 
 void add_last(ListNode** last, int item){
-    ListNode* new_node = get_node(item);
-    if(new_node == NULL)
-        return;
-    if(*last != NULL){
-        new_node->link = (*last)->link;
-        (*last)->link = new_node;
-    }
-    *last = new_node;
+    add_first(last, item);
+    *last = (*last)->link;
 }
 
 int get_length(ListNode* last){
