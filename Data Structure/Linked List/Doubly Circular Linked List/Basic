@@ -40,8 +40,8 @@ void add_first(DCListType** L, int item){
         }
         new_node->llink = temp;
         new_node->rlink = (*L)->head;
+        temp->rlink->llink = new_node;
         temp->rlink = new_node;
-        (*L)->head->llink = new_node;
     }
     (*L)->head = new_node;
     (*L)->length++;
@@ -85,18 +85,14 @@ void delete(DCListType** L, int pos){
     else if(pos > (*L)->length)
         printf("This position is empty\n");
     else{
-        if(pos == 1){
-            if((*L)->length == 1)
-                (*L)->head = NULL;
-            else{
-                (*L)->head = removed->rlink;
-                (*L)->head->llink = removed->llink;
-            }
-        }
+        if((*L)->length == 1)
+            (*L)->head = NULL;
         else{
             for(int i=0; i<pos-1; i++){
                 removed = removed->rlink;
             }
+            if(pos == 1)
+                (*L)->head = (*L)->head->rlink;
             removed->llink->rlink = removed->rlink;
             removed->rlink->llink = removed->llink;
         }
