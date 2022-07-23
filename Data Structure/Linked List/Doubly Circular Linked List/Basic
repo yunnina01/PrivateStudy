@@ -44,8 +44,9 @@ void add_first(DCListType** L, int item){
 }
 
 void add_last(DCListType** L, int item){
+    ListNode* temp = (*L)->head;
     add_first(L, item);
-    if((*L)->head != NULL)
+    if((*L)->head != temp)
         (*L)->head = (*L)->head->rlink;
 }
 
