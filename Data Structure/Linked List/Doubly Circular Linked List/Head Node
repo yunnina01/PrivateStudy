@@ -1,1 +1,83 @@
+#include <stdio.h>
+#include <stdlib.h>
 
+typedef struct ListNode{
+    int data;
+    struct ListNode* llink;
+    struct ListNode* rlink;
+}ListNode;
+
+void init(ListNode* head){
+    head->llink = head;
+    head->rlink = head;
+}
+
+void get_node(int item){
+    ListNode* new_node = (ListNode*)malloc(sizeof(ListNode*));
+    if(new_node == NULL)
+        printf("Memory Allocation Error\n");
+    else
+        new_node->data = item;
+    return new_node;
+}
+
+int get_length(ListNode* head){
+    int cnt = 0;
+    ListNode* temp = head->rlink;
+    while(temp != head){
+        cnt++;
+        temp = temp->rlink;
+    }
+    return cnt;
+}
+
+void add_first(ListNode* head, int item){
+    ListNode* new_node = get_node(item);
+    if(new_node == NULL)
+        return;
+    if(head->rlink == head){
+        new_node->rlink = head;
+        head->llink = new_node;
+    }
+    else
+        new_node->rlink = head->rlink;
+    new_node->llink = head;
+    head->rlink = new_node;
+}
+
+void add_last(ListNode* head, int item){
+    ListNode* new_node = get_node(item);
+    if(new_node == NULL)
+        return;
+    ListNode* temp = head;
+    while(temp->rlink != head){
+        temp = temp->rlink
+    }
+    new_node->llink = temp;
+    new_node->rlink = head;
+    head->llink = new_node;
+    temp->rlink = new_node;
+}
+
+void add(ListNode* head, int pos, int item){
+    int length = get_length(head);
+    if(pos <= 0 || pos > length + 1)
+        printf("Position Input Error\n");
+    else if(pos == 1)
+        add_first(head, item);
+    else if(pos == length + 1)
+        add_last(head, item);
+    else{
+        ListNode* new_node = get_node(item);
+        if(new_node == NULL)
+            return;
+        ListNode* temp = head;
+        for(int i=1; i<pos; i++){
+            temp = temp->rlink;
+        }
+        new_node->llink = temp;
+        new_node->rlink = temp->rlink;
+        temp->rlink->llink = new_node;
+        temp->rlink = new_node;
+    }
+}
