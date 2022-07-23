@@ -119,9 +119,9 @@ void display(ListNode* head){
 }
 
 int main(){
-    ListNode* list;
+    ListNode* head;
     int menu, item, pos, length;
-    init(&list);
+    init(&head);
     
     while(menu != 99){
         printf("1. Add 2. Delete 3. Clear 4. Replace 5. Search 6. Length 7. Display 99. Exit\n");
@@ -132,32 +132,32 @@ int main(){
             case 1:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                add_last(&list, item);
+                add_last(&head, item);
                 break;
             case 2:
-                delete_last(&list);
+                delete_last(&head);
                 break;
             case 3:
-                clear(&list);
+                clear(&head);
                 break;
             case 4:
                 printf("Enter the position : ");
                 scanf("%d", &pos);
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                replace(list, pos, item);
+                replace(head, pos, item);
                 break;
             case 5:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                search(list, item);
+                search(head, item);
                 break;
             case 6:
-                length = get_length(list);
+                length = get_length(head);
                 printf("List's length is %d\n", length);
                 break;
             case 7:
-                display(list);
+                display(head);
                 break;
             case 99:
                 break;
