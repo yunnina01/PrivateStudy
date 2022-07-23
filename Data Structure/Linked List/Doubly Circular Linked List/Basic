@@ -34,14 +34,10 @@ void add_first(DCListType** L, int item){
     if(new_node == NULL)
         return;
     if((*L)->head != NULL){
-        ListNode* temp = (*L)->head;
-        while(temp->rlink != (*L)->head){
-            temp = temp->rlink;
-        }
-        new_node->llink = temp;
+        new_node->llink = (*L)->head->llink;
         new_node->rlink = (*L)->head;
-        temp->rlink->llink = new_node;
-        temp->rlink = new_node;
+        (*L)->head->llink->rlink = new_node;
+        (*L)->head->llink = new_node;
     }
     (*L)->head = new_node;
     (*L)->length++;
