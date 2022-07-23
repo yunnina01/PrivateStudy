@@ -1,1 +1,82 @@
+#include <stdio.h>
+#include <stdlib.h>
 
+typedef struct ListNode{
+    int data;
+    struct ListNode* llink;
+    struct ListNode* rlink;
+}ListNode;
+
+typedef struct {
+    ListNode* last;
+    int length;
+}DCListType;
+
+void init(DCListType** L){
+    (*L)->last = NULL;
+    (*L)->length = 0;
+}
+
+ListNode* get_node(int item){
+    ListNode* new_node = (ListNode*)malloc(sizeof(ListNode*));
+    if(new_node == NULL)
+        printf("Memory Allocation Error\n");
+    else{
+        new_node->data = item;
+        new_node->llink = new_node;
+        new_node->rlink = new_node;
+    }
+    return new_node;
+}
+
+void add_first(DCListType** L, int item){
+    ListNode* new_node = get_node(item);
+    if(new_node == NULL)
+        return;
+    if((*L)->length == 0)
+        (*L)->last = new_node;
+    else{
+        new_node->llink = (*L)->last;
+        new_node->rlink = (*L)->last->rlink;
+        (*L)->last->rlink->llink = new_node;
+        (*L)->last->rlink = new_node;
+    }
+    (*L)->length++;
+}
+
+void add_last(DCListType** L, int itme){
+    ListNode* new_node = get_node(item);
+    if(new_node == NULL)
+        return;
+    if((*L)->length != 0){
+        new_node->llink = (*L)->last;
+        new_node->rlink = (*L)->last->rlink;
+        (*L)->last->rlink->llink = new_node;
+        (*L)->last->rlink = new_node;
+    }
+    (*L)->last = new_node;
+    (*L)->length++;
+}
+
+void add(DCListType** L, int pos, int item){
+    if(pos <= 0 || pos > (*L)->length + 1)
+        printf("Position Input Error\n");
+    else if(pos == 1)
+        add_first(L, item);
+    else if(pos == (*L)->length + 1)
+        add_last(L, item);
+    else{
+        ListNode* new_node = get_node(item);
+        if(new_node == NULL)
+            return;
+        ListNode* temp = (*L)->last;
+        for(int i=0; i<pos-1; i++){
+            temp = temp->rlink;
+        }
+        new_node->llink = temp;
+        new_node->rlink = temp->rlink;
+        temp->rlink->llink = new_node;
+        temp->rlink = new_node;
+        (*L)->length++;
+    }
+}
