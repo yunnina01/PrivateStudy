@@ -29,21 +29,6 @@ ListNode* get_node(int item){
     return new_node;
 }
 
-void add_first(DCListType** L, int item){
-    ListNode* new_node = get_node(item);
-    if(new_node == NULL)
-        return;
-    if((*L)->length == 0)
-        (*L)->last = new_node;
-    else{
-        new_node->llink = (*L)->last;
-        new_node->rlink = (*L)->last->rlink;
-        (*L)->last->rlink->llink = new_node;
-        (*L)->last->rlink = new_node;
-    }
-    (*L)->length++;
-}
-
 void add_last(DCListType** L, int item){
     ListNode* new_node = get_node(item);
     if(new_node == NULL)
@@ -56,6 +41,11 @@ void add_last(DCListType** L, int item){
     }
     (*L)->last = new_node;
     (*L)->length++;
+}
+
+void add_first(DCListType** L, int item){
+    add_last(L, item);
+    (*L)->last = (*L)->last->llink;
 }
 
 void add(DCListType** L, int pos, int item){
