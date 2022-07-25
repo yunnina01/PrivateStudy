@@ -10,53 +10,16 @@ void init(ListNode **head){
     *head = NULL;
 }
 
-void add_last(ListNode** head, int item){
+ListNode* get_node(int item){
     ListNode* new_node = (ListNode*)malloc(sizeof(ListNode*));
-    if(new_node == NULL){
+    if(new_node == NULL)
         printf("Memory Allocation Error\n");
-        return;
-    }
-    new_node->data = item;
-    new_node->link = new_node;
-    ListNode* temp = *head;
-    if(temp == NULL)
-        *head = new_node;
     else{
-        ListNode* temp = *head;
-        while(temp->link != *head){
-            temp = temp->link;
-        }
-        new_node->link = *head;
-        temp->link = new_node;
+        new_node->data = item;
+        new_node->link = new_node;
     }
+    return new_node;
 }
-
-void delete_last(ListNode** head){
-    ListNode* temp = *head;
-    if(temp == NULL){
-        printf("List is empty\n");
-        return;
-    }
-    ListNode* removed = temp->link;
-    if(removed == *head)
-        init(head);
-    else{
-        while(removed->link != *head){
-            removed = removed->link;
-            temp = temp->link;
-        }
-        temp->link = removed->link;
-    }
-    free(removed);
-}
-
-void clear(ListNode** head){
-    if(*head == NULL)
-        printf("List is empty\n");
-    else
-        init(head);
-}
-
 
 int get_length(ListNode* head){
     int cnt = 0;
@@ -71,6 +34,84 @@ int get_length(ListNode* head){
     return cnt;
 }
 
+void add_first(ListNode** head, int item){
+    ListNode* new_node = get_node(item);
+    if(new_node == NULL)
+        return;
+    if(*head != NULL){
+        ListNode* temp = *head;
+        while(temp->link != *head){
+            temp = temp->link;
+        }
+        new_node->link = temp->link;
+        temp->link = new_node;
+    }
+    *head = new_node;
+}
+
+void add_last(ListNode** head, int item){
+    add_first(head, item);
+    *head = (*head)->link;
+}
+
+void add(ListNode** head, int pos, int item){
+    int length = get_length(*head);
+    if(pos <= 0 || pos > length + 1)
+        printf("Position Input Error\n");
+    else if(pos == 1)
+        add_first(head, item);
+    else{
+        ListNode* new_node = get_node(item);
+        if(new_node == NULL)
+            return;
+        ListNode* temp = *head;
+        for(int i=0; i<pos-2; i++){
+            temp = temp->link;
+        }
+        new_node->link = temp->link;
+        temp->link = new_node;
+    }
+}
+
+void delete(ListNode** head, int pos){
+    int length = get_length(*head);
+    if(length == 0)
+        printf("List is empty\n");
+    else if(pos <= 0)
+        printf("Position Input Error\n");
+    else if(pos > length)
+        printf("This position is empty\n");
+    else{
+        ListNode* temp = *head;
+        ListNode* removed = temp;
+        if(length == 1)
+            *head = NULL;
+        else{
+            if(pos == 1){
+                while(temp->link != removed){
+                    temp = temp->link;
+                }
+                *head = (*head)->link;
+            }
+            else{
+                for(int i=0; i<pos-2; i++){
+                    temp = temp->link;
+                }
+                removed = temp->link;
+            }
+            temp->link = removed->link;
+        }
+        free(removed);
+    }
+}
+
+void clear(ListNode** head){
+    if(*head == NULL)
+        printf("List is empty\n");
+    else
+        init(head);
+}
+
 void replace(ListNode* head, int pos, int item){
     int length = get_length(head);
     ListNode* temp = head;
@@ -81,10 +122,8 @@ void replace(ListNode* head, int pos, int item){
     else if(pos > length)
         printf("This position is empty\n");
     else{
-        for(int i=0; i<pos-1; i++){
-            temp = temp->link;
-        }
-        temp->data = item;
+        delete(&head, pos);
+        add(&head, pos, item);
     }
 }
 
@@ -124,7 +163,7 @@ int main(){
     init(&head);
     
     while(menu != 99){
-        printf("1. Add 2. Delete 3. Clear 4. Replace 5. Search 6. Length 7. Display 99. Exit\n");
+        printf("1. Add_First 2. Add_Last 3. Add 4. Delete 5. Clear 6. Replace 7. Search 8. Length 9. Display 99. Exit\n");
         printf(">> ");
         scanf("%d", &menu);
         
@@ -132,31 +171,45 @@ int main(){
             case 1:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                add_last(&head, item);
+                add_first(&head, item);
                 break;
             case 2:
-                delete_last(&head);
+                printf("Enter the number : ");
+                scanf("%d", &item);
+                add_last(&head, item);
                 break;
             case 3:
-                clear(&head);
+                printf("Enter the position : ");
+                scanf("%d", &pos);
+                printf("Enter the number : ");
+                scanf("%d", &item);
+                add(&head, pos, item);
                 break;
             case 4:
+                printf("Enter the position : ");
+                scanf("%d", &pos);
+                delete(&head, pos);
+                break;
+            case 5:
+                clear(&head);
+                break;
+            case 6:
                 printf("Enter the position : ");
                 scanf("%d", &pos);
                 printf("Enter the number : ");
                 scanf("%d", &item);
                 replace(head, pos, item);
                 break;
-            case 5:
+            case 7:
                 printf("Enter the number : ");
                 scanf("%d", &item);
                 search(head, item);
                 break;
-            case 6:
+            case 8:
                 length = get_length(head);
                 printf("List's length is %d\n", length);
                 break;
-            case 7:
+            case 9:
                 display(head);
                 break;
             case 99:
