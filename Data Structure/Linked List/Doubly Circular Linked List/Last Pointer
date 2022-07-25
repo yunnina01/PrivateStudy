@@ -86,6 +86,8 @@ void delete(DCListType** L, int pos){
         if((*L)->length == 1)
             (*L)->last = NULL;
         else{
+            if(removed == (*L)->last)
+                (*L)->last = removed->llink;
             removed->llink->rlink = removed->rlink;
             removed->rlink->llink = removed->llink;
         }
