@@ -3,20 +3,19 @@
 
 typedef struct TreeNode{
     int data;
-    struct TreeNode* left;
-    struct TreeNode* right;
+    struct TreeNode *left, *right;
 }TreeNode;
 
-void init(TreeNode** root){
+void init(TreeNode **root){
     *root = NULL;
 }
 
-void insert(TreeNode** root, int key){
-    TreeNode* p = NULL;
-    TreeNode* temp = *root;
+void insert(TreeNode **root, int key){
+    TreeNode *p = NULL;
+    TreeNode *temp = *root;
     while(temp != NULL){
         if(key == temp->data){
-            printf("%d is already in the tree\n");
+            printf("Data Duplication Error\n");
             return;
         }
         p = temp;
@@ -25,12 +24,25 @@ void insert(TreeNode** root, int key){
         else
             temp = temp->right;
     }
-    TreeNode* new_node = (TreeNode*)malloc(sizeof(TreeNode*));
+    
+    TreeNode *new_node = (TreeNode*)malloc(sizeof(TreeNode));
     if(new_node == NULL){
         printf("Memory Allocation Error\n");
         return;
     }
     new_node->data = key;
-    new_node->left = NULL;
-    new_node->rigth = NULL;
+    new_node->left = new_node->right = NULL;
+    
+    if(p != NULL){
+        if(key < p->data)
+            p->left = temp;
+        else
+            p->right = temp;
+    }
+    else
+        *root = new_node;
+}
+
+void delete(TreeNode **root, int key){
+    
 }
