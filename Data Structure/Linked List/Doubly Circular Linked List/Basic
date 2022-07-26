@@ -3,34 +3,32 @@
 
 typedef struct ListNode{
     int data;
-    struct ListNode* llink;
-    struct ListNode* rlink;
+    struct ListNode *llink, *rlink;
 }ListNode;
 
 typedef struct {
-    ListNode* head;
+    ListNode *head;
     int length;
 }DCListType;
 
-void init(DCListType** L){
+void init(DCListType **L){
     (*L)->head = NULL;
     (*L)->length = 0;
 }
 
 ListNode* get_node(int item){
-    ListNode* new_node = (ListNode*)malloc(sizeof(ListNode*));
+    ListNode *new_node = (ListNode*)malloc(sizeof(ListNode));
     if(new_node == NULL)
         printf("Memory Allocation Error\n");
     else{
         new_node->data = item;
-        new_node->llink = new_node;
-        new_node->rlink = new_node;
+        new_node->llink = new_node->rlink = new_node;
     }
     return new_node;
 }
 
-void add_first(DCListType** L, int item){
-    ListNode* new_node = get_node(item);
+void add_first(DCListType **L, int item){
+    ListNode *new_node = get_node(item);
     if(new_node == NULL)
         return;
     if((*L)->head != NULL){
@@ -43,25 +41,23 @@ void add_first(DCListType** L, int item){
     (*L)->length++;
 }
 
-void add_last(DCListType** L, int item){
-    ListNode* temp = (*L)->head;
+void add_last(DCListType **L, int item){
+    ListNode *temp = (*L)->head;
     add_first(L, item);
     if((*L)->head != temp)
-        (*L)->head = (*L)->head->rlink;
+        (*L)->head = temp;
 }
 
-void add(DCListType** L, int pos, int item){
+void add(DCListType **L, int pos, int item){
     if(pos <= 0 || pos > (*L)->length + 1)
         printf("Position Input Error\n");
     else if(pos == 1)
         add_first(L, item);
-    else if(pos == (*L)->length + 1)
-        add_last(L, item);
     else{
-        ListNode* new_node = get_node(item);
+        ListNode *new_node = get_node(item);
         if(new_node == NULL)
             return;
-        ListNode* temp = (*L)->head;
+        ListNode *temp = (*L)->head;
         for(int i=0; i<pos-2; i++){
             temp = temp->rlink;
         }
@@ -73,8 +69,8 @@ void add(DCListType** L, int pos, int item){
     }
 }
 
-void delete(DCListType** L, int pos){
-    ListNode* removed = (*L)->head;
+void delete(DCListType **L, int pos){
+    ListNode *removed = (*L)->head;
     if((*L)->length == 0)
         printf("List is empty\n");
     else if(pos <= 0)
@@ -98,14 +94,14 @@ void delete(DCListType** L, int pos){
     }
 }
 
-void clear(DCListType** L){
+void clear(DCListType **L){
     if((*L)->length == 0)
         printf("List is empty\n");
     else
         init(L);
 }
 
-void replace(DCListType* L, int pos, int item){
+void replace(DCListType *L, int pos, int item){
     if(L->length == 0)
         printf("List is empty\n");
     else if(pos <= 0)
@@ -118,12 +114,12 @@ void replace(DCListType* L, int pos, int item){
     }
 }
 
-void search(DCListType* L, int item){
+void search(DCListType *L, int item){
     if(L->length == 0){
         printf("List is empty\n");
         return;
     }
-    ListNode* temp = L->head;
+    ListNode *temp = L->head;
     for(int i=1; i<=L->length; i++){
         if(temp->data == item){
             printf("%d's position is %d\n", item, i);
@@ -134,12 +130,12 @@ void search(DCListType* L, int item){
     printf("No data about %d\n", item);
 }
 
-void display(DCListType* L){
+void display(DCListType *L){
     if(L->length == 0){
         printf("List is empty\n");
         return;
     }
-    ListNode* temp = L->head;
+    ListNode *temp = L->head;
     for(int i=1; i<=L->length; i++){
         printf("[%d] : %d\n", i, temp->data);
         temp = temp->rlink;
@@ -147,7 +143,7 @@ void display(DCListType* L){
 }
 
 int main(){
-    DCListType* list;
+    DCListType *list;
     int menu, item, pos;
     init(&list);
     
