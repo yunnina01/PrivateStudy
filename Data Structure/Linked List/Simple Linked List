@@ -3,21 +3,21 @@
 
 typedef struct ListNode{
     int data;
-    struct ListNode* link;
+    struct ListNode *link;
 }ListNode;
 
 typedef struct {
-    ListNode* head;
+    ListNode *head;
     int length;
 }ListType;
 
-void init(ListType** L){
+void init(ListType **L){
     (*L)->head = NULL;
     (*L)->length = 0;
 }
 
 ListNode* get_node(int item){
-    ListNode* new_node = (ListNode*)malloc(sizeof(ListNode*));
+    ListNode *new_node = (ListNode*)malloc(sizeof(ListNode));
     if(new_node == NULL)
         printf("Memory Allocation Error\n");
     else{
@@ -27,8 +27,8 @@ ListNode* get_node(int item){
     return new_node;
 }
 
-void add_first(ListType** L, int item){
-    ListNode* new_node = get_node(item);
+void add_first(ListType **L, int item){
+    ListNode *new_node = get_node(item);
     if(new_node == NULL)
         return;
     new_node->link = (*L)->head;
@@ -36,8 +36,8 @@ void add_first(ListType** L, int item){
     (*L)->length++;
 }
 
-void add_last(ListType** L, int item){
-    ListNode* new_node = get_node(item);
+void add_last(ListType **L, int item){
+    ListNode *new_node = get_node(item);
     if(new_node == NULL)
         return;
     ListNode* temp = (*L)->head;
@@ -52,16 +52,16 @@ void add_last(ListType** L, int item){
     (*L)->length++;
 }
 
-void add(ListType** L, int pos, int item){
+void add(ListType **L, int pos, int item){
     if(pos <= 0 || pos > (*L)->length + 1)
         printf("Position Input Error\n");
     else if(pos == 1)
         add_first(L, item);
     else{
-        ListNode* new_node = get_node(item);
+        ListNode *new_node = get_node(item);
         if(new_node == NULL)
             return;
-        ListNode* temp = (*L)->head;
+        ListNode *temp = (*L)->head;
         for(int i=0; i<pos-2; i++){
             temp = temp->link;
         }
@@ -71,8 +71,8 @@ void add(ListType** L, int pos, int item){
     }
 }
 
-void search(ListType* L, int item){
-    ListNode* temp = L->head;
+void search(ListType *L, int item){
+    ListNode *temp = L->head;
     if(L->length == 0){
         printf("List is empty\n");
         return;
@@ -87,9 +87,9 @@ void search(ListType* L, int item){
     printf("No data about %d\n", item);
 }
 
-void delete(ListType** L, int pos){
-    ListNode* temp = (*L)->head;
-    ListNode* removed = temp;
+void delete(ListType **L, int pos){
+    ListNode *temp = (*L)->head;
+    ListNode *removed = temp;
     if((*L)->length == 0)
         printf("List is empty\n");
     else if(pos <= 0)
@@ -111,14 +111,14 @@ void delete(ListType** L, int pos){
     }
 }
 
-void clear(ListType** L){
+void clear(ListType **L){
     if((*L)->length == 0)
         printf("List is empty\n");
     else
         init(L);
 }
 
-void replace(ListType* L, int pos, int item){
+void replace(ListType *L, int pos, int item){
     if(L->length == 0)
         printf("List is empty\n");
     else if(pos <= 0)
@@ -131,8 +131,8 @@ void replace(ListType* L, int pos, int item){
     }
 }
 
-void display(ListType* L){
-    ListNode* temp = L->head;
+void display(ListType *L){
+    ListNode *temp = L->head;
     if(L->length == 0){
         printf("List is empty\n");
         return;
@@ -144,7 +144,7 @@ void display(ListType* L){
 }
 
 int main(){
-    ListType* list;
+    ListType *list;
     int menu, item, pos;
     init(&list);
     
