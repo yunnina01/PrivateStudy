@@ -159,7 +159,7 @@ void display(ListNode *head){
 
 int main(){
     ListNode *head;
-    int menu, item, pos, length;
+    int menu, item, pos;
     init(&head);
     
     while(menu != 99){
@@ -206,8 +206,7 @@ int main(){
                 search(head, item);
                 break;
             case 8:
-                length = get_length(head);
-                printf("List's length is %d\n", length);
+                printf("List's length is %d\n", get_length(head));
                 break;
             case 9:
                 display(head);
