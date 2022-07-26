@@ -1,15 +1,13 @@
 #include <stdio.h>
-#define MAX_SIZE 10
+#define MAX_SIZE 4
 
 typedef struct {
     int queue[MAX_SIZE];
-    int front;
-    int rear;
+    int front, rear;
 }QueueType;
 
 void init(QueueType *q){
-    q->front = 0;
-    q->rear = 0;
+    q->front = q->rear = 0;
 }
 
 int is_empty(QueueType *q){
