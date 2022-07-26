@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct TreeNode{
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+}TreeNode;
+
+void init(TreeNode** root){
+    *root = NULL;
+}
+
+void insert(TreeNode** root, int key){
+    TreeNode* p = NULL;
+    TreeNode* temp = *root;
+    while(temp != NULL){
+        if(key == temp->data){
+            printf("%d is already in the tree\n");
+            return;
+        }
+        p = temp;
+        if(key < temp->data)
+            temp = temp->left;
+        else
+            temp = temp->right;
+    }
+    TreeNode* new_node = (TreeNode*)malloc(sizeof(TreeNode*));
+    if(new_node == NULL){
+        printf("Memory Allocation Error\n");
+        return;
+    }
+    new_node->data = key;
+    new_node->left = NULL;
+    new_node->rigth = NULL;
+}
