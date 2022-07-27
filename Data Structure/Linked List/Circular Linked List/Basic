@@ -105,13 +105,6 @@ void delete(ListNode **head, int pos){
     }
 }
 
-void clear(ListNode **head){
-    if(*head == NULL)
-        printf("List is empty\n");
-    else
-        init(head);
-}
-
 void replace(ListNode *head, int pos, int item){
     int length = get_length(head);
     ListNode *temp = head;
@@ -191,7 +184,7 @@ int main(){
                 delete(&head, pos);
                 break;
             case 5:
-                clear(&head);
+                init(&head);
                 break;
             case 6:
                 printf("Enter the position : ");
