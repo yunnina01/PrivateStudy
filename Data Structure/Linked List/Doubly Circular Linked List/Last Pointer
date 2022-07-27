@@ -96,14 +96,6 @@ void delete(DCListType **L, int pos){
     }
 }
 
-void clear(DCListType **L){
-    if((*L)->length == 0){
-        printf("List is empty\n");
-        return;
-    }
-    init(L);
-}
-
 void replace(DCListType *L, int pos, int item){
     if(L->length == 0)
         printf("List is empty\n");
@@ -179,7 +171,7 @@ int main(){
                 delete(&list, pos);
                 break;
             case 5:
-                clear(&list);
+                init(&list);
                 break;
             case 6:
                 printf("Enter the position : ");
