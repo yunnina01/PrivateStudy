@@ -72,9 +72,7 @@ void add(DCListType **L, int pos, int item){
 }
 
 void delete(DCListType **L, int pos){
-    if((*L)->length == 0)
-        printf("List is empty\n");
-    else if(pos <= 0)
+    if(pos <= 0)
         printf("Position Input Error\n");
     else if(pos > (*L)->length)
         printf("This position is empty\n");
@@ -97,9 +95,7 @@ void delete(DCListType **L, int pos){
 }
 
 void replace(DCListType *L, int pos, int item){
-    if(L->length == 0)
-        printf("List is empty\n");
-    else if(pos <= 0)
+    if(pos <= 0)
         printf("Position Input Error\n");
     else if(pos > L->length)
         printf("This position is empty\n");
@@ -110,10 +106,6 @@ void replace(DCListType *L, int pos, int item){
 }
 
 void search(DCListType *L, int item){
-    if(L->length == 0){
-        printf("List is empty\n");
-        return;
-    }
     ListNode *temp = L->last;
     for(int i=1; i<=L->length; i++){
         temp = temp->rlink;
