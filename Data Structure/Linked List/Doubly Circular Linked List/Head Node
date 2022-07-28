@@ -60,9 +60,7 @@ void add_last(ListNode *head, int item){
 void delete(ListNode *head, int pos){
     int length = get_length(head);
     ListNode *removed = head;
-    if(length == 0)
-        printf("List is empty\n");
-    else if(pos <= 0)
+    if(pos <= 0)
         printf("Position Input Error\n");
     else if(pos > length)
         printf("This position is empty\n");
@@ -77,9 +75,7 @@ void delete(ListNode *head, int pos){
 
 void replace(ListNode *head, int pos, int item){
     int length = get_length(head);
-    if(length == 0)
-        printf("List is empty\n");
-    else if(pos <= 0)
+    if(pos <= 0)
         printf("Position Input Error\n");
     else if(pos > length)
         printf("This position is empty\n");
@@ -91,10 +87,6 @@ void replace(ListNode *head, int pos, int item){
 
 void search(ListNode *head, int item){
     int length = get_length(head);
-    if(length == 0){
-        printf("List is empty\n");
-        return;
-    }
     ListNode *temp = head;
     for(int i=1; i<=length; i++){
         temp = temp->rlink;
@@ -121,7 +113,7 @@ void display(ListNode *head){
 
 int main(){
     ListNode head_node;
-    int menu, item, pos, length;
+    int menu, item, pos;
     init(&head_node);
     
     while(menu != 99){
@@ -168,8 +160,7 @@ int main(){
                 search(&head_node, item);
                 break;
             case 8:
-                length = get_length(&head_node);
-                printf("List's length is %d\n", length);
+                printf("List's length is %d\n", get_length(&head_node));
                 break;
             case 9:
                 display(&head_node);
