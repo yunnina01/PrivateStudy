@@ -80,9 +80,7 @@ void add(DListType **L, int pos, int item){
 
 void delete(DListType **L, int pos){
     ListNode *removed = (*L)->head;
-    if((*L)->length == 0)
-        printf("List is empty\n");
-    else if(pos <= 0)
+    if(pos <= 0)
         printf("Position Input Error\n");
     else if(pos > (*L)->length)
         printf("This position is empty\n");
@@ -106,9 +104,7 @@ void delete(DListType **L, int pos){
 }
 
 void replace(DListType *L, int pos, int item){
-    if(L->length == 0)
-        printf("List is empty\n");
-    else if(pos <= 0)
+    if(pos <= 0)
         printf("Position Input Error\n");
     else if(pos > L->length)
         printf("This position is empty\n");
@@ -120,10 +116,6 @@ void replace(DListType *L, int pos, int item){
 
 void search(DListType *L, int item){
     ListNode *temp = L->head;
-    if(L->length == 0){
-        printf("List is empty\n");
-        return;
-    }
     for(int i=1; i<=L->length; i++){
         if(temp->data == item){
             printf("%d's position is %d\n", item, i);
