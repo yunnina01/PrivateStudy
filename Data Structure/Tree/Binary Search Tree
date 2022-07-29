@@ -24,7 +24,7 @@ void insert(TreeNode **root, int key){
     TreeNode *temp = *root;
     while(temp != NULL){
         if(key == temp->data){
-            printf("Data Duplication Error\n");
+            printf("Duplicate Key Error\n");
             return;
         }
         p = temp;
