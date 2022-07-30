@@ -1,9 +1,9 @@
 #include <stdio.h>
-#define BUCKET_SIZE 13
+#define BUCKET_SIZE 7
 
 void init(int *ht){
     for(int i=0; i<BUCKET_SIZE; i++){
-        ht[i] = -1
+        ht[i] = -1;
     }
 }
 
@@ -17,14 +17,6 @@ int is_full(int *ht){
             return 0;
     }
     printf("Hash Table is full\n");
-    return 1;
-}
-
-int is_empty(int *ht){
-    for(int i=0; i<BUCKET_SIZE; i++){
-        if(ht[i] != -1)
-            return 0;
-    }
     return 1;
 }
 
@@ -55,5 +47,68 @@ int search(int *ht, int key){
         printf("Key Input Error\n");
         return -1;
     }
+    for(int i=0; i<BUCKET_SIZE; i++){
+        if(ht[i] == key)
+            return i;
+    }
+    printf("No data about %d\n", key);
+    return -1;
+}
+
+void delete(int *ht, int key){
+    int value = search(ht, key);
+    if(value != -1)
+        ht[value] = -1;
+}
+
+void display(int *ht){
+    for(int i=0; i<BUCKET_SIZE; i++){
+        if(ht[i] == -1)
+            printf("[%d] : empty\n", i);
+        else
+            printf("[%d] : %d\n", i, ht[i]);
+    }
+}
+
+int main(){
+    int ht[BUCKET_SIZE];
+    int menu, key;
+    init(ht);
     
+    while(menu != 99){
+        printf("1. Add 2. Delete 3. Clear 4. Search 5. Display 99. Exit\n");
+        printf(">> ");
+        scanf("%d", &menu);
+        
+        switch(menu){
+            case 1:
+                printf("Enter the number : ");
+                scanf("%d", &key);
+                add(ht, key);
+                break;
+            case 2:
+                printf("Enter the number : ");
+                scanf("%d", &key);
+                delete(ht, key);
+                break;
+            case 3:
+                init(ht);
+                break;
+            case 4:
+                printf("Enter the number : ");
+                scanf("%d", &key);
+                if(search(ht, key) != -1)
+                    printf("%d's position is %d\n", key, search(ht, key));
+                break;
+            case 5:
+                display(ht);
+                break;
+            case 99:
+                break;
+            default:
+                printf("Menu Selection Error\n");
+        }
+    }
+    
+    return 0;
 }
