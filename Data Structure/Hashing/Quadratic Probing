@@ -1,1 +1,59 @@
+#include <stdio.h>
+#define BUCKET_SIZE 13
 
+void init(int *ht){
+    for(int i=0; i<BUCKET_SIZE; i++){
+        ht[i] = -1
+    }
+}
+
+int hash_function(int key){
+    return key % BUCKET_SIZE;
+}
+
+int is_full(int *ht){
+    for(int i=0; i<BUCKET_SIZE; i++){
+        if(ht[i] == -1)
+            return 0;
+    }
+    printf("Hash Table is full\n");
+    return 1;
+}
+
+int is_empty(int *ht){
+    for(int i=0; i<BUCKET_SIZE; i++){
+        if(ht[i] != -1)
+            return 0;
+    }
+    return 1;
+}
+
+void add(int *ht, int key){
+    if(key < 0){
+        printf("Key Input Error\n");
+        return;
+    }
+    if(is_full(ht))
+        return;
+    int i = 0, value;
+    while(1){
+        value = hash_function(key + i * i);
+        if(ht[value] == key){
+            printf("Duplicate Key Error\n");
+            return;
+        }
+        if(ht[value] == -1){
+            ht[value] = key;
+            return;
+        }
+        i++;
+    }
+}
+
+int search(int *ht, int key){
+    if(key < 0){
+        printf("Key Input Error\n");
+        return -1;
+    }
+    
+}
