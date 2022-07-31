@@ -37,13 +37,12 @@ int search(int *ht, int key){
         printf("Key Input Error\n");
         return -1;
     }
-    int temp, value;
-    temp = value = hash_function(key);
-    do{
-        if(ht[temp] == key)
-            return temp;
-        temp = hash_function(++temp);
-    }while(temp != value);
+    int value = hash_function(key);
+    while(ht[value] != -1){
+        if(ht[value] == key)
+            return value;
+        value = hash_function(++value);
+    }
     printf("No data about %d\n", key);
     return -1;
 }
