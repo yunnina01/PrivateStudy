@@ -64,9 +64,9 @@ void display(int *ht){
 }
 
 int main(){
-    int Hash_Table[BUCKET_SIZE];
+    int hash_table[BUCKET_SIZE];
     int menu, key;
-    init(Hash_Table);
+    init(hash_table);
     
     while(menu != 99){
         printf("1. Add 2. Delete 3. Clear 4. Search 5. Display 99. Exit\n");
@@ -77,24 +77,24 @@ int main(){
             case 1:
                 printf("Enter the number : ");
                 scanf("%d", &key);
-                add(Hash_Table, key);
+                add(hash_table, key);
                 break;
             case 2:
                 printf("Enter the number : ");
                 scanf("%d", &key);
-                delete(Hash_Table, key);
+                delete(hash_table, key);
                 break;
             case 3:
-                init(Hash_Table);
+                init(hash_table);
                 break;
             case 4:
                 printf("Enter the number : ");
                 scanf("%d", &key);
-                if(search(Hash_Table, key) != -1)
-                    printf("%d's position is %d\n", key, search(Hash_Table, key));
+                if(search(hash_table, key) != -1)
+                    printf("%d's position is %d\n", key, search(hash_table, key));
                 break;
             case 5:
-                display(Hash_Table);
+                display(hash_table);
                 break;
             case 99:
                 break;
