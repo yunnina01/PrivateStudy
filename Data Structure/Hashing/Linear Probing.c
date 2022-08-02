@@ -11,7 +11,7 @@ int hash_function(int key){
     return key % BUCKET_SIZE;
 }
 
-void add(int *ht, int key){
+void insert(int *ht, int key){
     if(key < 0){
         printf("Key Input Error\n");
         return;
@@ -72,7 +72,7 @@ int main(){
     init(hash_table);
     
     while(menu != 99){
-        printf("1. Add 2. Delete 3. Clear 4. Search 5. Display 99. Exit\n");
+        printf("1. Insert 2. Delete 3. Clear 4. Search 5. Display 99. Exit\n");
         printf(">> ");
         scanf("%d", &menu);
         
@@ -80,7 +80,7 @@ int main(){
             case 1:
                 printf("Enter the number : ");
                 scanf("%d", &key);
-                add(hash_table, key);
+                insert(hash_table, key);
                 break;
             case 2:
                 printf("Enter the number : ");
