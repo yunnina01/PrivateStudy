@@ -17,7 +17,7 @@ void insert(int *ht, int key){
         return;
     }
     int i = 0, value;
-    while(1){
+    for(int i=0; i<BUCKET_SIZE; i++){
         value = hash_function(key + i * i);
         if(ht[value] == key){
             printf("Duplicate Key Error\n");
@@ -27,8 +27,8 @@ void insert(int *ht, int key){
             ht[value] = key;
             return;
         }
-        i++;
     }
+    printf("This key cannot be inserted\n");
 }
 
 int search(int *ht, int key){
@@ -36,13 +36,11 @@ int search(int *ht, int key){
         printf("Key Input Error\n");
         return -1;
     }
-    int i = 1;
-    int value = hash_function(key);
-    while(ht[value] != -1){
+    int i = 1, value;
+    for(int i=0; i<BUCKET_SIZE; i++){
+        value = hash_function(key + i * i);
         if(ht[value] == key)
             return value;
-        value = hash_function(key + i * i);
-        i++;
     }
     printf("No data about %d\n", key);
     return -1;
