@@ -44,8 +44,8 @@ int main(){
     int menu, item, data;
     init(&q);
     
-    while(menu != 3){
-        printf("1. Enqueue 2. Dequeue 3. Exit\n");
+    while(menu != 99){
+        printf("1. Enqueue 2. Dequeue 99. Exit\n");
         printf(">> ");
         scanf("%d", &menu);
         
@@ -65,7 +65,7 @@ int main(){
                     continue;
                 printf("%d\n", data);
                 break;
-            case 3:
+            case 99:
                 break;
             default:
                 printf("Menu Selection Error\n");
