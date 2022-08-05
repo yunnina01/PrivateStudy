@@ -11,17 +11,11 @@ void init(StackType *s){
 }
 
 int is_empty(StackType *s){
-    if(s->top == -1)
-        return 1;
-    else
-        return 0;
+    return s->top == -1;
 }
 
 int is_full(StackType *s){
-    if(s->top == MAX_SIZE - 1)
-        return 1;
-    else
-        return 0;
+    return s->top == MAX_SIZE - 1;
 }
 
 void push(StackType *s, int item){

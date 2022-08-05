@@ -11,17 +11,11 @@ void init(QueueType *q){
 }
 
 int is_empty(QueueType *q){
-    if(q->front % MAX_SIZE == q->rear % MAX_SIZE)
-        return 1;
-    else
-        return 0;
+    return q->front % MAX_SIZE == q->rear % MAX_SIZE;
 }
 
 int is_full(QueueType *q){
-    if(q->front % MAX_SIZE == (q->rear + 1) % MAX_SIZE)
-        return 1;
-    else
-        return 0;
+    return q->front % MAX_SIZE == (q->rear + 1) % MAX_SIZE;
 }
 
 void enqueue(QueueType *q, int item){
