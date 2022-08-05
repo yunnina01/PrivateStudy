@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define MAX_SIZE 6
+#define MAX_SIZE 10
 
 typedef struct {
     int deque[MAX_SIZE];
@@ -23,7 +23,7 @@ void add_front(DequeType *d, int item){
         printf("Deque is full\n");
     else{
         d->deque[d->front % MAX_SIZE] = item;
-        d->front = (--d->front) + MAX_SIZE;
+        d->front = (--d->front + MAX_SIZE) % MAX_SIZE;
     }
 }
 
@@ -48,7 +48,7 @@ int delete_rear(DequeType *d){
         return -1;
     }
     int temp = d->rear % MAX_SIZE;
-    d->rear = (--d->rear) + MAX_SIZE;
+    d->rear = (--d->rear + MAX_SIZE) % MAX_SIZE;
     return d->deque[temp];
 }
 
