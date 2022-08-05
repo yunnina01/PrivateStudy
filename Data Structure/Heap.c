@@ -2,7 +2,7 @@
 #define MAX_SIZE 10
 
 typedef struct {
-    int heap[MAX_SIZE];
+    int heap[MAX_SIZE+1];
     int size;
 }HeapType;
 
