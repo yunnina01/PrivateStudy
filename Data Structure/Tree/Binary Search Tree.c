@@ -52,7 +52,7 @@ void delete(TreeNode **root, int key){
         temp = key < temp->data ? temp->left : temp->right;
     }
     if(temp == NULL){
-        printf("%d is not in the tree\n", key);
+        printf("No data about %d\n", key);
         return;
     }
     if(temp->left == NULL || temp->right == NULL){
