@@ -6,50 +6,50 @@ typedef struct {
     int front, rear;
 }DequeType;
 
-void init(DequeType *d){
-    d->front = d->rear = 0;
+void init(DequeType *D){
+    D->front = D->rear = 0;
 }
 
-int is_empty(DequeType *d){
-    return d->front % MAX_SIZE == d->rear % MAX_SIZE;
+int is_empty(DequeType *D){
+    return D->front % MAX_SIZE == D->rear % MAX_SIZE;
 }
 
-int is_full(DequeType *d){
-    return d->front % MAX_SIZE == (d->rear + 1) % MAX_SIZE;
+int is_full(DequeType *D){
+    return D->front % MAX_SIZE == (D->rear + 1) % MAX_SIZE;
 }
 
-void add_front(DequeType *d, int item){
-    if(is_full(d))
+void add_front(DequeType *D, int item){
+    if(is_full(D))
         printf("Deque is full\n");
     else{
-        d->deque[d->front % MAX_SIZE] = item;
-        d->front = (--d->front + MAX_SIZE) % MAX_SIZE;
+        D->deque[D->front % MAX_SIZE] = item;
+        D->front = (--D->front + MAX_SIZE) % MAX_SIZE;
     }
 }
 
-void add_rear(DequeType *d, int item){
-    if(is_full(d))
+void add_rear(DequeType *D, int item){
+    if(is_full(D))
         printf("Deque is full\n");
     else
-        d->deque[(++d->rear) % MAX_SIZE] = item;
+        D->deque[(++D->rear) % MAX_SIZE] = item;
 }
 
-int delete_front(DequeType *d){
-    if(is_empty(d)){
+int delete_front(DequeType *D){
+    if(is_empty(D)){
         printf("Deque is empty\n");
         return -1;
     }
-    return d->deque[(++d->front) % MAX_SIZE];
+    return D->deque[(++D->front) % MAX_SIZE];
 }
 
-int delete_rear(DequeType *d){
-    if(is_empty(d)){
+int delete_rear(DequeType *D){
+    if(is_empty(D)){
         printf("Deque is empty\n");
         return -1;
     }
-    int temp = d->rear % MAX_SIZE;
-    d->rear = (--d->rear + MAX_SIZE) % MAX_SIZE;
-    return d->deque[temp];
+    int temp = D->rear % MAX_SIZE;
+    D->rear = (--D->rear + MAX_SIZE) % MAX_SIZE;
+    return D->deque[temp];
 }
 
 int main(){

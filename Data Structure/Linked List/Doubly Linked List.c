@@ -11,9 +11,9 @@ typedef struct {
     int length;
 }DListType;
 
-void init(DListType **L){
-    (*L)->head = NULL;
-    (*L)->length = 0;
+void init(DListType *L){
+    L->head = NULL;
+    L->length = 0;
 }
 
 ListNode* get_node(int item){
@@ -27,46 +27,46 @@ ListNode* get_node(int item){
     return new_node;
 }
 
-void add_first(DListType **L, int item){
+void add_first(DListType *L, int item){
     ListNode *new_node = get_node(item);
     if(new_node == NULL)
         return;
-    if((*L)->head != NULL)
-        (*L)->head->llink = new_node;
-    new_node->rlink = (*L)->head;
-    (*L)->head = new_node;
-    (*L)->length++;
+    if(L->head != NULL)
+        L->head->llink = new_node;
+    new_node->rlink = L->head;
+    L->head = new_node;
+    L->length++;
 }
 
-void add_last(DListType **L, int item){
+void add_last(DListType *L, int item){
     ListNode *new_node = get_node(item);
     if(new_node == NULL)
         return;
-    if((*L)->head == NULL)
-        (*L)->head = new_node;
+    if(L->head == NULL)
+        L->head = new_node;
     else{
-        ListNode *temp = (*L)->head;
+        ListNode *temp = L->head;
         while(temp->rlink != NULL){
             temp = temp->rlink;
         }
         temp->rlink = new_node;
         new_node->llink = temp;
     }
-    (*L)->length++;
+    L->length++;
 }
 
-void add(DListType **L, int pos, int item){
-    if(pos <= 0 || pos > (*L)->length + 1)
+void add(DListType *L, int pos, int item){
+    if(pos <= 0 || pos > L->length + 1)
         printf("Position Input Error\n");
     else if(pos == 1)
         add_first(L, item);
-    else if(pos == (*L)->length + 1)
+    else if(pos == L->length + 1)
         add_last(L, item);
     else{
         ListNode *new_node = get_node(item);
         if(new_node == NULL)
             return;
-        ListNode *temp = (*L)->head;
+        ListNode *temp = L->head;
         for(int i=0; i<pos-2; i++){
             temp = temp->rlink;
         }
@@ -74,19 +74,19 @@ void add(DListType **L, int pos, int item){
         new_node->rlink = temp->rlink;
         temp->rlink->llink = new_node;
         temp->rlink = new_node;
-        (*L)->length++;
+        L->length++;
     }
 }
 
-void delete(DListType **L, int pos){
-    ListNode *removed = (*L)->head;
+void delete(DListType *L, int pos){
+    ListNode *removed = L->head;
     if(pos <= 0)
         printf("Position Input Error\n");
-    else if(pos > (*L)->length)
+    else if(pos > L->length)
         printf("This position is empty\n");
     else{
         if(pos == 1)
-            (*L)->head = removed->rlink;
+            L->head = removed->rlink;
         else{
             for(int i=0; i<pos-1; i++){
                 removed = removed->rlink;
@@ -99,7 +99,7 @@ void delete(DListType **L, int pos){
             }
         }
         free(removed);
-        (*L)->length--;
+        L->length--;
     }
 }
 
@@ -109,8 +109,8 @@ void replace(DListType *L, int pos, int item){
     else if(pos > L->length)
         printf("This position is empty\n");
     else{
-        delete(&L, pos);
-        add(&L, pos, item);
+        delete(L, pos);
+        add(L, pos, item);
     }
 }
 
@@ -139,7 +139,7 @@ void display(DListType *L){
 }
 
 int main(){
-    DListType *list;
+    DListType list;
     int menu, item, pos;
     init(&list);
     
@@ -179,18 +179,18 @@ int main(){
                 scanf("%d", &pos);
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                replace(list, pos, item);
+                replace(&list, pos, item);
                 break;
             case 7:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                search(list, item);
+                search(&list, item);
                 break;
             case 8:
-                printf("List's length is %d\n", list->length);
+                printf("List's length is %d\n", list.length);
                 break;
             case 9:
-                display(list);
+                display(&list);
                 break;
             case 99:
                 break;

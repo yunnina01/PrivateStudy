@@ -55,8 +55,7 @@ void add_last(ListNode **head, int item){
 }
 
 void add(ListNode **head, int pos, int item){
-    int length = get_length(*head);
-    if(pos <= 0 || pos > length + 1)
+    if(pos <= 0 || pos > get_length(*head) + 1)
         printf("Position Input Error\n");
     else if(pos == 1)
         add_first(head, item);
@@ -74,15 +73,14 @@ void add(ListNode **head, int pos, int item){
 }
 
 void delete(ListNode **head, int pos){
-    int length = get_length(*head);
     if(pos <= 0)
         printf("Position Input Error\n");
-    else if(pos > length)
+    else if(pos > get_length(*head))
         printf("This position is empty\n");
     else{
         ListNode *temp = *head;
         ListNode *removed = temp;
-        if(length == 1)
+        if(get_length(*head) == 1)
             *head = NULL;
         else{
             if(pos == 1){
@@ -104,11 +102,10 @@ void delete(ListNode **head, int pos){
 }
 
 void replace(ListNode *head, int pos, int item){
-    int length = get_length(head);
     ListNode *temp = head;
     if(pos <= 0)
         printf("Position Input Error\n");
-    else if(pos > length)
+    else if(pos > get_length(head))
         printf("This position is empty\n");
     else{
         delete(&head, pos);
@@ -117,9 +114,8 @@ void replace(ListNode *head, int pos, int item){
 }
 
 void search(ListNode *head, int item){
-    int length = get_length(head);
     ListNode *temp = head;
-    for(int i=1; i<=length; i++){
+    for(int i=1; i<=get_length(head); i++){
         if(temp->data == item){
             printf("%d's position is %d\n", item, i);
             return;
@@ -130,13 +126,12 @@ void search(ListNode *head, int item){
 }
 
 void display(ListNode *head){
-    int length = get_length(head);
     ListNode *temp = head;
     if(temp == NULL){
         printf("List is empty\n");
         return;
     }
-    for(int i=1; i<=length; i++){
+    for(int i=1; i<=get_length(head); i++){
         printf("[%d] : %d\n", i, temp->data);
         temp = temp->link;
     }

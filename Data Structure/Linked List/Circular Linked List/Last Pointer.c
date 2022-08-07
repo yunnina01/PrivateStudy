@@ -52,12 +52,11 @@ void add_last(ListNode **last, int item){
 }
 
 void add(ListNode **last, int pos, int item){
-    int length = get_length(*last);
-    if(pos <= 0 || pos > length + 1)
+    if(pos <= 0 || pos > get_length(*last) + 1)
         printf("Position Input Error\n");
     else if(pos == 1)
         add_first(last, item);
-    else if(pos == length + 1)
+    else if(pos == get_length(*last) + 1)
         add_last(last, item);
     else{
         ListNode *new_node = get_node(item);
@@ -73,14 +72,13 @@ void add(ListNode **last, int pos, int item){
 }
 
 void delete(ListNode **last, int pos){
-    int length = get_length(*last);
     if(pos <= 0)
         printf("Position Input Error\n");
-    else if(pos > length)
+    else if(pos > get_length(*last))
         printf("This position is empty\n");
     else{
         ListNode *temp = *last;
-        if(length == 1){
+        if(get_length(*last) == 1){
             *last = NULL;
             free(temp);
             return;
@@ -89,7 +87,7 @@ void delete(ListNode **last, int pos){
             temp = temp->link;
         }
         ListNode *removed = temp->link;
-        if(removed == (*last))
+        if(removed == *last)
             *last = temp;
         temp->link = removed->link;
         free(removed);
@@ -97,11 +95,10 @@ void delete(ListNode **last, int pos){
 }
 
 void replace(ListNode *last, int pos, int item){
-    int length = get_length(last);
     ListNode *temp = last;
     if(pos <= 0)
         printf("Position Input Error\n");
-    else if(pos > length)
+    else if(pos > get_length(last))
         printf("This position is empty\n");
     else{
         for(int i=0; i<pos; i++){
@@ -112,9 +109,8 @@ void replace(ListNode *last, int pos, int item){
 }
 
 void search(ListNode *last, int item){
-    int length = get_length(last);
     ListNode *temp = last;
-    for(int i=1; i<=length; i++){
+    for(int i=1; i<=get_length(last); i++){
         temp = temp->link;
         if(temp->data == item){
             printf("%d's position is %d\n", item, i);
@@ -125,13 +121,12 @@ void search(ListNode *last, int item){
 }
 
 void display(ListNode *last){
-    int length = get_length(last);
     ListNode *temp = last;
     if(temp == NULL){
         printf("List is empty\n");
         return;
     }
-    for(int i=1; i<=length; i++){
+    for(int i=1; i<=get_length(last); i++){
         temp = temp->link;
         printf("[%d] : %d\n", i, temp->data);
     }

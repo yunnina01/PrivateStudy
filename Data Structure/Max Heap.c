@@ -6,40 +6,40 @@ typedef struct {
     int size;
 }HeapType;
 
-void init(HeapType *h){
-    h->size = 0;
+void init(HeapType *H){
+    H->size = 0;
 }
 
-void insert(HeapType *h, int item){
-    if(h->size >= MAX_SIZE){
+void insert(HeapType *H, int item){
+    if(H->size >= MAX_SIZE){
         printf("Heap is full\n");
         return;
     }
-    int i = ++(h->size);
-    while((i != 1) && item > (h->heap[i/2])){
-        h->heap[i] = h->heap[i/2];
+    int i = ++(H->size);
+    while((i != 1) && item > (H->heap[i/2])){
+        H->heap[i] = H->heap[i/2];
         i /= 2;
     }
-    h->heap[i] = item;
+    H->heap[i] = item;
 }
 
-void delete(HeapType *h){
-    if(h->size <= 0){
+void delete(HeapType *H){
+    if(H->size <= 0){
         printf("Heap is empty\n");
         return;
     }
     int parent = 1, child = 2;
-    int max = h->heap[1], temp = h->heap[(h->size)--];
-    while(child <= h->size){
-        if(child < h->size && h->heap[child] < h->heap[child+1])
+    int max = H->heap[1], temp = H->heap[(H->size)--];
+    while(child <= H->size){
+        if(child < H->size && H->heap[child] < H->heap[child+1])
             child++;
-        if(temp >= h->heap[child])
+        if(temp >= H->heap[child])
             break;
-        h->heap[parent] = h->heap[child];
+        H->heap[parent] = H->heap[child];
         parent = child;
         child *= 2;
     }
-    h->heap[parent] = temp;
+    H->heap[parent] = temp;
     printf("%d\n", max);
 }
 
