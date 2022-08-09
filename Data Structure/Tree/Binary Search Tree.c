@@ -82,17 +82,15 @@ void delete(TreeNode **root, int key){
 }
 
 int get_node_count(TreeNode *root){
-    int cnt = 0;
-    if(root)
-        cnt = 1 + get_node_count(root->left) + get_node_count(root->right);
-    return cnt;
+    if(!root)
+        return 0; 
+    return 1 + get_node_count(root->left) + get_node_count(root->right);
 }
 
 int get_height(TreeNode *root){
-    int cnt = 0;
-    if(root)
-        cnt = 1 + max(get_height(root->left), get_height(root->right));
-    return cnt;
+    if(!root)
+        return 0;
+    return 1 + max(get_height(root->left), get_height(root->right));
 }
 
 void search(TreeNode *root, int key){
