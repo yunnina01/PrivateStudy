@@ -135,7 +135,7 @@ int main(){
     init(&head);
     
     while(menu != 99){
-        printf("1. Add_First 2. Add_Last 3. Add 4. Delete 5. Clear 6. Replace 7. Search 8. Length 9. Display 99. Exit\n");
+        printf("1. Add_First 2. Add_Last 3. Add 4. Delete 5. Clear\n6. Replace 7. Search 8. Length 9. Display 99. Exit\n");
         printf(">> ");
         scanf("%d", &menu);
         
