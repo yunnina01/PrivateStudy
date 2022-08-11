@@ -25,7 +25,7 @@ void insert_vertex(GraphType *G){
 
 void insert_edge(GraphType *G, int start, int end){
     if(start >= G->n || end >= G->n){
-        printf("Vertex Key Error\n");
+        printf("Vertex Index Error\n");
         return;
     }
     if(start == end){
@@ -51,7 +51,7 @@ void delete_vertex(GraphType *G, int v){
 
 void delete_edge(GraphType *G, int start, int end){
     if(start >= G->n || end >= G->n){
-        printf("Vertex Key Error\n");
+        printf("Vertex Index Error\n");
         return;
     }
     G->adj_mat[start][end] = G->adj_mat[end][start] = 0;
