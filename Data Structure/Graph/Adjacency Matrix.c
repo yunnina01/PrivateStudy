@@ -41,14 +41,16 @@ void delete_vertex(GraphType *G, int v){
         return;
     }
     for(int i=0; i<G->n; i++){
-        for(int j=v; j<G->n; j++){
+        for(int j=v; j<G->n-1; j++){
             G->adj_mat[i][j] = G->adj_mat[i][j+1];
         }
+        G->adj_mat[i][G->n-1] = 0;
     }
-    for(int i=v; i<G->n; i++){
-        for(int j=0; j<G->n; j++){
-            G->adj_mat[i][j] = G->adj_mat[i+1][j];
+    for(int i=0; i<G->n-1; i++){
+        for(int j=v; j<G->n-1; j++){
+            G->adj_mat[j][i] = G->adj_mat[j+1][i];
         }
+        G->adj_mat[G->n-1][i] = 0;
     }
     G->n--;
 }
