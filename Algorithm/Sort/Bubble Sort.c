@@ -1,9 +1,9 @@
 #include <stdio.h>
 #define MAX_SIZE 10
 
-void bubble_sort(int *arr, int cnt){
-    for(int i=0; i<cnt-1; i++){
-        for(int j=0; j<cnt-1; j++){
+void bubble_sort(int *arr, int size){
+    for(int i=0; i<size-1; i++){
+        for(int j=0; j<size-1; j++){
             if(arr[j] > arr[j+1]){
                 int temp = arr[j];
                 arr[j] = arr[j+1];
@@ -13,8 +13,8 @@ void bubble_sort(int *arr, int cnt){
     }
 }
 
-void display(int *arr, int cnt){
-    for(int i=0; i<cnt; i++){
+void display(int *arr, int size){
+    for(int i=0; i<size; i++){
         printf("%d ", arr[i]);
     }
     puts("");
@@ -22,7 +22,7 @@ void display(int *arr, int cnt){
 
 int main(){
     int arr[MAX_SIZE];
-    int menu, item, cnt = 0;
+    int menu, item, size = 0;
 
     while(menu != 99){
         printf("1. Insert 2. Bubble_Sort 3. Display 99. Exit\n");
@@ -33,13 +33,13 @@ int main(){
             case 1:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                arr[cnt++] = item;
+                arr[size++] = item;
                 break;
             case 2:
-                bubble_sort(arr, cnt);
+                bubble_sort(arr, size);
                 break;
             case 3:
-                display(arr, cnt);
+                display(arr, size);
                 break;
             case 99:
                 break;

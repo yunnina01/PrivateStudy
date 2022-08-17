@@ -1,8 +1,8 @@
 #include <stdio.h>
 #define MAX_SIZE 10
 
-void insertion_sort(int *arr, int cnt){
-    for(int i=1; i<cnt; i++){
+void insertion_sort(int *arr, int size){
+    for(int i=1; i<size; i++){
         int j, key = arr[i];
         for(j=i-1; j>=0 && key<arr[j]; j--){
             arr[j+1] = arr[j];
@@ -11,8 +11,8 @@ void insertion_sort(int *arr, int cnt){
     }
 }
 
-void display(int *arr, int cnt){
-    for(int i=0; i<cnt; i++){
+void display(int *arr, int size){
+    for(int i=0; i<size; i++){
         printf("%d ", arr[i]);
     }
     puts("");
@@ -20,7 +20,7 @@ void display(int *arr, int cnt){
 
 int main(){
     int arr[MAX_SIZE];
-    int menu, item, cnt = 0;
+    int menu, item, size = 0;
 
     while(menu != 99){
         printf("1. Insert 2. Insertion_Sort 3. Display 99. Exit\n");
@@ -31,13 +31,13 @@ int main(){
             case 1:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                arr[cnt++] = item;
+                arr[size++] = item;
                 break;
             case 2:
-                insertion_sort(arr, cnt);
+                insertion_sort(arr, size);
                 break;
             case 3:
-                display(arr, cnt);
+                display(arr, size);
                 break;
             case 99:
                 break;

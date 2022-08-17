@@ -2,7 +2,7 @@
 #define MAX_SIZE 10
 
 int binary_search(int *arr, int item, int low, int high){
-    if(high <= low)
+    if(low > high)
         return item > arr[low] ? low + 1 : low;
     int mid = (low + high) / 2;
     if(item == arr[mid])
@@ -12,21 +12,19 @@ int binary_search(int *arr, int item, int low, int high){
     return binary_search(arr, item, low, mid-1);
 }
 
-void binary_insertion_sort(int *arr, int cnt){
-    for(int i=1; i<cnt; ++i){
-        int j = i - 1;
-        int temp = arr[i];
-        int pos = binary_search(arr, temp, 0, j);
-        while(j >= pos){
+void binary_insertion_sort(int *arr, int size){
+    for(int i=1; i<size; i++){
+        int key = arr[i];
+        int pos = binary_search(arr, key, 0, i-1);
+        for(int j=i-1; j>=pos; j--){
             arr[j+1] = arr[j];
-            j--;
         }
-        arr[j+1] = temp;
+        arr[pos] = key;
     }
 }
 
-void display(int *arr, int cnt){
-    for(int i=0; i<cnt; i++){
+void display(int *arr, int size){
+    for(int i=0; i<size; i++){
         printf("%d ", arr[i]);
     }
     puts("");
@@ -34,7 +32,7 @@ void display(int *arr, int cnt){
 
 int main(){
     int arr[MAX_SIZE];
-    int menu, item, cnt = 0;
+    int menu, item, size = 0;
 
     while(menu != 99){
         printf("1. Insert 2. Binary_Insertion_Sort 3. Display 99. Exit\n");
@@ -45,13 +43,13 @@ int main(){
             case 1:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                arr[cnt++] = item;
+                arr[size++] = item;
                 break;
             case 2:
-                binary_insertion_sort(arr, cnt);
+                binary_insertion_sort(arr, size);
                 break;
             case 3:
-                display(arr, cnt);
+                display(arr, size);
                 break;
             case 99:
                 break;
