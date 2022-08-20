@@ -1,21 +1,21 @@
 #include <stdio.h>
 #define MAX_SIZE 10
 
+void swap(int *arr, int a, int b){
+    int temp = arr[a];
+    arr[a] = arr[b];
+    arr[b] = temp;
+}
+
 void cocktail_sort(int *arr, int size){
     for(int i=0; i<size/2; i++){
-        for(int j=i; j<size-i-1; j++){
-            if(arr[j] > arr[j+1]){
-                int temp = arr[j];
-                arr[j] = arr[j+1];
-                arr[j+1] = temp;
-            }
+        for(int j=i+1; j<size-i; j++){
+            if(arr[j-1] > arr[j])
+                swap(arr, j, j-1);
         }
         for(int j=size-i-2; j>i; j--){
-            if(arr[j] < arr[j-1]){
-                int temp = arr[j];
-                arr[j] = arr[j-1];
-                arr[j-1] = temp;
-            }
+            if(arr[j] < arr[j-1])
+                swap(arr, j, j-1);
         }
     }
 }

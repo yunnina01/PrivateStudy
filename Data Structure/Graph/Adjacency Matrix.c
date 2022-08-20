@@ -87,21 +87,21 @@ int main(){
                 insert_vertex(&graph);
                 break;
             case 2:
-                printf("Enter the starting position : ");
+                printf("Enter the start position : ");
                 scanf("%d", &start);
-                printf("Enter the ending position : ");
+                printf("Enter the end position : ");
                 scanf("%d", &end);
                 insert_edge(&graph, start, end);
                 break;
             case 3:
-                printf("Enter the vertex : ");
+                printf("Enter the number : ");
                 scanf("%d", &vertex);
                 delete_vertex(&graph, vertex);
                 break;
             case 4:
-                printf("Enter the starting position : ");
+                printf("Enter the start position : ");
                 scanf("%d", &start);
-                printf("Enter the ending position : ");
+                printf("Enter the end position : ");
                 scanf("%d", &end);
                 delete_edge(&graph, start, end);
                 break;
