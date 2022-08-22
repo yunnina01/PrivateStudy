@@ -6,8 +6,8 @@ typedef struct ListNode{
     struct ListNode *link;
 }ListNode;
 
-void init(ListNode **last){
-    *last = NULL;
+void init(ListNode **head){
+    *head = NULL;
 }
 
 ListNode* get_node(int item){
@@ -21,11 +21,11 @@ ListNode* get_node(int item){
     return new_node;
 }
 
-int get_length(ListNode *last){
+int get_length(ListNode *head){
     int cnt = 0;
-    ListNode *temp = last;
-    if(last != NULL){
-        while(temp->link != last){
+    ListNode *temp = head;
+    if(temp != NULL){
+        while(temp->link != head){
             temp = temp->link;
             cnt++;
         }
@@ -34,158 +34,158 @@ int get_length(ListNode *last){
     return cnt;
 }
 
-void add_first(ListNode **last, int item){
+void add_first(ListNode **head, int item){
     ListNode *new_node = get_node(item);
     if(new_node == NULL)
         return;
-    if(*last == NULL)
-        *last = new_node;
-    else{
-        new_node->link = (*last)->link;
-        (*last)->link = new_node;
+    if(*head != NULL){
+        ListNode *temp = *head;
+        while(temp->link != *head)
+            temp = temp->link;
+        new_node->link = temp->link;
+        temp->link = new_node;
     }
+    *head = new_node;
 }
 
-void add_last(ListNode **last, int item){
-    add_first(last, item);
-    *last = (*last)->link;
+void add_last(ListNode **head, int item){
+    add_first(head, item);
+    *head = (*head)->link;
 }
 
-void add(ListNode **last, int pos, int item){
-    if(pos <= 0 || pos > get_length(*last) + 1)
+void add(ListNode **head, int pos, int item){
+    if(pos <= 0 || pos > get_length(*head) + 1)
         printf("Position Input Error\n");
     else if(pos == 1)
-        add_first(last, item);
-    else if(pos == get_length(*last) + 1)
-        add_last(last, item);
+        add_first(head, item);
     else{
         ListNode *new_node = get_node(item);
         if(new_node == NULL)
             return;
-        ListNode *temp = *last;
-        for(int i=1; i<pos; i++){
+        ListNode *temp = *head;
+        for(int i=0; i<pos-2; i++)
             temp = temp->link;
-        }
         new_node->link = temp->link;
         temp->link = new_node;
     }
 }
 
-void delete(ListNode **last, int pos){
+void delete(ListNode **head, int pos){
     if(pos <= 0)
         printf("Position Input Error\n");
-    else if(pos > get_length(*last))
+    else if(pos > get_length(*head))
         printf("This position is empty\n");
     else{
-        ListNode *temp = *last;
-        if(get_length(*last) == 1){
-            *last = NULL;
-            free(temp);
-            return;
+        ListNode *temp = *head;
+        ListNode *removed = temp;
+        if(get_length(*head) == 1)
+            *head = NULL;
+        else{
+            if(pos == 1){
+                while(temp->link != removed)
+                    temp = temp->link;
+                *head = (*head)->link;
+            }
+            else{
+                for(int i=0; i<pos-2; i++)
+                    temp = temp->link;
+                removed = temp->link;
+            }
+            temp->link = removed->link;
         }
-        for(int i=0; i<pos-1; i++){
-            temp = temp->link;
-        }
-        ListNode *removed = temp->link;
-        if(removed == *last)
-            *last = temp;
-        temp->link = removed->link;
         free(removed);
     }
 }
 
-void replace(ListNode *last, int pos, int item){
-    ListNode *temp = last;
+void replace(ListNode *head, int pos, int item){
+    ListNode *temp = head;
     if(pos <= 0)
         printf("Position Input Error\n");
-    else if(pos > get_length(last))
+    else if(pos > get_length(head))
         printf("This position is empty\n");
     else{
-        for(int i=0; i<pos; i++){
-            temp = temp->link;
-        }
-        temp->data = item;
+        delete(&head, pos);
+        add(&head, pos, item);
     }
 }
 
-void search(ListNode *last, int item){
-    ListNode *temp = last;
-    for(int i=1; i<=get_length(last); i++){
-        temp = temp->link;
+void search(ListNode *head, int item){
+    ListNode *temp = head;
+    for(int i=1; i<=get_length(head); i++){
         if(temp->data == item){
             printf("%d's position is %d\n", item, i);
             return;
         }
+        temp = temp->link;
     }
     printf("No data about %d\n", item);
 }
 
-void display(ListNode *last){
-    ListNode *temp = last;
+void display(ListNode *head){
+    ListNode *temp = head;
     if(temp == NULL){
         printf("List is empty\n");
         return;
     }
-    for(int i=1; i<=get_length(last); i++){
-        temp = temp->link;
+    for(int i=1; i<=get_length(head); i++){
         printf("[%d] : %d\n", i, temp->data);
+        temp = temp->link;
     }
 }
 
 int main(){
-    ListNode *last;
+    ListNode *head;
     int menu, item, pos;
-    init(&last);
+    init(&head);
     
     while(menu != 99){
         printf("1. Add_First 2. Add_Last 3. Add 4. Delete 5. Clear\n6. Replace 7. Search 8. Length 9. Display 99. Exit\n");
         printf(">> ");
         scanf("%d", &menu);
-    
+        
         switch(menu){
             case 1:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                add_first(&last, item);
+                add_first(&head, item);
                 break;
             case 2:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                add_last(&last, item);
+                add_last(&head, item);
                 break;
             case 3:
                 printf("Enter the position : ");
                 scanf("%d", &pos);
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                add(&last, pos, item);
+                add(&head, pos, item);
                 break;
             case 4:
                 printf("Enter the position : ");
                 scanf("%d", &pos);
-                delete(&last, pos);
+                delete(&head, pos);
                 break;
             case 5:
-                init(&last);
+                init(&head);
                 break;
             case 6:
                 printf("Enter the position : ");
                 scanf("%d", &pos);
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                replace(last, pos, item);
+                replace(head, pos, item);
                 break;
             case 7:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                search(last, item);
+                search(head, item);
                 break;
             case 8:
-                printf("List's length is %d\n", get_length(last));
+                printf("List's length is %d\n", get_length(head));
                 break;
             case 9:
-                display(last);
-                break;
+                display(head);
             case 99:
                 break;
             default:
