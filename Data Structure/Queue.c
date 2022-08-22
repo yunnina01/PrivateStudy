@@ -10,23 +10,15 @@ void init(QueueType *q){
     q->front = q->rear = 0;
 }
 
-int is_empty(QueueType *q){
-    return q->front % MAX_SIZE == q->rear % MAX_SIZE;
-}
-
-int is_full(QueueType *q){
-    return q->front % MAX_SIZE == (q->rear + 1) % MAX_SIZE;
-}
-
 void enqueue(QueueType *q, int item){
-    if(is_full(q))
+    if(q->front % MAX_SIZE == (q->rear + 1) % MAX_SIZE)
         printf("Queue is full\n");
     else
         q->queue[(++q->rear) % MAX_SIZE] = item;
 }
 
 int dequeue(QueueType *q){
-    if(is_empty(q)){
+    if(q->front % MAX_SIZE == q->rear % MAX_SIZE){
         printf("Queue is empty\n");
         return -1;
     }
@@ -58,7 +50,6 @@ int main(){
                 if(data == -1)
                     continue;
                 printf("%d\n", data);
-                break;
             case 99:
                 break;
             default:
