@@ -10,23 +10,15 @@ void init(StackType *s){
     s->top = -1;
 }
 
-int is_empty(StackType *s){
-    return s->top == -1;
-}
-
-int is_full(StackType *s){
-    return s->top == MAX_SIZE - 1;
-}
-
 void push(StackType *s, int item){
-    if(is_full(s))
+    if(s->top == MAX_SIZE - 1)
         printf("Stack is full\n");
     else
         s->stack[++(s->top)] = item;
 }
 
 int pop(StackType *s){
-    if(is_empty(s)){
+    if(s->top == -1){
         printf("Stack is empty\n");
         return -1;
     }
@@ -58,7 +50,6 @@ int main(){
                 if(data == -1)
                     continue;
                 printf("%d\n", data);
-                break;
             case 99:
                 break;
             default:
