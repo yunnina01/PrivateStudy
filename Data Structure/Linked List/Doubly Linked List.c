@@ -46,9 +46,8 @@ void add_last(DListType *L, int item){
         L->head = new_node;
     else{
         ListNode *temp = L->head;
-        while(temp->rlink != NULL){
+        while(temp->rlink != NULL)
             temp = temp->rlink;
-        }
         temp->rlink = new_node;
         new_node->llink = temp;
     }
@@ -67,9 +66,8 @@ void add(DListType *L, int pos, int item){
         if(new_node == NULL)
             return;
         ListNode *temp = L->head;
-        for(int i=0; i<pos-2; i++){
+        for(int i=0; i<pos-2; i++)
             temp = temp->rlink;
-        }
         new_node->llink = temp;
         new_node->rlink = temp->rlink;
         temp->rlink->llink = new_node;
@@ -88,9 +86,8 @@ void delete(DListType *L, int pos){
         if(pos == 1)
             L->head = removed->rlink;
         else{
-            for(int i=0; i<pos-1; i++){
+            for(int i=0; i<pos-1; i++)
                 removed = removed->rlink;
-            }
             if(removed->rlink == NULL)
                 removed->llink->rlink = NULL;
             else{
@@ -191,7 +188,6 @@ int main(){
                 break;
             case 9:
                 display(&list);
-                break;
             case 99:
                 break;
             default:
