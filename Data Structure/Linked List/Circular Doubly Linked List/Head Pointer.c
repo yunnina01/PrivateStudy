@@ -62,9 +62,8 @@ void add(ListNode **head, int pos, int item){
         if(new_node == NULL)
             return;
         ListNode *temp = *head;
-        for(int i=0; i<pos-2; i++){
+        for(int i=0; i<pos-2; i++)
             temp = temp->rlink;
-        }
         new_node->llink = temp;
         new_node->rlink = temp->rlink;
         temp->rlink->llink = new_node;
@@ -82,9 +81,8 @@ void delete(ListNode **head, int pos){
         if(get_length(*head) == 1)
             *head = NULL;
         else{
-            for(int i=0; i<pos-1; i++){
+            for(int i=0; i<pos-1; i++)
                 removed = removed->rlink;
-            }
             if(pos == 1)
                 *head = (*head)->rlink;
             removed->llink->rlink = removed->rlink;
@@ -182,7 +180,6 @@ int main(){
                 break;
             case 9:
                 display(head);
-                break;
             case 99:
                 break;
             default:
