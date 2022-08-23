@@ -37,9 +37,8 @@ void add(ListNode *head_node, int pos, int item){
         if(new_node == NULL)
             return;
         ListNode* temp = head_node;
-        for(int i=1; i<pos; i++){
+        for(int i=1; i<pos; i++)
             temp = temp->rlink;
-        }
         new_node->llink = temp;
         new_node->rlink = temp->rlink;
         temp->rlink->llink = new_node;
@@ -62,9 +61,8 @@ void delete(ListNode *head_node, int pos){
     else if(pos > get_length(head_node))
         printf("This position is empty\n");
     else{
-        for(int i=0; i<pos; i++){
+        for(int i=0; i<pos; i++)
             removed = removed->rlink;
-        }
         removed->llink->rlink = removed->rlink;
         removed->rlink->llink = removed->llink;
     }
@@ -158,7 +156,6 @@ int main(){
                 break;
             case 9:
                 display(&head_node);
-                break;
             case 99:
                 break;
             default:
