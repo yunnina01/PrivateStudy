@@ -188,7 +188,6 @@ int main(){
                 else
                     postorder(root);
                 puts("");
-                break;
             case 99:
                 break;
             default:
