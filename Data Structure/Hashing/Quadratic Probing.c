@@ -2,9 +2,8 @@
 #define BUCKET_SIZE 7
 
 void init(int *ht){
-    for(int i=0; i<BUCKET_SIZE; i++){
+    for(int i=0; i<BUCKET_SIZE; i++)
         ht[i] = -1;
-    }
 }
 
 int hash_function(int key){
@@ -28,7 +27,7 @@ void insert(int *ht, int key){
             return;
         }
     }
-    printf("This key cannot be inserted\n");
+    printf("This key can't be inserted\n");
 }
 
 int search(int *ht, int key){
@@ -93,7 +92,6 @@ int main(){
                 break;
             case 5:
                 display(hash_table);
-                break;
             case 99:
                 break;
             default:
