@@ -3,9 +3,8 @@
 #define REHASH_NUM 5
 
 void init(int *ht){
-    for(int i=0; i<BUCKET_SIZE; i++){
+    for(int i=0; i<BUCKET_SIZE; i++)
         ht[i] = -1;
-    }
 }
 
 int hash_function(int key){
@@ -102,7 +101,6 @@ int main(){
                 break;
             case 5:
                 display(hash_table);
-                break;
             case 99:
                 break;
             default:
