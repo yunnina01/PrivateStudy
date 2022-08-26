@@ -23,13 +23,12 @@ ListNode* get_node(int item){
 
 int get_length(ListNode *head){
     int cnt = 0;
-    ListNode *temp = head;
-    if(temp != NULL){
-        while(temp->link != head){
-            temp = temp->link;
+    if(head != NULL){
+        ListNode *temp = head;
+        do{
             cnt++;
-        }
-        cnt++;
+            temp = temp->link;
+        }while(temp != head);
     }
     return cnt;
 }
