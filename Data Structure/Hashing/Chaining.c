@@ -8,9 +8,8 @@ typedef struct HTNode{
 }HTNode;
 
 void init(HTNode **ht){
-    for(int i=0; i<BUCKET_SIZE; i++){
+    for(int i=0; i<BUCKET_SIZE; i++)
         ht[i] = NULL;
-    }
 }
 
 int hash_function(int key){
@@ -127,7 +126,6 @@ int main(){
                 break;
             case 5:
                 display(hash_table);
-                break;
             case 99:
                 break;
             default:
