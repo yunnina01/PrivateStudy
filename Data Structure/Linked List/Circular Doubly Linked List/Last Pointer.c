@@ -24,12 +24,11 @@ ListNode* get_node(int item){
 int get_length(ListNode *last){
     int cnt = 0;
     if(last != NULL){
-        ListNode *temp = last->rlink;
-        while(temp != last){
+        ListNode *temp = last;
+        do{
             cnt++;
             temp = temp->rlink;
-        }
-        cnt++;
+        }while(temp != last);
     }
     return cnt;
 }
