@@ -15,8 +15,8 @@ void insert(HeapType *H, int item){
         printf("Heap is full\n");
         return;
     }
-    int i = ++(H->size);
-    while((i != 1) && item > (H->heap[i/2])){
+    int i = ++H->size;
+    while(i != 1 && item > H->heap[i/2]){
         H->heap[i] = H->heap[i/2];
         i /= 2;
     }
@@ -29,7 +29,7 @@ void delete(HeapType *H){
         return;
     }
     int parent = 1, child = 2;
-    int max = H->heap[1], temp = H->heap[(H->size)--];
+    int max = H->heap[1], temp = H->heap[H->size--];
     while(child <= H->size){
         if(child < H->size && H->heap[child] < H->heap[child+1])
             child++;
@@ -61,7 +61,6 @@ int main(){
                 break;
             case 2:
                 delete(&heap);
-                break;
             case 99:
                 break;
             default:
