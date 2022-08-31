@@ -51,11 +51,9 @@ void delete(TreeNode **root, int key){
         p = temp;
         temp = key < temp->data ? temp->left : temp->right;
     }
-    if(temp == NULL){
+    if(temp == NULL)
         printf("No data about %d\n", key);
-        return;
-    }
-    if(temp->left == NULL || temp->right == NULL){
+    else if(temp->left == NULL || temp->right == NULL){
         child = temp->left != NULL ? temp->left : temp->right;
         if(p != NULL){
             if(p->left == temp)
@@ -65,6 +63,7 @@ void delete(TreeNode **root, int key){
         }
         else
             *root = child;
+        free(temp);
     }
     else{
         succ = temp->right;
@@ -111,7 +110,7 @@ void search(TreeNode *root, int key){
 
 void preorder(TreeNode *root){
     if(root){
-        printf("%d  ", root->data);
+        printf("%d ", root->data);
         preorder(root->left);
         preorder(root->right);
     }
@@ -120,7 +119,7 @@ void preorder(TreeNode *root){
 void inorder(TreeNode *root){
     if(root){
         inorder(root->left);
-        printf("%d  ", root->data);
+        printf("%d ", root->data);
         inorder(root->right);
     }
 }
@@ -129,7 +128,7 @@ void postorder(TreeNode *root){
     if(root){
         postorder(root->left);
         postorder(root->right);
-        printf("%d  ", root->data);
+        printf("%d ", root->data);
     }
 }
 
