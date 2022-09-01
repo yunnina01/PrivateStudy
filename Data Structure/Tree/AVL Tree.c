@@ -110,9 +110,8 @@ TreeNode* delete(TreeNode *root, int key){
             return temp;
         }
         TreeNode *temp = root->right;
-        while(temp->left != NULL){
+        while(temp->left != NULL)
             temp = temp->left;
-        }
         root->data = temp->data;
         root->right = delete(root->right, temp->data);
     }
@@ -159,7 +158,6 @@ int main(){
                 }   
                 else
                     printf("Tree is empty\n");
-                break;
             case 99:
                 break; 
             default:
