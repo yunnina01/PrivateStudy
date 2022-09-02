@@ -99,13 +99,8 @@ TreeNode* delete(TreeNode *root, int key){
         root = AVLset(root);
     }
     else{
-        if(root->left == NULL){
-            TreeNode *temp = root->right;
-            free(root);
-            return temp;
-        }
-        else if(root->right == NULL){
-            TreeNode *temp = root->left;
+        if(root->left == NULL || root->right == NULL){
+            TreeNode *temp = root->left != NULL ? root->left : root->right;
             free(root);
             return temp;
         }
