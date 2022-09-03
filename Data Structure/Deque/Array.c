@@ -10,16 +10,8 @@ void init(DequeType *D){
     D->front = D->rear = 0;
 }
 
-int is_empty(DequeType *D){
-    return D->front % MAX_SIZE == D->rear % MAX_SIZE;
-}
-
-int is_full(DequeType *D){
-    return D->front % MAX_SIZE == (D->rear + 1) % MAX_SIZE;
-}
-
 void add_front(DequeType *D, int item){
-    if(is_full(D))
+    if(D->front % MAX_SIZE == (D->rear + 1) % MAX_SIZE)
         printf("Deque is full\n");
     else{
         D->deque[D->front % MAX_SIZE] = item;
@@ -28,14 +20,14 @@ void add_front(DequeType *D, int item){
 }
 
 void add_rear(DequeType *D, int item){
-    if(is_full(D))
+    if(D->front % MAX_SIZE == (D->rear + 1) % MAX_SIZE)
         printf("Deque is full\n");
     else
         D->deque[(++D->rear) % MAX_SIZE] = item;
 }
 
 int delete_front(DequeType *D){
-    if(is_empty(D)){
+    if(D->front % MAX_SIZE == D->rear % MAX_SIZE){
         printf("Deque is empty\n");
         return -1;
     }
@@ -43,13 +35,12 @@ int delete_front(DequeType *D){
 }
 
 int delete_rear(DequeType *D){
-    if(is_empty(D)){
+    if(D->front % MAX_SIZE == D->rear % MAX_SIZE){
         printf("Deque is empty\n");
         return -1;
     }
-    int temp = D->rear % MAX_SIZE;
     D->rear = (--D->rear + MAX_SIZE) % MAX_SIZE;
-    return D->deque[temp];
+    return D->deque[(D->rear+1) % MAX_SIZE];
 }
 
 int main(){
@@ -82,7 +73,6 @@ int main(){
                 data = delete_rear(&deque);
                 if(data != -1)
                     printf("%d\n", data);
-                break;
             case 99:
                 break;
             default:
