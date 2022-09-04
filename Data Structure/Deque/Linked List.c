@@ -18,10 +18,8 @@ DequeNode* get_node(int item){
     DequeNode *new_node = (DequeNode*)malloc(sizeof(DequeNode));
     if(new_node == NULL)
         printf("Memory Allocation Error\n");
-    else{
-        new_node->data = item;
-        new_node->llink = new_node->rlink = NULL;
-    }
+    new_node->data = item;
+    new_node->llink = new_node->rlink = NULL;
     return new_node;
 }
 
@@ -109,7 +107,6 @@ int main(){
                 break;
             case 4:
                 delete_rear(&deque);
-                break;
             case 99:
                 break;
             default:
