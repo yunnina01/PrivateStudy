@@ -14,7 +14,7 @@ void enqueue(QueueType *q, int item){
     if(q->front % MAX_SIZE == (q->rear + 1) % MAX_SIZE)
         printf("Queue is full\n");
     else
-        q->queue[(++q->rear) % MAX_SIZE] = item;
+        q->queue[++q->rear % MAX_SIZE] = item;
 }
 
 int dequeue(QueueType *q){
@@ -22,7 +22,7 @@ int dequeue(QueueType *q){
         printf("Queue is empty\n");
         return -1;
     }
-    return q->queue[(++q->front) % MAX_SIZE];
+    return q->queue[++q->front % MAX_SIZE];
 }
 
 int main(){
