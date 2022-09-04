@@ -14,7 +14,7 @@ void push(StackType *s, int item){
     if(s->top == MAX_SIZE - 1)
         printf("Stack is full\n");
     else
-        s->stack[++(s->top)] = item;
+        s->stack[++s->top] = item;
 }
 
 int pop(StackType *s){
@@ -22,7 +22,7 @@ int pop(StackType *s){
         printf("Stack is empty\n");
         return -1;
     }
-    return s->stack[(s->top)--];
+    return s->stack[s->top--];
 }
 
 int main(){
