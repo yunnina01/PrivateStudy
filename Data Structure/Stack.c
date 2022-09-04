@@ -27,7 +27,7 @@ int pop(StackType *s){
 
 int main(){
     StackType s;
-    int menu, item, data;
+    int menu, item;
     init(&s);
     
     while(menu != 99){
@@ -39,17 +39,16 @@ int main(){
             case 1:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                if(item < 0){
+                if(item < 0)
                     printf("Number Input Error\n");
-                    continue;
-                }
-                push(&s, item);
+                else
+                    push(&s, item);
                 break;
             case 2:
-                data = pop(&s);
-                if(data == -1)
+                item = pop(&s);
+                if(item == -1)
                     continue;
-                printf("%d\n", data);
+                printf("%d\n", item);
             case 99:
                 break;
             default:
