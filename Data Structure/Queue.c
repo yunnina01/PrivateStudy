@@ -27,7 +27,7 @@ int dequeue(QueueType *q){
 
 int main(){
     QueueType q;
-    int menu, item, data;
+    int menu, item;
     init(&q);
     
     while(menu != 99){
@@ -39,17 +39,16 @@ int main(){
             case 1:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                if(item < 0){
+                if(item < 0)
                     printf("Number Input Error\n");
-                    continue;
-                }
-                enqueue(&q, item);
+                else
+                    enqueue(&q, item);
                 break;
             case 2:
-                data = dequeue(&q);
-                if(data == -1)
+                item = dequeue(&q);
+                if(item == -1)
                     continue;
-                printf("%d\n", data);
+                printf("%d\n", item);
             case 99:
                 break;
             default:
