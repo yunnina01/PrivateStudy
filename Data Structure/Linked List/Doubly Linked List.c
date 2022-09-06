@@ -66,7 +66,7 @@ void add(DListType *L, int pos, int item){
         if(new_node == NULL)
             return;
         ListNode *temp = L->head;
-        for(int i=0; i<pos-2; i++)
+        for(int i = 0; i < pos - 2; i++)
             temp = temp->rlink;
         new_node->llink = temp;
         new_node->rlink = temp->rlink;
@@ -86,7 +86,7 @@ void delete(DListType *L, int pos){
         if(pos == 1)
             L->head = removed->rlink;
         else{
-            for(int i=0; i<pos-1; i++)
+            for(int i = 0; i < pos - 1; i++)
                 removed = removed->rlink;
             if(removed->rlink == NULL)
                 removed->llink->rlink = NULL;
@@ -113,7 +113,7 @@ void replace(DListType *L, int pos, int item){
 
 void search(DListType *L, int item){
     ListNode *temp = L->head;
-    for(int i=1; i<=L->length; i++){
+    for(int i = 1; i <= L->length; i++){
         if(temp->data == item){
             printf("%d's position is %d\n", item, i);
             return;
@@ -129,16 +129,16 @@ void display(DListType *L){
         printf("List is empty\n");
         return;
     }
-    for(int i=1; i<=L->length; i++){
+    for(int i = 1; i <= L->length; i++){
         printf("[%d] : %d\n", i, temp->data);
         temp = temp->rlink;
     }
 }
 
 int main(){
-    DListType list;
+    DListType dl;
     int menu, item, pos;
-    init(&list);
+    init(&dl);
     
     while(menu != 99){
         printf("1. Add_First 2. Add_Last 3. Add 4. Delete 5. Clear\n6. Replace 7. Search 8. Length 9. Display 99. Exit\n");
@@ -149,45 +149,45 @@ int main(){
             case 1:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                add_first(&list, item);
+                add_first(&dl, item);
                 break;
             case 2:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                add_last(&list, item);
+                add_last(&dl, item);
                 break;
             case 3:
                 printf("Enter the position : ");
                 scanf("%d", &pos);
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                add(&list, pos, item);
+                add(&dl, pos, item);
                 break;
             case 4:
                 printf("Enter the position : ");
                 scanf("%d", &pos);
-                delete(&list, pos);
+                delete(&dl, pos);
                 break;
             case 5:
-                init(&list);
+                init(&dl);
                 break;
             case 6:
                 printf("Enter the position : ");
                 scanf("%d", &pos);
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                replace(&list, pos, item);
+                replace(&dl, pos, item);
                 break;
             case 7:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                search(&list, item);
+                search(&dl, item);
                 break;
             case 8:
-                printf("List's length is %d\n", list.length);
+                printf("List's length is %d\n", dl.length);
                 break;
             case 9:
-                display(&list);
+                display(&dl);
             case 99:
                 break;
             default:
