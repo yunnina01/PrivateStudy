@@ -37,9 +37,9 @@ void add_first(ListNode **head, int item){
     ListNode *new_node = get_node(item);
     if(new_node == NULL)
         return;
-    if((*head) != NULL){
+    if(*head != NULL){
         new_node->llink = (*head)->llink;
-        new_node->rlink = (*head);
+        new_node->rlink = *head;
         (*head)->llink->rlink = new_node;
         (*head)->llink = new_node;
     }
@@ -61,7 +61,7 @@ void add(ListNode **head, int pos, int item){
         if(new_node == NULL)
             return;
         ListNode *temp = *head;
-        for(int i=0; i<pos-2; i++)
+        for(int i = 0; i < pos - 2; i++)
             temp = temp->rlink;
         new_node->llink = temp;
         new_node->rlink = temp->rlink;
@@ -80,7 +80,7 @@ void delete(ListNode **head, int pos){
         if(get_length(*head) == 1)
             *head = NULL;
         else{
-            for(int i=0; i<pos-1; i++)
+            for(int i = 0; i < pos - 1; i++)
                 removed = removed->rlink;
             if(pos == 1)
                 *head = (*head)->rlink;
@@ -104,7 +104,7 @@ void replace(ListNode *head, int pos, int item){
 
 void search(ListNode *head, int item){
     ListNode *temp = head;
-    for(int i=1; i<=get_length(head); i++){
+    for(int i = 1; i <= get_length(head); i++){
         if(temp->data == item){
             printf("%d's position is %d\n", item, i);
             return;
@@ -120,7 +120,7 @@ void display(ListNode *head){
         return;
     }
     ListNode *temp = head;
-    for(int i=1; i<=get_length(head); i++){
+    for(int i = 1; i <= get_length(head); i++){
         printf("[%d] : %d\n", i, temp->data);
         temp = temp->rlink;
     }
