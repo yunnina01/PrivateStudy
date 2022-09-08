@@ -63,7 +63,7 @@ void add(ListNode **last, int pos, int item){
         if(new_node == NULL)
             return;
         ListNode *temp = *last;
-        for(int i=0; i<pos-1; i++)
+        for(int i = 0; i < pos - 1; i++)
             temp = temp->rlink;
         new_node->llink = temp;
         new_node->rlink = temp->rlink;
@@ -79,7 +79,7 @@ void delete(ListNode **last, int pos){
         printf("This position is empty\n");
     else{
         ListNode *removed = *last;
-        for(int i=0; i<pos; i++)
+        for(int i = 0; i < pos; i++)
             removed = removed->rlink;
         if(get_length(*last) == 1)
             *last = NULL;
@@ -106,7 +106,7 @@ void replace(ListNode *last, int pos, int item){
 
 void search(ListNode *last, int item){
     ListNode *temp = last;
-    for(int i=1; i<=get_length(last); i++){
+    for(int i = 1; i <= get_length(last); i++){
         temp = temp->rlink;
         if(temp->data == item){
             printf("%d's position is %d\n", item, i);
@@ -122,7 +122,7 @@ void display(ListNode *last){
         return;
     }
     ListNode *temp = last;
-    for(int i=1; i<=get_length(last); i++){
+    for(int i = 1; i <= get_length(last); i++){
         temp = temp->rlink;
         printf("[%d] : %d\n", i, temp->data);
     }
