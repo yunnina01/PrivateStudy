@@ -2,7 +2,7 @@
 #define BUCKET_SIZE 7
 
 void init(int *ht){
-    for(int i=0; i<BUCKET_SIZE; i++)
+    for(int i = 0; i < BUCKET_SIZE; i++)
         ht[i] = -1;
 }
 
@@ -16,7 +16,7 @@ void insert(int *ht, int key){
         return;
     }
     int i = 0, value;
-    for(int i=0; i<BUCKET_SIZE; i++){
+    for(int i = 0; i < BUCKET_SIZE; i++){
         value = hash_function(key + i * i);
         if(ht[value] == key){
             printf("Duplicate Key Error\n");
@@ -36,7 +36,7 @@ int search(int *ht, int key){
         return -1;
     }
     int i = 1, value;
-    for(int i=0; i<BUCKET_SIZE; i++){
+    for(int i = 0; i < BUCKET_SIZE; i++){
         value = hash_function(key + i * i);
         if(ht[value] == key)
             return value;
@@ -52,7 +52,7 @@ void delete(int *ht, int key){
 }
 
 void display(int *ht){
-    for(int i=0; i<BUCKET_SIZE; i++){
+    for(int i = 0; i < BUCKET_SIZE; i++){
         if(ht[i] == -1)
             printf("[%d] : empty\n", i);
         else
@@ -61,9 +61,9 @@ void display(int *ht){
 }
 
 int main(){
-    int hash_table[BUCKET_SIZE];
+    int ht[BUCKET_SIZE];
     int menu, key;
-    init(hash_table);
+    init(ht);
     
     while(menu != 99){
         printf("1. Insert 2. Delete 3. Clear 4. Search 5. Display 99. Exit\n");
@@ -74,24 +74,24 @@ int main(){
             case 1:
                 printf("Enter the number : ");
                 scanf("%d", &key);
-                insert(hash_table, key);
+                insert(ht, key);
                 break;
             case 2:
                 printf("Enter the number : ");
                 scanf("%d", &key);
-                delete(hash_table, key);
+                delete(ht, key);
                 break;
             case 3:
-                init(hash_table);
+                init(ht);
                 break;
             case 4:
                 printf("Enter the number : ");
                 scanf("%d", &key);
-                if(search(hash_table, key) != -1)
-                    printf("%d's position is %d\n", key, search(hash_table, key));
+                if(search(ht, key) != -1)
+                    printf("%d's position is %d\n", key, search(ht, key));
                 break;
             case 5:
-                display(hash_table);
+                display(ht);
             case 99:
                 break;
             default:
