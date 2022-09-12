@@ -8,7 +8,7 @@ typedef struct HTNode{
 }HTNode;
 
 void init(HTNode **ht){
-    for(int i=0; i<BUCKET_SIZE; i++)
+    for(int i = 0; i < BUCKET_SIZE; i++)
         ht[i] = NULL;
 }
 
@@ -20,8 +20,10 @@ HTNode* get_node(int key){
     HTNode *new_node = (HTNode*)malloc(sizeof(HTNode));
     if(new_node == NULL)
         printf("Memory Allocation Error\n");
-    new_node->data = key;
-    new_node->link = NULL;
+    else{
+        new_node->data = key;
+        new_node->link = NULL;
+    }
     return new_node;
 }
 
@@ -80,7 +82,7 @@ void delete(HTNode **ht, int key){
 }
 
 void display(HTNode **ht){
-    for(int i=0; i<BUCKET_SIZE; i++){
+    for(int i = 0; i < BUCKET_SIZE; i++){
         HTNode *temp = ht[i];
         if(temp == NULL)
             printf("[%d] : empty\n", i);
@@ -96,9 +98,9 @@ void display(HTNode **ht){
 }
 
 int main(){
-    HTNode *hash_table[BUCKET_SIZE];
+    HTNode *ht[BUCKET_SIZE];
     int menu, key;
-    init(hash_table);
+    init(ht);
 
     while(menu != 99){
         printf("1. Insert 2. Delete 3. Clear 4. Search 5. Display 99. Exit\n");
@@ -109,23 +111,23 @@ int main(){
             case 1:
                 printf("Enter the number : ");
                 scanf("%d", &key);
-                insert(hash_table, key);
+                insert(ht, key);
                 break;
             case 2:
                 printf("Enter the number : ");
                 scanf("%d", &key);
-                delete(hash_table, key);
+                delete(ht, key);
                 break;
             case 3:
-                init(hash_table);
+                init(ht);
                 break;
             case 4:
                 printf("Enter the number : ");
                 scanf("%d", &key);
-                search(hash_table, key);
+                search(ht, key);
                 break;
             case 5:
-                display(hash_table);
+                display(ht);
             case 99:
                 break;
             default:
