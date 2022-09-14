@@ -2,7 +2,7 @@
 #define MAX_SIZE 10
 
 typedef struct {
-    int heap[MAX_SIZE+1];
+    int heap[MAX_SIZE + 1];
     int size;
 }HeapType;
 
@@ -16,8 +16,8 @@ void insert(HeapType *H, int item){
         return;
     }
     int i = ++H->size;
-    while(i != 1 && item < H->heap[i/2]){
-        H->heap[i] = H->heap[i/2];
+    while(i != 1 && item < H->heap[i / 2]){
+        H->heap[i] = H->heap[i / 2];
         i /= 2;
     }
     H->heap[i] = item;
@@ -31,7 +31,7 @@ void delete(HeapType *H){
     int parent = 1, child = 2;
     int min = H->heap[1], temp = H->heap[H->size--];
     while(child <= H->size){
-        if(child < H->size && H->heap[child] > H->heap[child+1])
+        if(child < H->size && H->heap[child] > H->heap[child + 1])
             child++;
         if(temp <= H->heap[child])
             break;
@@ -44,9 +44,9 @@ void delete(HeapType *H){
 }
 
 int main(){
-    HeapType heap;
+    HeapType h;
     int menu, item;
-    init(&heap);
+    init(&h);
 
     while(menu != 99){
         printf("1. Insert 2. Delete 99. Exit\n");
@@ -57,10 +57,10 @@ int main(){
             case 1:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                insert(&heap, item);
+                insert(&h, item);
                 break;
             case 2:
-                delete(&heap);
+                delete(&h);
             case 99:
                 break;
             default:
