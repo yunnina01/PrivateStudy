@@ -138,7 +138,7 @@ int main(){
     init(&root);
     
     while(menu != 99){
-        printf("1. Insert 2. Delete 3. Clear 4. Node_Count 5. Height\n6. Search 7. Preorder 8. Inorder 9. Postorder 99. Exit\n");
+        printf("1. Insert 2. Delete 3. Clear 4. Node Count 5. Height\n6. Search 7. Preorder 8. Inorder 9. Postorder 99. Exit\n");
         printf(">> ");
         scanf("%d", &menu);
         
