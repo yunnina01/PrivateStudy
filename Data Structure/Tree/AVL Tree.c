@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define max(a, b) (((a) > (b)) ? (a) : (b))
+#define max(a,b) (((a) > (b)) ? (a) : (b))
 
 typedef struct TreeNode{
     int data;
@@ -68,8 +68,10 @@ TreeNode* insert(TreeNode *root, int key){
         TreeNode *new_node = (TreeNode*)malloc(sizeof(TreeNode));
         if(new_node == NULL)
             printf("Memory Allocation Error\n");
-        new_node->data = key;
-        new_node->left = new_node->right = NULL;
+        else{
+            new_node->data = key;
+            new_node->left = new_node->right = NULL;
+        }
         root = new_node;
     }
     else if(key < root->data){
