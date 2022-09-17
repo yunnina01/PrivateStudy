@@ -23,7 +23,7 @@ void add_rear(DequeType *D, int item){
     if(D->front % MAX_SIZE == (D->rear + 1) % MAX_SIZE)
         printf("Deque is full\n");
     else
-        D->deque[(++D->rear) % MAX_SIZE] = item;
+        D->deque[++D->rear % MAX_SIZE] = item;
 }
 
 int delete_front(DequeType *D){
@@ -31,7 +31,7 @@ int delete_front(DequeType *D){
         printf("Deque is empty\n");
         return -1;
     }
-    return D->deque[(++D->front) % MAX_SIZE];
+    return D->deque[++D->front % MAX_SIZE];
 }
 
 int delete_rear(DequeType *D){
@@ -40,13 +40,13 @@ int delete_rear(DequeType *D){
         return -1;
     }
     D->rear = (--D->rear + MAX_SIZE) % MAX_SIZE;
-    return D->deque[(D->rear+1) % MAX_SIZE];
+    return D->deque[(D->rear + 1) % MAX_SIZE];
 }
 
 int main(){
-    DequeType deque;
+    DequeType d;
     int menu, item, data;
-    init(&deque);
+    init(&d);
 
     while(menu != 99){
         printf("1. Add_Front 2. Add_Rear 3. Delete_Front 4. Delete_Rear 99. Exit\n");
@@ -57,20 +57,20 @@ int main(){
             case 1:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                add_front(&deque, item);
+                add_front(&d, item);
                 break;
             case 2:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                add_rear(&deque, item);
+                add_rear(&d, item);
                 break;
             case 3:
-                data = delete_front(&deque);
+                data = delete_front(&d);
                 if(data != -1)
                     printf("%d\n", data);
                 break;
             case 4:
-                data = delete_rear(&deque);
+                data = delete_rear(&d);
                 if(data != -1)
                     printf("%d\n", data);
             case 99:
