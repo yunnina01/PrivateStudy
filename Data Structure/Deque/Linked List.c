@@ -18,8 +18,10 @@ DequeNode* get_node(int item){
     DequeNode *new_node = (DequeNode*)malloc(sizeof(DequeNode));
     if(new_node == NULL)
         printf("Memory Allocation Error\n");
-    new_node->data = item;
-    new_node->llink = new_node->rlink = NULL;
+    else{
+        new_node->data = item;
+        new_node->llink = new_node->rlink = NULL;
+    }
     return new_node;
 }
 
@@ -82,9 +84,9 @@ void delete_rear(DequeType *D){
 }
 
 int main(){
-    DequeType deque;
+    DequeType d;
     int menu, item;
-    init(&deque);
+    init(&d);
 
     while(menu != 99){
         printf("1. Add_Front 2. Add_Rear 3. Delete_Front 4. Delete_Rear 99. Exit\n");
@@ -95,18 +97,18 @@ int main(){
             case 1:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                add_front(&deque, item);
+                add_front(&d, item);
                 break;
             case 2:
                 printf("Enter the number : ");
                 scanf("%d", &item);
-                add_rear(&deque, item);
+                add_rear(&d, item);
                 break;
             case 3:
-                delete_front(&deque);
+                delete_front(&d);
                 break;
             case 4:
-                delete_rear(&deque);
+                delete_rear(&d);
             case 99:
                 break;
             default:
