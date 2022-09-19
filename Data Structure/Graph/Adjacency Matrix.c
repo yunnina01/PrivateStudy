@@ -8,10 +8,9 @@ typedef struct {
 
 void init(GraphType *G){
     G->n = 0;
-    for(int i=0; i<MAX_VERTICES; i++){
-        for(int j=0; j<MAX_VERTICES; j++){
+    for(int i = 0; i < MAX_VERTICES; i++){
+        for(int j = 0; j < MAX_VERTICES; j++)
             G->adj_mat[i][j] = 0;
-        }
     }
 }
 
@@ -40,17 +39,15 @@ void delete_vertex(GraphType *G, int v){
         printf("Vertex Input Error\n");
         return;
     }
-    for(int i=0; i<G->n; i++){
-        for(int j=v; j<G->n-1; j++){
-            G->adj_mat[i][j] = G->adj_mat[i][j+1];
-        }
-        G->adj_mat[i][G->n-1] = 0;
+    for(int i = 0; i < G->n; i++){
+        for(int j = v; j < G->n - 1; j++)
+            G->adj_mat[i][j] = G->adj_mat[i][j + 1];
+        G->adj_mat[i][G->n - 1] = 0;
     }
-    for(int i=0; i<G->n-1; i++){
-        for(int j=v; j<G->n-1; j++){
-            G->adj_mat[j][i] = G->adj_mat[j+1][i];
-        }
-        G->adj_mat[G->n-1][i] = 0;
+    for(int i = 0; i < G->n - 1; i++){
+        for(int j = v; j < G->n - 1; j++)
+            G->adj_mat[j][i] = G->adj_mat[j + 1][i];
+        G->adj_mat[G->n - 1][i] = 0;
     }
     G->n--;
 }
@@ -64,18 +61,17 @@ void delete_edge(GraphType *G, int start, int end){
 }
 
 void display(GraphType *G){
-    for(int i=0; i<G->n; i++){
-        for(int j=0; j<G->n; j++){
+    for(int i = 0; i < G->n; i++){
+        for(int j = 0; j < G->n; j++)
             printf("%d ", G->adj_mat[i][j]);
-        }
         puts("");
     }
 }
 
 int main(){
-    GraphType graph;
+    GraphType g;
     int menu, start, end, vertex;
-    init(&graph);
+    init(&g);
 
     while(menu != 99){
         printf("1. Insert_Vertex 2. Insert_Edge 3. Delete_Vertex 4. Delete_Edge 5. Display 99. Exit\n");
@@ -84,30 +80,29 @@ int main(){
 
         switch(menu){
             case 1:
-                insert_vertex(&graph);
+                insert_vertex(&g);
                 break;
             case 2:
                 printf("Enter the start position : ");
                 scanf("%d", &start);
                 printf("Enter the end position : ");
                 scanf("%d", &end);
-                insert_edge(&graph, start, end);
+                insert_edge(&g, start, end);
                 break;
             case 3:
                 printf("Enter the number : ");
                 scanf("%d", &vertex);
-                delete_vertex(&graph, vertex);
+                delete_vertex(&g, vertex);
                 break;
             case 4:
                 printf("Enter the start position : ");
                 scanf("%d", &start);
                 printf("Enter the end position : ");
                 scanf("%d", &end);
-                delete_edge(&graph, start, end);
+                delete_edge(&g, start, end);
                 break;
             case 5:
-                display(&graph);
-                break;
+                display(&g);
             case 99:
                 break;
             default:
