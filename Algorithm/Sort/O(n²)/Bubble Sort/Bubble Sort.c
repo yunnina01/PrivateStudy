@@ -2,21 +2,20 @@
 #define MAX_SIZE 10
 
 void bubble_sort(int *arr, int size){
-    for(int i=0; i<size-1; i++){
-        for(int j=1; j<size-i; j++){
-            if(arr[j-1] > arr[j]){
+    for(int i = 0; i < size - 1; i++){
+        for(int j = 1; j < size - i; j++){
+            if(arr[j - 1] > arr[j]){
                 int temp = arr[j];
-                arr[j] = arr[j-1];
-                arr[j-1] = temp;
+                arr[j] = arr[j - 1];
+                arr[j - 1] = temp;
             }
         }
     }
 }
 
 void display(int *arr, int size){
-    for(int i=0; i<size; i++){
+    for(int i = 0; i < size; i++)
         printf("%d ", arr[i]);
-    }
     puts("");
 }
 
@@ -25,7 +24,7 @@ int main(){
     int menu, item, size = 0;
 
     while(menu != 99){
-        printf("1. Insert 2. Bubble_Sort 3. Display 99. Exit\n");
+        printf("1. Insert 2. Bubble Sort 3. Display 99. Exit\n");
         printf(">> ");
         scanf("%d", &menu);
 
@@ -40,7 +39,6 @@ int main(){
                 break;
             case 3:
                 display(arr, size);
-                break;
             case 99:
                 break;
             default:
