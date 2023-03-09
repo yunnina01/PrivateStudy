@@ -1,18 +1,18 @@
-## PrivateStudy
+# PrivateStudy
 
-In this repository, personal study contents are uploaded.  
-I used **C** to implement it.
+컴퓨터 공학과 관련하여 공부한 내용을 정리하여 올립니다.  
+주로 C언어를 사용하여 구현하였습니다.
 
 
-* **Algorithm**
-  * Search
-  * Sort
-* **Data Structure**
-  * Deque
-  * Graph
-  * Hashing
-  * Heap
-  * Linked List
-  * Tree
-  * Queue
-  * Stack
+* **알고리즘**
+  * 정렬
+  * 탐색
+* **자료구조**
+  * 그래프
+  * 덱
+  * 연결 리스트
+  * 우선순위 큐
+  * 스택
+  * 큐
+  * 트리
+  * 해싱
