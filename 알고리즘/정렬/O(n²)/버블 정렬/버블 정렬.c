@@ -1,12 +1,20 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #define MAX_SIZE 10
 
-int arr[MAX_SIZE], size;
+int arr[MAX_SIZE];
+
+void init(){
+    srand(time(NULL));
+    for(int i = 0; i < MAX_SIZE; i++)
+        arr[i] = rand() % 100;
+}
 
 void bubble_sort(){
     int i, j, temp;
-    for(i = 0; i < size - 1; i++){
-        for(j = 1; j < size - i; j++){
+    for(i = 0; i < MAX_SIZE - 1; i++){
+        for(j = 1; j < MAX_SIZE - i; j++){
             if(arr[j - 1] > arr[j]){
                 temp = arr[j];
                 arr[j] = arr[j - 1];
@@ -17,40 +25,16 @@ void bubble_sort(){
 }
 
 void display(){
-    for(int i = 0; i < size; i++)
+    for(int i = 0; i < MAX_SIZE; i++)
         printf("%d ", arr[i]);
     puts("");
 }
 
 int main(){
-    int menu, item;
-
-    while(menu != 99){
-        puts("1. Insert 2. Bubble Sort 3. Display 99. Exit");
-        printf(">> ");
-        scanf("%d", &menu);
-
-        switch(menu){
-            case 1:
-                if(size == MAX_SIZE)
-                    puts("Array is full");
-                else{
-                    printf("Enter the number : ");
-                    scanf("%d", &item);
-                    arr[size++] = item;
-                }
-                break;
-            case 2:
-                bubble_sort();
-                break;
-            case 3:
-                display();
-            case 99:
-                break;
-            default:
-                puts("Menu Selection Error");
-        }
-    }
+    init();
+    display();
+    bubble_sort();
+    display();
 
     return 0;
 }

@@ -1,8 +1,16 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #define MAX_SIZE 10
 
 const int RUN = 32;
-int arr[MAX_SIZE], size;
+int arr[MAX_SIZE];
+
+void init(){
+    srand(time(NULL));
+    for(int i = 0; i < MAX_SIZE; i++)
+        arr[i] = rand() % 100;
+}
 
 int min(int a, int b){
     return a < b ? a : b;
@@ -40,52 +48,28 @@ void merge(int left, int mid, int right){
 
 void tim_sort(){
     int i, len, left, mid, right;
-    for(i = 0; i < size; i += RUN)
-        insertion_sort(i, min((i + 31), (size - 1)));
-    for(len = RUN; len < size; len *= 2){
-        for(left = 0; left < size; left += len * 2){
+    for(i = 0; i < MAX_SIZE; i += RUN)
+        insertion_sort(i, min((i + 31), (MAX_SIZE - 1)));
+    for(len = RUN; len < MAX_SIZE; len *= 2){
+        for(left = 0; left < MAX_SIZE; left += len * 2){
             mid = left + len - 1;
-            right = min((left + len * 2 - 1), (size - 1));
+            right = min((left + len * 2 - 1), (MAX_SIZE - 1));
             merge(left, mid, right);
         }
     }
 }
 
 void display(){
-    for(int i = 0; i < size; i++)
+    for(int i = 0; i < MAX_SIZE; i++)
         printf("%d ", arr[i]);
     puts("");
 }
 
 int main(){
-    int menu, item; 
-
-    while(menu != 99){
-        puts("1. Insert 2. Tim Sort 3. Display 99. Exit");
-        printf(">> ");
-        scanf("%d", &menu);
-
-        switch(menu){
-            case 1:
-                if(size == MAX_SIZE)
-                    puts("Array is full");
-                else{
-                    printf("Enter the number : ");
-                    scanf("%d", &item);
-                    arr[size++] = item;
-                }
-                break;
-            case 2:
-                tim_sort();
-                break;
-            case 3:
-                display();
-            case 99:
-                break;
-            default:
-                puts("Menu Selection Error");
-        }
-    }
+    init();
+    display();
+    tim_sort();
+    display();
     
     return 0;
 }

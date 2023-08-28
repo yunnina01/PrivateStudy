@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #define MAX_SIZE 10
 
 typedef struct Node{
@@ -9,6 +10,22 @@ typedef struct Node{
 
 Node *root;
 int arr[MAX_SIZE], size;
+
+void init(){
+    int i, j, key;
+    srand(time(NULL));
+    for(i = 0; i < MAX_SIZE; i++){
+        key = rand() % 100;
+        for(j = 0; j < i; j++){
+            if(key == arr[j]){
+                key = rand() % 100;
+                j = -1;
+            }
+        }
+        root = insert(root, key);
+        arr[i] = key;
+    }
+}
 
 int max(int a, int b){
     return a > b ? a : b;
@@ -69,7 +86,7 @@ Node* AVLset(Node *node){
 Node* insert(Node *node, int key){
     if(!node){
         Node *new_node = (Node*)malloc(sizeof(Node));
-        if(new_node == NULL)
+        if(!new_node)
             puts("Memory Allocation Error");
         else{
             new_node->data = key;
@@ -81,12 +98,10 @@ Node* insert(Node *node, int key){
         node->left = insert(node->left, key);
         node = AVLset(node);
     }
-    else if(key > node->data){
+    else{
         node->right = insert(node->right, key);
         node = AVLset(node);
     }
-    else
-        puts("Duplicate Key Error");
     return node;
 }
 
@@ -99,36 +114,16 @@ void tree_sort(Node *root){
 }
 
 void display(){
-    for(int i = 0; i < size; i++)
+    for(int i = 0; i < MAX_SIZE; i++)
         printf("%d ", arr[i]);
     puts("");
 }
 
 int main(){
-    int menu, key;
-
-    while(menu != 99){
-        puts("1. Insert 2. AVL Tree Sort 3. Display 99. Exit");
-        printf(">> ");
-        scanf("%d", &menu);
-
-        switch(menu){
-            case 1:
-                printf("Enter the number : ");
-                scanf("%d", &key);
-                root = insert(root, key);
-                break;
-            case 2:
-                tree_sort(root);
-                break;
-            case 3:
-                display();
-            case 99:
-                break;
-            default:
-                puts("Menu Selection Error");
-        }
-    }
+    init();
+    display();
+    tree_sort(root);
+    display();
 
     return 0;
 }

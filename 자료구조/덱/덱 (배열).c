@@ -48,35 +48,23 @@ void pop_rear(){
 }
 
 int main(){
-    int menu, item, data;
-
-    while(menu != 99){
-        puts("1. Push_Front 2. Push_Rear 3. Pop_Front 4. Pop_Rear 99. Exit");
-        printf(">> ");
-        scanf("%d", &menu);
-
-        switch(menu){
-            case 1:
-                printf("Enter the number : ");
-                scanf("%d", &item);
-                push_front(item);
-                break;
-            case 2:
-                printf("Enter the number : ");
-                scanf("%d", &item);
-                push_rear(item);
-                break;
-            case 3:
-                pop_front();
-                break;
-            case 4:
-                pop_rear();
-            case 99:
-                break;
-            default:
-                puts("Menu Selection Error");
+    int N, op, item, data;
+    scanf("%d", &N);
+    while(N--){
+        scanf("%d", &op);
+        if(!op){
+            scanf("%d", &item);
+            push_front(item);
         }
+        else if(op == 1){
+            scanf("%d", &item);
+            push_rear(item);
+        }
+        else if(op == 2)
+            pop_front();
+        else
+            pop_rear();
     }
-
+    
     return 0;
 }

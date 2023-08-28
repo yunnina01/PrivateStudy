@@ -1,7 +1,15 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #define MAX_SIZE 10
 
-int arr[MAX_SIZE], size;
+int arr[MAX_SIZE];
+
+void init(){
+    srand(time(NULL));
+    for(int i = 0; i < MAX_SIZE; i++)
+        arr[i] = rand() % 100;
+}
 
 void swap(int a, int b){
     int temp = arr[a];
@@ -28,40 +36,16 @@ int quick_sort(int left, int right){
 }
 
 void display(){
-    for(int i = 0; i < size; i++)
+    for(int i = 0; i < MAX_SIZE; i++)
         printf("%d ", arr[i]);
     puts("");
 }
 
 int main(){
-    int menu, item;
-
-    while(menu != 99){
-        puts("1. Insert 2. Quick Sort 3. Display 99. Exit");
-        printf(">> ");
-        scanf("%d", &menu);
-
-        switch(menu){
-            case 1:
-                if(size == MAX_SIZE)
-                    puts("Array is full");
-                else{
-                    printf("Enter the number : ");
-                    scanf("%d", &item);
-                    arr[size++] = item;
-                }
-                break;
-            case 2:
-                quick_sort(0, size - 1);
-                break;
-            case 3:
-                display();
-            case 99:
-                break;
-            default:
-                puts("Menu Selection Error");
-        }
-    }
+    init();
+    display();
+    quick_sort(0, MAX_SIZE - 1);
+    display();
 
     return 0;
 }

@@ -1,7 +1,15 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #define MAX_SIZE 10
 
-int arr[MAX_SIZE], size;
+int arr[MAX_SIZE];
+
+void init(){
+    srand(time(NULL));
+    for(int i = 0; i < MAX_SIZE; i++)
+        arr[i] = rand() % 100;
+}
 
 void swap(int a, int b){
     int temp = arr[a];
@@ -22,50 +30,26 @@ void heapify(int idx, int heap_size){
 }
 
 void heap_sort(){
-    int heap_size = size;
+    int heap_size = MAX_SIZE;
     for(int i = (heap_size - 1) / 2; i >= 0; i--)
         heapify(i, heap_size);
-    for(int i = size - 1; i > 0; i--){
+    for(int i = MAX_SIZE - 1; i > 0; i--){
         swap(0, i);
         heapify(0, --heap_size);
     }
 }
 
 void display(){
-    for(int i = 0; i < size; i++)
+    for(int i = 0; i < MAX_SIZE; i++)
         printf("%d ", arr[i]);
     puts("");
 }
 
 int main(){
-    int menu, item;
-
-    while(menu != 99){
-        puts("1. Insert 2. Heap Sort 3. Display 99. Exit");
-        printf(">> ");
-        scanf("%d", &menu);
-
-        switch(menu){
-            case 1:
-                if(size == MAX_SIZE)
-                    puts("Array is full");
-                else{
-                    printf("Enter the number : ");
-                    scanf("%d", &item);
-                    arr[size++] = item;
-                }
-                break;
-            case 2:
-                heap_sort();
-                break;
-            case 3:
-                display();
-            case 99:
-                break;
-            default:
-                puts("Menu Selection Error");
-        }
-    }
+    init();
+    display();
+    heap_sort();
+    display();
 
     return 0;
 }
