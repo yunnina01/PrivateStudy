@@ -3,7 +3,27 @@
 #include <time.h>
 #define MAX_SIZE 10
 
-void interpolation_search(int *arr, int key){
+int arr[MAX_SIZE];
+
+int asc(const void *a, const void *b){
+    return *(int*)a - *(int*)b;
+}
+
+void display(){
+    for(int i = 0; i < MAX_SIZE; i++)
+        printf("%d ", arr[i]);
+    puts("");
+}
+
+void init(){
+    srand(time(NULL));
+    for(int i = 0; i < MAX_SIZE; i++)
+        arr[i] = rand() % 100;
+    qsort(arr, MAX_SIZE, sizeof(int), asc);
+    display();
+}
+
+void interpolation_search(int key){
     int low = 0, high = MAX_SIZE - 1, pos;
     while(low < high && key >= arr[low] && key <= arr[high]){
         pos = low + (((double)(high - low) / (arr[high] - arr[low])) * (key - arr[low]));
@@ -19,65 +39,17 @@ void interpolation_search(int *arr, int key){
     printf("No data about %d\n", key);
 }
 
-void swap(int *arr, int a, int b){
-    int temp = arr[a];
-    arr[a] = arr[b];
-    arr[b] = temp;
-}
-
-void quick_sort(int *arr, int left, int right){
-    int i = left - 1;
-    int pivot = arr[right];
-    for(int j = left; j < right; j++){
-        if(arr[j] < pivot)
-            swap(arr, ++i, j);
-    }
-    swap(arr, ++i , right);
-
-    if(left < i)
-        quick_sort(arr, left, i - 1);
-    if(i < right)
-        quick_sort(arr, i + 1, right);
-}
-
-void shuffle(int *arr){
-    srand(time(NULL));
-    for(int i = 0; i < MAX_SIZE; i++)
-        arr[i] = rand() % 100;
-    quick_sort(arr, 0, MAX_SIZE - 1);
-}
-
-void display(int *arr){
-    for(int i = 0; i < MAX_SIZE; i++)
-        printf("%d ", arr[i]);
-    puts("");
-}
-
 int main(){
-    int arr[MAX_SIZE];
-    shuffle(arr);
-    int menu, key;
-
-    while(menu != 99){
-        printf("1. Interpolation Search 2. Shuffle 3. Display 99. Exit\n");
-        printf(">> ");
-        scanf("%d", &menu);
-
-        switch(menu){
-            case 1:
-                printf("Enter the number : ");
-                scanf("%d", &key);
-                interpolation_search(arr, key);
-                break;
-            case 2:
-                shuffle(arr);
-                break;
-            case 3:
-                display(arr);
-            case 99:
-                break;
-            default:
-                printf("Menu Selection Error\n");
+    int N, op, key;
+    scanf("%d", &N);
+    init();
+    while(N--){
+        scanf("%d", &op);
+        if(!op)
+            init();
+        else{
+            scanf("%d", &key);
+            interpolation_search(key);
         }
     }
 

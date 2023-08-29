@@ -5,6 +5,19 @@
 
 int arr[MAX_SIZE + 1];
 
+void display(){
+    for(int i = 0; i < MAX_SIZE; i++)
+        printf("%d ", arr[i]);
+    puts("");
+}
+
+void init(){
+    srand(time(NULL));
+    for(int i = 0; i < MAX_SIZE; i++)
+        arr[i] = rand() % 100;
+    display();
+}
+
 void sequential_search(int key){
     int i;
     arr[MAX_SIZE] = key;
@@ -15,12 +28,6 @@ void sequential_search(int key){
         printf("%d's position is %d\n", key, i);
 }
 
-void shuffle(){
-    srand(time(NULL));
-    for(int i = 0; i < MAX_SIZE; i++)
-        arr[i] = rand() % 100;
-}
-
 void display(){
     for(int i = 0; i < MAX_SIZE; i++)
         printf("%d ", arr[i]);
@@ -28,29 +35,16 @@ void display(){
 }
 
 int main(){
-    int menu, key;
-    shuffle();
-
-    while(menu != 99){
-        puts("1. Sequential Search 2. Shuffle 3. Display 99. Exit");
-        printf(">> ");
-        scanf("%d", &menu);
-
-        switch(menu){
-            case 1:
-                printf("Enter the number : ");
-                scanf("%d", &key);
-                sequential_search(key);
-                break;
-            case 2:
-                shuffle();
-                break;
-            case 3:
-                display();
-            case 99:
-                break;
-            default:
-                puts("Menu Selection Error");
+    int N, op, key;
+    scanf("%d", &N);
+    init();
+    while(N--){
+        scanf("%d", &op);
+        if(!op)
+            init();
+        else{
+            scanf("%d", &key);
+            sequential_search(key);
         }
     }
 

@@ -9,10 +9,24 @@ int asc(const void *a, const void *b){
     return *(int*)a - *(int*)b;
 }
 
+void display(){
+    for(int i = 0; i < MAX_SIZE; i++)
+        printf("%d ", arr[i]);
+    puts("");
+}
+
+void init(){
+    srand(time(NULL));
+    for(int i = 0; i < MAX_SIZE; i++)
+        arr[i] = rand() % 100;
+    qsort(arr, MAX_SIZE, sizeof(int), asc);
+    display();
+}
+
 void binary_search(int key){
     int low = 0, high = MAX_SIZE - 1;
     while(low <= high){
-        int mid = (low + high) / 2;
+        int mid = (low + high) >> 1;
         if(key == arr[mid]){
             printf("%d's position is %d\n", key, mid);
             return;
@@ -25,43 +39,17 @@ void binary_search(int key){
     printf("No data about %d\n", key);
 }
 
-void shuffle(){
-    srand(time(NULL));
-    for(int i = 0; i < MAX_SIZE; i++)
-        arr[i] = rand() % 100;
-    qsort(arr, MAX_SIZE, sizeof(int), asc);
-}
-
-void display(){
-    for(int i = 0; i < MAX_SIZE; i++)
-        printf("%d ", arr[i]);
-    puts("");
-}
-
 int main(){
-    int menu, key;
-    shuffle();
-    
-    while(menu != 99){
-        puts("1. Binary Search 2. Shuffle 3. Display 99. Exit");
-        printf(">> ");
-        scanf("%d", &menu);
-
-        switch(menu){
-            case 1:
-                printf("Enter the number : ");
-                scanf("%d", &key);
-                binary_search(key);
-                break;
-            case 2:
-                shuffle();
-                break;
-            case 3:
-                display();
-            case 99:
-                break;
-            default:
-                puts("Menu Selection Error");
+    int N, op, key;
+    scanf("%d", &N);
+    init();
+    while(N--){
+        scanf("%d", &op);
+        if(!op)
+            init();
+        else{
+            scanf("%d", &key);
+            binary_search(key);
         }
     }
 

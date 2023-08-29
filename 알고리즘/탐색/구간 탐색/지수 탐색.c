@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include <math.h>
+#include <time.h>
 #define MAX_SIZE 10
 
 int arr[MAX_SIZE];
@@ -10,8 +10,22 @@ int asc(const void *a, const void *b){
     return *(int*)a - *(int*)b;
 }
 
+void display(){
+    for(int i = 0; i < MAX_SIZE; i++)
+        printf("%d ", arr[i]);
+    puts("");
+}
+
+void init(){
+    srand(time(NULL));
+    for(int i = 0; i < MAX_SIZE; i++)
+        arr[i] = rand() % 100;
+    qsort(arr, MAX_SIZE, sizeof(int), asc);
+    display();
+}
+
 int sequential_search(int left, int right, int key){
-    for(int i = left; i <= right; i++){
+    for(int i = left; i < right; i++){
         if(key == arr[i])
             return i;
     }
@@ -19,16 +33,12 @@ int sequential_search(int left, int right, int key){
 }
 
 void exponential_search(int key){
-    if(key < arr[0]){
-        printf("No data about %d\n", key);
-        return;
-    }
     int pos, start, end;
     start = pow(2, (int)log2(MAX_SIZE));
-    end = MAX_SIZE - 1;
-    for(int i = 1; i < MAX_SIZE; i *= 2){
-        if(key <= arr[i]){
-            start = i / 2;
+    end = MAX_SIZE;
+    for(int i = 1; i < MAX_SIZE; i <<= 1){
+        if(key < arr[i]){
+            start = i >> 1;
             end = i;
             break;
         }
@@ -40,43 +50,17 @@ void exponential_search(int key){
         printf("No data about %d\n", key);
 }
 
-void shuffle(){
-    srand(time(NULL));
-    for(int i = 0; i < MAX_SIZE; i++)
-        arr[i] = rand() % 100;
-    qsort(arr, MAX_SIZE, sizeof(int), asc);
-}
-
-void display(){
-    for(int i = 0; i < MAX_SIZE; i++)
-        printf("%d ", arr[i]);
-    puts("");
-}
-
 int main(){
-    int menu, key;
-    shuffle();
-
-    while(menu != 99){
-        puts("1. Exponential Search 2. Shuffle 3. Display 99. Exit");
-        printf(">> ");
-        scanf("%d", &menu);
-
-        switch(menu){
-            case 1:
-                printf("Enter the number : ");
-                scanf("%d", &key);
-                exponential_search(key);
-                break;
-            case 2:
-                shuffle();
-                break;
-            case 3:
-                display();
-            case 99:
-                break;
-            default:
-                puts("Menu Selection Error");
+    int N, op, key;
+    scanf("%d", &N);
+    init();
+    while(N--){
+        scanf("%d", &op);
+        if(!op)
+            init();
+        else{
+            scanf("%d", &key);
+            exponential_search(key);
         }
     }
 
