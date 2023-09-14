@@ -66,3 +66,28 @@ for i, item in enumerate(lst, start = 1):
         print(f'{i}번째 값은 {item}입니다.')
 ```
 <br>
+
+* **permutation / combination**  
+permutation(순열)은 리스트에서 몇 개를 골라 순서를 고려해 나열한 경우의 수를 말하며,  
+combination(조합)은 리스트에서 순서를 고려하지 않고 몇 개를 골라 나열한 경우의 수를 말한다.
+
+``` Python
+from itertools import permutations, combinations
+
+lst = ['A', 'B', 'C', 'D']
+nPr = permutations(lst, 2)
+nCr = combinations(lst, 2)
+```
+<br>
+
+* **deepcopy**  
+객체를 복사할 때, 객체가 가진 모든 멤버(값과 참조형식)를 복사하며,  
+중첩된 mutable 변수에 대해서도 완전히 독립성이 유지되는 복사이다.
+
+``` Python
+from copy import deepcopy
+
+lst = ['A', 'B', 'C']
+copylst = deepcopy(lst)
+```
+<br>
