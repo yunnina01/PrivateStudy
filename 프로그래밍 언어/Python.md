@@ -91,3 +91,29 @@ lst = ['A', 'B', 'C']
 copylst = deepcopy(lst)
 ```
 <br>
+
+* **defaultdict**  
+딕셔너리를 만드는 dict클래스의 서브클래스이다.  
+인자(숫자, 리스트, 셋 등)로 주어진 객체의 기본값을 딕셔너리값의 초기값으로 지정할 수 있다.  
+참고 : [defaultdict](https://dongdongfather.tistory.com/69)
+
+``` Python
+from collections import defaultdict
+
+int_dict = defaultdict(int)
+list_diect = defaultdict(list)
+set_dict = defaultdict(set)
+```
+<br>
+
+* **cmp_to_key**  
+sorted와 같은 정렬 함수의 key의 매개변수에 함수를 전달할 때 사용한다.
+직접 정렬하는 함수를 만들어 key에 적용시키는 방식이다.
+
+``` Python
+from functools import cmp_to_key
+
+nums = map(int, input().split())
+nums.sort(key = cmp_to_key(lambda x, y : -1 if x < y else 1))
+```
+<br>
