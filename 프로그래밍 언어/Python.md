@@ -1,6 +1,6 @@
 # Python (Python 3)
 
-백준 문제를 풀며 공부한 PYTHON에 대해 정리한 내용들입니다.
+백준 문제를 풀며 공부한 Python에 대해 정리한 내용입니다.
 <br><br>
 
 ***
@@ -10,9 +10,10 @@
 
 ``` Python
 import sys
+input = lambda: sys.stdin.readline().rstrip()
+read = lambda: map(int, input().split())
 
-input = sys.stdin.readline
-a = input().rstrip()
+N, M = read()
 ```
 <br>
 
@@ -107,7 +108,7 @@ set_dict = defaultdict(set)
 <br>
 
 * **cmp_to_key**  
-sorted와 같은 정렬 함수의 key의 매개변수에 함수를 전달할 때 사용한다.
+sorted와 같은 정렬 함수의 key의 매개변수에 함수를 전달할 때 사용한다.  
 직접 정렬하는 함수를 만들어 key에 적용시키는 방식이다.
 
 ``` Python
