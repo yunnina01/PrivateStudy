@@ -56,7 +56,7 @@ class Point {
 <br>
 
 * **offer / poll / peek**  
-LinkedList의 Stack / Queue 전용 메소드로, ErrorHandling이 되어 있지 않다.  
+LinkedList의 Queue / Deque 전용 메소드로, ErrorHandling이 되어 있지 않다.  
 offer은 값을 추가해주는 함수로, add와 달리 오류발생 시 Exception이 일어나지 않는다.  
 메모리 한계까지 만들지 않는 이상 용량 제한이 발생하기 어려우므로 어느 것을 써도 상관없다.  
 poll은 값을 빼내는 함수로, remove와 달리 값이 없으면 null을 반환한다.  
@@ -70,7 +70,7 @@ public class Main {
         Queue<Integer> queue = new LinkedList<>();
         queue.offer(3);
         queue.peek();
-        queue.poll();
+        System.out.println(queue.poll());
     }
 }
 ```
