@@ -1,38 +1,43 @@
 # HTML (HTML5)
 
-HTML에 대해 정리한 내용입니다.
+### HTML이란?
+Hypertext Markup Language의 약어로, 웹사이트의 모습을 기술하기 위한 마크업 언어이다.  
+프로그래밍 언어가 아니라 마크업 정보를 표현하는 마크업 언어로, 문서의 내용 이외의 문서의 구조나 서식 같은 것을 포함한다.  
+웹사이트에서 흔히 볼 수 있는 htm이나 html 확장자가 바로 이 언어로 작성된 문서이다.
 <br>
 
 ***
 ### 목차
-1. [특수 기호](#anchor1)  
-2. [HTML 구조](#anchor2)  
-3. [HTML5 시맨틱 태그](#anchor3)  
-4. [블록 레벨 태그](#anchor4)  
-5. [인라인 태그](#anchor5)  
-6. [목록 관련 태그](#anchor6)  
-7. [표 관련 태그](#anchor7)  
-8. [하이퍼링크 태그](#anchor8)  
-9. [이미지 관련 태그](#anchor9)  
-10. [멀티미디어 관련 태그](#anchor10)  
+1. [특수 기호](#anchor1)
+2. [HTML 구조](#anchor2)
+3. [HTML5 시맨틱 태그](#anchor3)
+4. [블록 레벨 태그](#anchor4)
+5. [인라인 태그](#anchor5)
+6. [목록 관련 태그](#anchor6)
+7. [표 관련 태그](#anchor7)
+8. [하이퍼링크 태그](#anchor8)
+9. [이미지 관련 태그](#anchor9)
+10. [멀티미디어 관련 태그](#anchor10)
 11. [폼 관련 태그](#anchor11)
 
 ***
 ### 특수 기호 <a id="anchor1"></a>
-<img src="https://github.com/yunnina01/PrivateStudy/assets/100751725/52e5ed5f-e217-44df-9517-5b0700b69a2f" width="800">
+<img src="https://github.com/yunnina01/PrivateStudy/assets/100751725/52e5ed5f-e217-44df-9517-5b0700b69a2f" width="800"/><br>
+
+[HTML 특수문자 리스트](http://kor.pe.kr/util/4/charmap2.htm)
 
 ***
 ### HTML 구조 <a id="anchor2"></a>
 ``` HTML
-<!doctype html>                   <!-- 문서 유형을 HTML5로 선언 -->
-<html>                            <!-- 문서의 시작과 끝을 표시 -->
-  <head>                          <!-- 웹 브라우저가 알아두어야 할 정보 입력 / 외부 파일 링크 -->
-    <meta charset="utf=8">        <!-- 문자 인코딩 지정 -->
-    <title>HTML 구조</title>      <!-- 문서 제목 -->
-  </head>
-  <body>                          <!-- 웹 브라우저에 표시될 내용 입력 -->
-    <p>HTML</p>
-  </body>
+<!doctype html>                       <!-- 문서 유형을 HTML5로 선언 -->
+<html>                                <!-- 문서의 시작과 끝을 표시 -->
+    <head>                            <!-- 웹 브라우저가 알아두어야 할 정보 입력 / 외부 파일 링크 -->
+        <meta charset="utf=8">        <!-- 문자 인코딩 지정 -->
+        <title>HTML 구조</title>      <!-- 문서 제목 -->
+    </head>
+    <body>                            <!-- 웹 브라우저에 표시될 내용 입력 -->
+        <p>HTML</p>
+    </body>
 </html>
 ```
 

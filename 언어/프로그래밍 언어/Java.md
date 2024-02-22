@@ -75,3 +75,20 @@ public class Main {
 }
 ```
 <br>
+
+* **stream**  
+[참고](https://futurecreator.github.io/2018/08/26/java-8-streams/)  
+추후 추가    
+
+``` Java
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(Striong[] args) {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int[] arr = Arrays.stream(br.readline().split(" ")).mapToInt(Integer::parseInt).sorted().toArray();
+    }
+}
+```
+<br>
