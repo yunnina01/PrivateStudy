@@ -24,7 +24,7 @@ Hypertext Markup Language의 약어로, 웹사이트의 모습을 기술하기 �
 ### 특수 기호 <a id="anchor1"></a>
 <img src="https://github.com/yunnina01/PrivateStudy/assets/100751725/52e5ed5f-e217-44df-9517-5b0700b69a2f" width="800"/><br>
 
-[HTML 특수문자 리스트](http://kor.pe.kr/util/4/charmap2.htm)
+※ [HTML 특수문자 리스트](http://kor.pe.kr/util/4/charmap2.htm)
 
 ***
 ### HTML 구조 <a id="anchor2"></a>
