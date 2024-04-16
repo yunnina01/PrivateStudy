@@ -1,7 +1,12 @@
+/*
+가장 많이 사용되는 형태인 헤드 노드를 포함한 원형 이중 연결 리스트 구현
+헤드 노드를 포함해 구현이 간단
+<-> head_node <-> node <-> node <-> node <-> 형태
+*/
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Node{
+typedef struct Node {
     int data;
     struct Node *prev, *next;
 }Node;
@@ -9,12 +14,14 @@ typedef struct Node{
 Node *head_node;
 int length;
 
-void init(){
+// 리스트 초기화
+void init() {
     head_node = (Node*)malloc(sizeof(Node));
     head_node->prev = head_node->next = head_node;
 }
 
-Node* get_node(int item){
+// 노드 생성
+Node* get_node(int item) {
     Node *new_node = (Node*)malloc(sizeof(Node));
     if(!new_node)
         puts("Memory Allocation Error");
@@ -23,7 +30,8 @@ Node* get_node(int item){
     return new_node;
 }
 
-void insert(int item){
+// 요소 삽입
+void insert(int item) {
     Node *new_node = get_node(item);
     if(new_node == NULL)
         return;
@@ -34,10 +42,11 @@ void insert(int item){
     length++;
 }
 
-void delete(int pos){
+// 요소 삭제
+void delete(int pos) {
     if(pos <= 0 || pos > length)
         puts("Position Input Error");
-    else{
+    else {
         Node *removed = head_node;
         for(int i = 0; i < pos; i++)
             removed = removed->next;
@@ -48,8 +57,9 @@ void delete(int pos){
     }
 }
 
-void display(){
-    if(!length){
+// 리스트 출력
+void display() {
+    if(!length) {
         puts("List is empty");
         return;
     }
@@ -58,23 +68,21 @@ void display(){
     puts("");
 }
 
-int main(){
+int main() {
     int N, op, pos, item;
     scanf("%d", &N);
     init();
-    while(N--){
+    while(N--) {
         scanf("%d", &op);
-        if(!op){
+        // op가 0이면 삽입, 1이면 삭제, 그 외에는 리스트 출력
+        if(!op) {
             scanf("%d", &item);
             insert(item);
-        }
-        else if(op == 1){
+        } else if(op == 1) {
             scanf("%d", &pos);
             delete(pos);
-        }
-        else
+        } else
             display();
     }
-
     return 0;
 }

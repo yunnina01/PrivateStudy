@@ -1,19 +1,21 @@
+// 자가 균형 BST의 일종인 Red Black 트리 구현
 // 노드 삽입만 구현
 #include <stdio.h>
 #include <stdlib.h>
  
-typedef struct Node{
+typedef struct Node {
     int data, color;
     struct Node *parent, *left, *right;
 }Node;
  
 Node *root;
 
-Node* get_node(int key){
+// 노드 생성
+Node* get_node(int key) {
     Node *new_node = (Node*)malloc(sizeof(Node));
     if(!new_node)
         puts("Memory Allocation Error");
-    else{
+    else {
         new_node->data = key;
         new_node->color = 1;
         new_node->parent = new_node->left = new_node->right = NULL;
@@ -21,21 +23,22 @@ Node* get_node(int key){
     return new_node;
 }
 
+// 노드 삽입
 Node* insert(Node *node, Node *new_node){
     if(!node)
         node = new_node;
-    if(new_node->data < node->data){
+    if(new_node->data < node->data) {
         node->left = insert(node->left, new_node);
         node->left->parent = node;
-    }
-    else if(new_node->data > node->data){
+    } else if(new_node->data > node->data) {
         node->right = insert(node->right, new_node);
         node->right->parent = node;
     }
     return node;
 }
 
-void left_rotate(Node *node){
+// 왼쪽 회전
+void left_rotate(Node *node) {
     Node *child = node->right;
     node->right = child->left;
     if(!node->right)
@@ -51,7 +54,8 @@ void left_rotate(Node *node){
     node->parent = child;
 }
 
-void right_rotate(Node *node){
+// 오른쪽 회전
+void right_rotate(Node *node) {
     Node *child = node->left;
     node->left = child->right;
     if(!node->left)
@@ -67,19 +71,19 @@ void right_rotate(Node *node){
     node->parent = child;
 }
 
-void RBTset(Node **root, Node *node){
-    while((node != *root) && (node->color == 1) && (node->parent->color == 1)){
+// 균형 조절
+void RBTset(Node **root, Node *node) {
+    while((node != *root) && (node->color == 1) && (node->parent->color == 1)) {
         Node *parent = node->parent;
         Node *grand_parent = node->parent->parent;
-        if(parent == grand_parent->left){
+        if(parent == grand_parent->left) {
             Node *uncle = grand_parent->right;
-            if(uncle && uncle->color == 1){
+            if(uncle && uncle->color == 1) {
                 grand_parent->color = 1;
                 parent->color = uncle->color = 0;
                 node = grand_parent;
-            }
-            else{
-                if(node == parent->right){
+            } else {
+                if(node == parent->right) {
                     left_rotate(parent);
                     node = parent;
                     parent = node->parent;
@@ -89,16 +93,14 @@ void RBTset(Node **root, Node *node){
                 grand_parent->color = 1;
                 node = parent;
             }
-        }
-        else{
+        } else {
             Node *uncle = grand_parent->left;
-            if(uncle && uncle->color == 1){
+            if(uncle && uncle->color == 1) {
                 grand_parent->color = 1;
                 parent->color = uncle->color = 0;
                 node = grand_parent;
-            }
-            else{
-                if(node == parent->left){
+            } else {
+                if(node == parent->left) {
                     right_rotate(parent);
                     node = parent;
                     parent = node->parent;
@@ -113,8 +115,9 @@ void RBTset(Node **root, Node *node){
     (*root)->color = 0;
 }
 
-void inorder(Node *node){
-    if(node){
+// 중위 순회
+void inorder(Node *node) {
+    if(node) {
         inorder(node->left);
         if(node->color == 0)
             printf("%d[B] ", node->data);
@@ -124,26 +127,24 @@ void inorder(Node *node){
     }
 }
  
-int main(){
+int main() {
     int N, op, key;
     scanf("%d", &N);
-    while(N--){
+    while(N--) {
         scanf("%d", &op);
-        if(!op){
+        // op가 0이면 삽입, 그 외에는 중위 순회
+        if(!op) {
             scanf("%d", &key);
             Node *new_node = get_node(key);
             root = insert(root, new_node);
             RBTset(&root, new_node);
-        }
-        else{
-            if(root){
+        } else {
+            if(root) {
                 inorder(root);
                 printf("Root Data : %d\n", root->data);
-            }
-            else
+            } else
                 puts("Tree is empty");
         }
     }
-
     return 0;
 }
