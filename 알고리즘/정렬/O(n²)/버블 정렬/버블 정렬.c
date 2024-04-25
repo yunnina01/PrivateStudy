@@ -1,3 +1,4 @@
+// 정렬의 가장 기본 형태인 버블 정렬 구현
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -5,17 +6,19 @@
 
 int arr[MAX_SIZE];
 
-void init(){
+// 테스트 배열 생성
+void init() {
     srand(time(NULL));
     for(int i = 0; i < MAX_SIZE; i++)
         arr[i] = rand() % 100;
 }
 
-void bubble_sort(){
+// 버블 정렬
+void bubble_sort() {
     int i, j, temp;
-    for(i = 0; i < MAX_SIZE - 1; i++){
-        for(j = 1; j < MAX_SIZE - i; j++){
-            if(arr[j - 1] > arr[j]){
+    for(i = 0; i < MAX_SIZE - 1; i++) {
+        for(j = 1; j < MAX_SIZE - i; j++) {
+            if(arr[j - 1] > arr[j]) {
                 temp = arr[j];
                 arr[j] = arr[j - 1];
                 arr[j - 1] = temp;
@@ -24,13 +27,14 @@ void bubble_sort(){
     }
 }
 
-void display(){
+// 출력
+void display() {
     for(int i = 0; i < MAX_SIZE; i++)
         printf("%d ", arr[i]);
     puts("");
 }
 
-int main(){
+int main() {
     init();
     display();
     bubble_sort();

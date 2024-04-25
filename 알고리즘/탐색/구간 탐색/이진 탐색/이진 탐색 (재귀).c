@@ -1,3 +1,4 @@
+// 이진 탐색(재귀)으로, 배열은 정렬되어 있어야 함
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -5,17 +6,20 @@
 
 int arr[MAX_SIZE];
 
-int asc(const void *a, const void *b){
+// 오름차순
+int asc(const void *a, const void *b) {
     return *(int*)a - *(int*)b;
 }
 
-void display(){
+// 출력
+void display() {
     for(int i = 0; i < MAX_SIZE; i++)
         printf("%d ", arr[i]);
     puts("");
 }
 
-void init(){
+// 정렬된 테스트 배열 생성 및 출력
+void init() {
     srand(time(NULL));
     for(int i = 0; i < MAX_SIZE; i++)
         arr[i] = rand() % 100;
@@ -23,8 +27,9 @@ void init(){
     display();
 }
 
-void binary_search(int low, int high, int key){
-    if(low > high){
+// 이진 탐색
+void binary_search(int low, int high, int key) {
+    if(low > high) {
         printf("No data about %d\n", key);
         return;
     }
@@ -37,12 +42,13 @@ void binary_search(int low, int high, int key){
         binary_search(mid + 1, high, key);
 }
 
-int main(){
+int main() {
     int N, op, key;
     scanf("%d", &N);
     init();
-    while(N--){
+    while(N--) {
         scanf("%d", &op);
+        // op가 0이면 테스트 배열 생성, 아니면 탐색
         if(!op)
             init();
         else{
@@ -50,6 +56,5 @@ int main(){
             binary_search(0, MAX_SIZE - 1, key);
         }
     }
-
     return 0;
 }

@@ -1,3 +1,4 @@
+// 블록의 범위를 지수 단위로 늘려가면서 탐색하는 알고리즘
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -6,17 +7,20 @@
 
 int arr[MAX_SIZE];
 
-int asc(const void *a, const void *b){
+// 오름차순
+int asc(const void *a, const void *b) {
     return *(int*)a - *(int*)b;
 }
 
-void display(){
+// 출력
+void display() {
     for(int i = 0; i < MAX_SIZE; i++)
         printf("%d ", arr[i]);
     puts("");
 }
 
-void init(){
+// 정렬된 테스트 배열 생성 및 출력
+void init() {
     srand(time(NULL));
     for(int i = 0; i < MAX_SIZE; i++)
         arr[i] = rand() % 100;
@@ -24,20 +28,22 @@ void init(){
     display();
 }
 
-int sequential_search(int left, int right, int key){
-    for(int i = left; i < right; i++){
+// 순차 탐색
+int sequential_search(int left, int right, int key) {
+    for(int i = left; i < right; i++) {
         if(key == arr[i])
             return i;
     }
     return -1;
 }
 
-void exponential_search(int key){
+// 지수 탐색
+void exponential_search(int key) {
     int pos, start, end;
     start = pow(2, (int)log2(MAX_SIZE));
     end = MAX_SIZE;
-    for(int i = 1; i < MAX_SIZE; i <<= 1){
-        if(key < arr[i]){
+    for(int i = 1; i < MAX_SIZE; i <<= 1) {
+        if(key < arr[i]) {
             start = i >> 1;
             end = i;
             break;
@@ -50,19 +56,19 @@ void exponential_search(int key){
         printf("No data about %d\n", key);
 }
 
-int main(){
+int main() {
     int N, op, key;
     scanf("%d", &N);
     init();
-    while(N--){
+    while(N--) {
         scanf("%d", &op);
+        // op가 0이면 테스트 배열 생성, 아니면 탐색
         if(!op)
             init();
-        else{
+        else {
             scanf("%d", &key);
             exponential_search(key);
         }
     }
-
     return 0;
 }

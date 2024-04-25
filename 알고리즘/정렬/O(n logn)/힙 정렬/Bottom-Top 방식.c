@@ -1,3 +1,4 @@
+// 힙(Bottom-Top)을 활용한 정렬
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -5,47 +6,52 @@
 
 int arr[MAX_SIZE];
 
-void init(){
+// 테스트 배열 생성
+void init() {
     srand(time(NULL));
     for(int i = 0; i < MAX_SIZE; i++)
         arr[i] = rand() % 100;
 }
 
-void swap(int a, int b){
+// 배열 요소 swap
+void swap(int a, int b) {
     int temp = arr[a];
     arr[a] = arr[b];
     arr[b] = temp;
 }
 
-void heapify(int idx, int heap_size){
+// 힙 조정
+void heapify(int idx, int heap_size) {
     int left = idx * 2 + 1, right = (idx + 1) * 2, max = idx;
     if(left < heap_size && arr[left] > arr[max])
         max = left;
     if(right < heap_size && arr[right] > arr[max])
         max = right;
-    if(max != idx){
+    if(max != idx) {
         swap(idx, max);
         heapify(max, heap_size);
     }
 }
 
-void heap_sort(){
+// 힙 정렬
+void heap_sort() {
     int heap_size = MAX_SIZE;
     for(int i = (heap_size - 1) / 2; i >= 0; i--)
         heapify(i, heap_size);
-    for(int i = MAX_SIZE - 1; i > 0; i--){
+    for(int i = MAX_SIZE - 1; i > 0; i--) {
         swap(0, i);
         heapify(0, --heap_size);
     }
 }
 
-void display(){
+// 출력
+void display() {
     for(int i = 0; i < MAX_SIZE; i++)
         printf("%d ", arr[i]);
     puts("");
 }
 
-int main(){
+int main() {
     init();
     display();
     heap_sort();
