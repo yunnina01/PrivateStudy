@@ -10,7 +10,9 @@ Rust를 대표하는 키워드는 안정성, 속도, 병렬 프로그래밍, 함
 ### 목차
 1. [Rust 소개](#anchor1)
 2. [Rust 언어의 기초](#anchor2)
-3. [복합 데이터 타입](#anchor2)
+3. [복합 데이터 타입](#anchor3)
+4. [수명, 소유권, 대여](#anchor4)
+
 
 ***
 ### Rust 소개 <a id="anchor1"></a>
@@ -252,7 +254,6 @@ match는 발생 가능한 여러 값을 검사할 수 있도록 정교하고 간
 
 ``` Rust
 fn main() {
-    let needle = 42;
     let haystack = [1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862];
 
     for item in &haystack {
@@ -274,7 +275,7 @@ Rust는 표현식 기반 언어로, 표현식 기반 프로그래밍 언어에�
 또한, break 키워도 역시 값을 반환한다. 이를 이용하면 무한 반복문에서 값을 반환할 수 있다.
 
 ``` Rust
-fn is_even(n: i32) -> boll {
+fn is_even(n: i32) -> bool {
     n % 2 == 0
 }
 
@@ -504,7 +505,7 @@ fn process_lines<T: BufRead + Sized>(reader: T, re: Regex) {
     for line_ in reader.lines() {       // BufReader::lines()는 각 줄의 맨 뒤 개행 문제를 제거함
         let line = line_.unwrap();
         match re.fine(&line) {          // re.find()는 &str 타입을 인자로 받음
-            Some(_) => println!("{}", line);
+            Some(_) => println!("{}", line),
             None => (),
         }
     }
@@ -535,3 +536,428 @@ fn main() {
 
 ***
 ### 복합 데이터 타입 <a id="anchor3"></a>
+#### [ 보통 함수를 이용한 API 실험 ]
+``` Rust
+#![allow(unused_variables)]                             // 컴파일러 경고 완화
+
+type File = String;                                     // 타입 별칭 생성, 컴파일러는 구분하지 않음
+
+fn open(f: &mut File) -> bool {
+    true
+}
+
+fn close(f: &mut File) -> bool {
+    true
+}
+
+#[allow(dead_code)]                                     // 사용하지 않는 함수에 대한 컴파일러 경고 완화
+fn read(f: &mut File, save_to: &mut Vec<u8>) -> ! {     // ! 반환 타입은 함수가 어떤 값도 반환하지 않음을 컴파일러에 알려주는 역할
+    unimplemented!()                                    // 프로그램을 중단시키는 매크로
+}
+
+fn main() {
+    let mut f1 = File::from("f1.txt");
+    open(&mut f1);
+    // read(f1, vec![]);
+    close(&mut f1);
+}
+```
+
+#### [ Rust의 특별한 반환 타입 ]
+유닛 타입으로 알려진 ()는 길이가 0인 튜플로, 함수가 아무 값도 반환하지 않음을 표한하는 데 이용된다.  
+반환 타입이 없는 함수나 세미콜론으로 끝나는 표현식은 ()를 반환한다.  
+느낌표 기호(!)는 Never 타입으로, 함수가 실행 후 호출 위치로 절대 돌아가지 않음을 나타내며 특히 함수가 중단될 것을 보장한다.
+
+#### [ struct ]
+struct를 사용하면 다른 타입들로 구성된 복합 타입을 만들 수 있다.
+
+``` Rust
+#[derive(Debug)]                        // File이 println!과 fmt! 매크로와 함께 동작할 수 있게 함
+struct File {
+    name: String,
+    data: Vec<u8>,
+}
+
+fn main() {
+    let f1 = File {
+        name: String::from("f1.txt"),
+        data: Vec::new(),
+    };
+
+    let f1_name = &f1.name;
+    let f1_length = &f1.data.len();
+
+    println!("{:?}", f1);
+    println!("{} is {} bytes long", f1_name, f1_length);
+}
+```
+
+#### [ impl ]
+Rust에서는 메서드를 정의하기 위해 impl 블록을 사용하는데 struct와 enum 블록과는 물리적으로 구분되어 있다.
+
+``` Rust
+#[derive(Debug)]
+struct File {
+    name: String,
+    data: Vec<u8>,
+}
+
+impl File {
+    fn new(name: &str) -> File {
+        File {
+            name: String::from(name),
+            data: Vec::new(),
+        }
+    }
+}
+
+fn main() {
+    let f1 = File::new("f1.txt");
+
+    let f1_name = &f1.name;
+    let f1_length = f1.data.len();
+
+    println!("{:?}", f1);
+    println!("{} is {} bytes long", f1_name, f1_length);
+}
+```
+
+#### [ 오류 반환 ]
+오류 발생을 알리는 가장 간단한 방법 중 하나는 전역 변수의 값을 확인하는 것이다.  
+시스템 프로그래밍에서는 운영 체제에서 정의된 전역 변수와 상호 작용할 필요가 있어 흔한 관용적인 방식이다.  
+불안정한 프로그램이 되는 등 잘못되기 쉬운 방식이라 일반적으로 권장하지 않는다.
+
+``` Rust
+static mut ERROR: i32 = 0;              // 전역 변수(또는 정적 가변)으로 정적 수명을 가져 프로그램 수명 동안 유효
+
+// ...
+
+fn main() {
+    let mut f = File::new("something.txt");
+
+    read(f, buffer);
+    unsafe {                            // Rust가 안정성을 보장하지 못하는 비정상적인 작업(정적 가변 변수 접근) 수행을 한다는 지시
+        if ERROR != 0 {
+            panic!("An error has occurred while reading the file");
+        }
+    }
+
+    close(f);
+    unsafe {
+        if ERROR != 0 {
+            panic!("An error has occurred while closing the file");
+        }
+    }
+}
+```
+<br>
+
+오류 처리에 대한 Rust식 접근 방법은 일반적인 경우와 오류가 발생한 경우 둘 다 표현하는 Result 타입을 사용하는 것이다.  
+Result는 Ok와 Err 두 가지 상태를 가지며, 다재다능하기 때문에 표준 라이브러리 전반에 걸쳐 사용된다.  
+Result는 Rust의 표준 라이브러리에서 열거형으로 정의된다.
+
+``` Rust
+use rand::prelude::*;                                           // rand 크레이트에서 공통 트레이트와 타입을 가져옴
+
+fn one_in(denominator: u32) -> bool {                           // 산발적인 오류를 일으키는 도움 함수
+    thread_rng().gen_ratio(1, denominator)                      // thread_rng(): 스레드 로컬 난수 생성기 생성
+}                                                               // get_ratio(n, m): n/m 확률을 가지는 불값 반환
+
+#[derive(Debug)]
+struct File {
+    name: String,
+    data: Vec<u8>,
+}
+
+impl File {
+    fn new(name: &str) -> File {
+        File {
+            name: String::from(name),
+            data: Vec::new(),
+        }
+    }
+
+    fn new_with_data(name: &str, data: &Vec<u8>) -> File {
+        let mut f = File::new(name);
+        f.data = data.clone();
+        f
+    }
+
+    fn read(self: &File, save_to: &mut Vec<u8>) -> Result<usize, String> {
+        let mut tmp = self.data.clone();
+        let read_length = tmp.len();
+        save_to.reserve(read_length);                           // 저장 공간 확인
+        save_to.append(&mut tmp);
+        Ok(read_length)
+    }
+}
+
+fn open(f: &mut File) -> Result<File, String> {
+    if one_in(10_000) {
+        let err_msg = String::from("Permission denied");
+        return Err(err_msg);
+    }
+    Ok(f)
+}
+
+fn close(f: &mut File) -> Result<file, String> {
+    if one_in(10_000) {
+        let err_msg = String::from("Interrupted by signal!");
+        return Err(err_msg);
+    }
+    Ok(f)
+}
+
+fn main() {
+    let f1_data: Vec<u8> = vec![114, 117, 115, 116, 33];
+    let mut f1 = File::new_with_data("1.txt", &f1_data);
+
+    let mut buffer: Vec<u8> = vec![];
+
+    f1 = open(f1).unwrap();                                     // Ok로부터 T를 풀어 T를 남김
+    let f1_length = f1.read(&mut buffer).unwrap();              // unwrap()은 오류 타입에 호출하면 오류 메시지 없이 프로그램 중단
+    f1 = close(f1).unwrap();
+
+    let text = String::from_utf8_lossy(&buffer);                // Vec<u8>을 String으로 변환
+
+    println!("{:?}", f1);
+    println!("{} is {} bytes long", &f1.name, f1.length);
+    println!("{}", text);
+}
+```
+
+Result를 이용하면 컴파일러가 지원하는 코드 정확성을 얻는다.  
+프로그램은 오류 발생 시 중단되겠지만 최소한 프로그램을 명시적으로 만들었다.
+
+#### [ 열거형 ]
+열거형은 다수의 알려진 열것값을 표현할 수 있는 타입이다.  
+열거형은 Rust의 패턴 일치 기능과 함께 사용하면 탄탄하고 읽기 쉬운 코드를 만드는 데 도움이 된다.  
+Rust의 열거형은 구조체처럼 imple 블록을 통해 메서드를 정의할 수 있으며, 일반적인 상수 집합보다 더 강력하다.  
+열거형은 열것값에 데이터를 포함시켜 구조체 같은 성격을 띄게 하는 것도 가능하다.
+
+``` Rust
+#[derive(Debug)]                                                // 자동 생성 코드를 통해 열거형 출력
+enum Event {
+    Update,
+    Delete,
+    Unknown,
+}
+
+type Message = String;
+
+fn parse_log(line: &'static str) -> (Event, Message) {
+    let parts: Vec<&str> = line.splitn(2, ' ').collect();       // collect(): line.splitn()에서 생성된 반복자를 써서 Vec<T> 반환
+    if parts.len() == 1 {                                       // 두 부분으로 나누지 못한 경우
+        return (Event::Unknown, String::from(line))
+    }
+
+    let event = parts[0];
+    let rest = String::from(parts[1]);
+
+    match event {
+        "UPDATE" | "update" => (Event::Update, rest),
+        "DELETE" | "delete" => (Event::Delete, rest),
+        _ => (Event::Unknown, String::from(line)),
+    }
+}
+
+fn main() {
+    let log = "BEGIN Transaction XK342
+    UPDATE 234:LS/32231 {\"price\": 31.00} -> {\"price\": 40.00}
+    DELETE 342:L0/22111";
+
+    for line in log.lines() {
+        let parse_result = parse_log(line);
+        println!("{:?}", parse_result);
+    }
+}
+```
+
+#### [ 트레이트로 공통 동작 정의 ]
+트레이트는 다양한 타입이 동일한 작업을 수행하려고 한다는 것을 컴파일러에게 알려준다.  
+다수의 타입에 트레이트를 구현할 수 있도록 허용함으로써 코드 재사용과 무비용 추상화를 할 수 있다.  
+트레이트는 Rust의 제네릭 시스템과 견고한 타입 검사의 기초가 된다.  
+약간 오용한다면 객체 지향 언어에서 흔한 상속 형태도 지원할 수 있다.
+
+``` Rust
+#[!allow(unused_variables)]
+
+#[derive(Debug)]
+struct File;
+
+trait Read {
+    fn read(self: &Self, save_to: &mut Vec<u8>) -> Result<usize, String>;
+}
+
+impl Read for File {
+    fn read(self: &File, save_to: &mut Vec<u8>) -> Result<usize, String> {
+        Ok(0)
+    }
+}
+
+fn main() {
+    let f = File{};
+    let mut buffer = vec!();
+    let n_bytes = f.read(&mut buffer).unwrap();
+    println!("{} byte(s) read from {:?}", n_bytes, f);
+}
+```
+<br>
+
+println!, print!, writeln!, write!, format!은 모두 Display와 Debug 트레이트에 의존하며,  
+이 트레이트들은 {}를 콘솔에 어떻게 출력할지 프로그래머가 제공한 트레이트 구현에 의존한다.  
+Debug 트레이트의 자동 구현을 이용하는 것이 기본적으로 가능하지만, 다른 출력을 얻고자 한다면 별도의 구현이 필요하다.  
+Display는 fmt() 메서드가 구현된 타입에 쓸 수 있으며, 해당 메서드는 fmt::Result를 반환해야 한다.
+
+``` Rust
+#![allow(dead_code)]
+
+use std::fmt;
+use std::fmt::{Display};
+
+#[derive(Debug, PartialEq)]
+enum FileState {
+    Open,
+    Closed,
+}
+
+#[derive(Debug)]
+struct File {
+    name: String,
+    data: Vec<u8>,
+    state: FileState,
+}
+
+impl Display for FileState {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            FileState::Open => write!(f, "OPEN"),
+            FileState::Closed => write!(f, "CLOSED"),
+        }
+    }
+}
+
+impl Display for File {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "<{} ({})>", self.name, self.state)           // self.state에 대해서는 FileState의 Display 구현에 의존
+    }
+}
+
+impl File {
+    fn new(name: &str) -> File {
+        File {
+            name: String::from(name),
+            data: Vec::new(),
+            state: FileState::Closed,
+        }
+    }
+}
+
+fn main() {
+    let f1 = File::new("f1.txt");
+    // ...
+    println!("{:?}", f1);                                       // File { ... }
+    println!("{}", f1);                                         // <f1.txt (CLOSED)>
+}
+```
+
+#### [ 타입 공개 ]
+Rust는 기본적으로 모든 것을 비공개로 간주한다.  
+pub 키워드를 사용해서 필요한 것들을 공개할 수 있다.
+
+``` Rust
+#[derive(Debug, PartialEq)]
+pub enum FileState {                    // 타입을 공개하면 그 안의 열것값들도 모두 공개됨
+    Open,
+    Closed,
+}
+
+#[derive(Debug)]
+pub struct File {
+    pub name: String,
+    data: Vec<u8>,
+    pub state: FileState,
+}
+
+impl File {
+    pub fn new(name: &str) -> File {    // 구조체가 공개되었더라도 메서드의 공개 여부는 명시적으로 지정해 주어야 함
+        File {
+            name: String::from(name),
+            data: Vec::new(),
+            state: FileState::Closed,
+        }
+    }
+}
+
+fn main() {
+    let f1 = File::new("f1.txt");
+    // ...
+    println!("{:?}", f1);
+}
+```
+
+#### [ 인라인 문서 만들기 ]
+코드에 문서 주석을 추가하는 방법에는 2가지 방식이 있다.  
+///는 일반적인 형태로, 바로 이어지는 항목을 참조하는 문서를 생성한다.  
+//!는 컴파일러가 코드 전체를 훑을 때 현재 항목을 참조하며, 관례적으로 현재 모듈에 대한 주석에 사용되지만 다른 곳에도 사용 가능하다.
+
+``` Rust
+//! 한 번에 한 단계씩 파일을 시뮬레이트한다.
+
+/// 아마도 파일 시스템에 있을
+/// '파일'을 나타낸다.
+#[derive(Debug)]
+pub struct File {
+    name: String,
+    data: Vec<u8>,
+}
+
+impl File {
+    /// 새 파일은 비어 있다고 가정하지만 이름은 필요하다.
+    pub fn new(name: &str) -> File {
+        File {
+            name: String::from(name),
+            data: Vec::new(),
+        }
+    }
+
+    /// 파일 길이를 바이트로 반환한다.
+    pub fn len(&self) -> usize {
+        self.data.len()
+    }
+
+    /// 파일 이름을 반환한다.
+    pub fn name(&self) -> String {
+        self.name.clone()
+    }
+}
+
+fn main () {
+    let f1 = File::new("f1.txt");
+
+    let f1_name = f1.name();
+    let f1_length = f1.len();
+
+    println!("{:?}", f1);
+    println!("{} is {} bytes long", f1_name, f1_length);
+}
+```
+<br>
+
+* **rustdoc으로 한 소스 파일의 문서 만들기** : rustdoc {file.rs}  
+* **카고로 크레이트와 의존성에 대한 문서 만들기** : cargo doc
+
+※ cargo doc --open을 실행하면 웹 브라우저가 자동으로 열린다.  
+※ cargo doc --no-deps를 실행하면 의존성 패키지는 무시하기 때문에 rustdoc이 해야 할 작업을 상당히 제한할 수 있다.
+
+***
+### 수명, 소유권, 대여 <a id="anchor4"></a>
+값의 수명은 값에 접근해도 문제 없는 기간을 의미한다.  
+함수의 지역 변수는 함수 실행을 마칠 때까지, 전역 변수는 프로그램이 가동되는 동안 살아 있다.  
+
+Rust에서 소유권은 해당 값이 더 이상 필요 없을 때 깨끗이 지우는 것과 관련이 있다.  
+단, 소유자는 프로그램의 다른 부분이 값에 접근하는 것을 막거나 데이터 도난을 보고할 수 없다.  
+
+값을 대여한다는 것은 값에 접근함을 의미한다.  
+대여의 의미는 값에는 소유자가 하나뿐이며, 프로그램의 많은 부분에서 공동 접근이 가능하다는 점을 강조하기 위해 사용한다.
+
