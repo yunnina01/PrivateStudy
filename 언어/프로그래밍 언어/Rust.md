@@ -12,7 +12,7 @@ Rust를 대표하는 키워드는 안정성, 속도, 병렬 프로그래밍, 함
 2. [Rust 언어의 기초](#anchor2)
 3. [복합 데이터 타입](#anchor3)
 4. [수명, 소유권, 대여](#anchor4)
-
+5. [데이터 심화](#anchor5)
 
 ***
 ### Rust 소개 <a id="anchor1"></a>
@@ -551,7 +551,7 @@ fn close(f: &mut File) -> bool {
 }
 
 #[allow(dead_code)]                                     // 사용하지 않는 함수에 대한 컴파일러 경고 완화
-fn read(f: &mut File, save_to: &mut Vec<u8>) -> ! {     // ! 반환 타입은 함수가 어떤 값도 반환하지 않음을 컴파일러에 알려주는 역할
+fn read(f: &mut File, save_to: &mut Vec<u8>) -> ! {     // ! 반환 타입은 함수가 어떤 값도 반환하지 않음을 컴파일러에 알려줌
     unimplemented!()                                    // 프로그램을 중단시키는 매크로
 }
 
@@ -636,7 +636,7 @@ fn main() {
     let mut f = File::new("something.txt");
 
     read(f, buffer);
-    unsafe {                            // Rust가 안정성을 보장하지 못하는 비정상적인 작업(정적 가변 변수 접근) 수행을 한다는 지시
+    unsafe {                            // Rust가 안전성을 보장 못하는 비정상적인 작업(정적 가변 변수 접근) 수행을 한다는 지시
         if ERROR != 0 {
             panic!("An error has occurred while reading the file");
         }
@@ -715,7 +715,7 @@ fn main() {
     let mut buffer: Vec<u8> = vec![];
 
     f1 = open(f1).unwrap();                                     // Ok로부터 T를 풀어 T를 남김
-    let f1_length = f1.read(&mut buffer).unwrap();              // unwrap()은 오류 타입에 호출하면 오류 메시지 없이 프로그램 중단
+    let f1_length = f1.read(&mut buffer).unwrap();              // unwrap(): 오류 타입에 호출하면 오류 메시지 없이 프로그램 중단
     f1 = close(f1).unwrap();
 
     let text = String::from_utf8_lossy(&buffer);                // Vec<u8>을 String으로 변환
@@ -746,7 +746,7 @@ enum Event {
 type Message = String;
 
 fn parse_log(line: &'static str) -> (Event, Message) {
-    let parts: Vec<&str> = line.splitn(2, ' ').collect();       // collect(): line.splitn()에서 생성된 반복자를 써서 Vec<T> 반환
+    let parts: Vec<&str> = line.splitn(2, ' ').collect();       // collect(): line.splitn()로 생성된 반복자를 써서 Vec<T> 반환
     if parts.len() == 1 {                                       // 두 부분으로 나누지 못한 경우
         return (Event::Unknown, String::from(line))
     }
@@ -867,7 +867,7 @@ pub 키워드를 사용해서 필요한 것들을 공개할 수 있다.
 
 ``` Rust
 #[derive(Debug, PartialEq)]
-pub enum FileState {                    // 타입을 공개하면 그 안의 열것값들도 모두 공개됨
+pub enum FileState {                        // 타입을 공개하면 그 안의 열것값들도 모두 공개됨
     Open,
     Closed,
 }
@@ -880,7 +880,7 @@ pub struct File {
 }
 
 impl File {
-    pub fn new(name: &str) -> File {    // 구조체가 공개되었더라도 메서드의 공개 여부는 명시적으로 지정해 주어야 함
+    pub fn new(name: &str) -> File {        // 구조체가 공개되었더라도 메서드의 공개 여부는 명시적으로 지정해 주어야 함
         File {
             name: String::from(name),
             data: Vec::new(),
@@ -961,3 +961,272 @@ Rust에서 소유권은 해당 값이 더 이상 필요 없을 때 깨끗이 지
 값을 대여한다는 것은 값에 접근함을 의미한다.  
 대여의 의미는 값에는 소유자가 하나뿐이며, 프로그램의 많은 부분에서 공동 접근이 가능하다는 점을 강조하기 위해 사용한다.
 
+#### [ 소유권 이동 ]
+Rust 코드에서 이동은 데이터 이동이 아니라 소유권 이동을 말한다.  
+소유권은 컴파일 시 모든 값의 사용이 유효한지 그리고 모든 값이 깨끗하게 파괴되는지 검사하는 과정을 말한다.  
+
+``` Rust
+// 이 코드를 컴파일하면 오류가 발생한다.
+fn main() {
+    let sat_a = CubeSat { id: 0 };          // sat_a의 소유권은 main()에 있음
+    
+    let a_status = check_status(sat_a);     // check_status() 함수의 sat_id 매개변수로 소유권 이동
+    // ...                                  // sat_a의 소유권이 main()으로 돌아오지 않음
+    let a_status = check_status(sat_a);     // 접근 무효
+}
+```
+
+#### [ 원시 타입의 특수한 행위 ]
+Rust의 원시 타입은 Copy 트레이트를 구현해 놓았다.  
+Copy를 구현한 타입은 복제하지 않고서는 사용할 수 없을 때에 한해 복제된다.  
+공식적으로 원시 타입은 '복사 의미'를 가지고, 다른 타입들은 '이동 의미'를 가진다.
+
+``` Rust
+fn use_value(_val: i32) {
+}
+
+fn main() {
+    let a = 123;
+    use_value(a);           // a가 복사되어 use_value()의 _val로 소유권이 넘어감
+    println!("{}", a);
+}
+```
+
+#### [ 소유자 ]
+소유자는 값의 수명이 끝나면 값을 정리한다.  
+값이 범위를 넘어가거나 다른 어떤 이유로 수명이 끝난다면 파괴자가 호출된다.  
+파괴자는 값에 대한 참조를 지우고 메모리를 해제함으로써 프로그램으로부터 값의 흔적을 지우는 함수다.  
+컴파일러가 모든 값의 수명을 추적하는 과정의 일부로 파괴자를 호출하는 코드를 삽입한다.  
+
+타입에 커스텀 파괴자를 넣으려면 Drop을 구현해야 한다.  
+이는 일반적으로 메모리를 할당하기 위해 unsafe 블록을 사용하는 곳에서 필요로 한다.  
+Drop은 하나의 메서드 drop(&mut self)를 가지며, 필요한 정리 활동을 하는 데 이용한다.  
+
+값은 절대로 소유자보다 오래 지속될 수 없으며, 값의 소유자는 자신의 데이터에 특별한 접근 권한을 가지고 있지 않다.  
+또한, 다른 곳에서 불법적으로 점유하는 것을 제한할 능력도 없다.  
+소유자는 자신의 값을 대여하는 코드의 다른 부분에 대해 아무것도 하지 못한다.
+
+#### [ 소유권 이동 방식 ]
+Rust 프로그램 안에서 소유권을 다른 변수로 옮기려면 할당이나 함수 인자나 반환값으로 전달하는 방법을 사용한다.
+
+``` Rust
+fn check_status(sat_id: CubeSat) -> CubeSat {
+    println!("{:?}: {:?}" sat_id, StatusMessage::Ok);
+    sat_id
+}
+
+fn main() {
+    let sat_a = CubeSat { id: 0 };      // 변수 바인딩(할당)
+    let sat_a = check_status(sat_a);    // 새로운 let 바인딩으로 초기화
+    // ...
+    let sat_a = check_status(sat_a);
+}
+```
+
+#### [ 소유권 문제 해결 ]
+**1. 완전한 소유권이 필요하지 않을 때 참조를 사용**  
+필요한 접근 수준을 낮추는 방식으로 소유권을 요청하는 대신 함수 정의에 '대여'를 이용할 수 있다.  
+읽기 전용 접근은 &T, 읽기-쓰기 접근은 &mut T를 사용한다.
+
+``` Rust
+fn send(to: &mut CubeSat, msg: Message) {
+    to.mailbox.messages.push(msg);
+}
+```
+
+**2. 오래 지속되는 값은 더 적게 사용**  
+오래 지속되는 객체가 포함된 접근 방식을 사용하는 대신 더 분리되고 일시적인 객체를 만드는 것이 좋다.
+
+``` Rust
+#![allow(unused_variables)]
+
+#[derive(Debug)]
+struct CubeSat {
+    id: u64,
+}
+
+#[derive(Debug)]
+struct Mailbox {
+    messages: Vec<Message>,
+}
+
+#[derive(Debug)]
+struct Message {
+    to: u64,
+    content: String,
+}
+
+struct GroundStation {}
+
+impl Mailbox {
+    fn post(&mut self, msg: Message) {
+        self.messages.push(msg);
+    }
+
+    fn deliver(&mut self, recipient: &CubeSat) -> Option<Message> {
+        for i in 0..self.messages.len() {
+            if self.messages[i].to == recipient.id {
+                let msg = self.messages.remove(i);      // 반복이 이루어지는 동안 컬렉션 변경
+                return Some(msg);                       // 바로 다음 줄의 return으로 인해 적법하다고 인정됨
+            }
+        }
+        None
+    }
+}
+
+impl GroundStation {
+    fn connect(&self, sat_id: u64) -> CubeSate {
+        CubeSat {
+            id: sat_id,
+        }
+    }
+
+    fn send(&self, mailbox: &mut Mailbox, msg: Message) {
+        mailbox.post(msg);
+    }
+}
+
+impl CubeSat {
+    fn recv(&self, mailbox: &mut Mailbox) -> Option<Message> {
+        mailbox.deliver(&self)
+    }
+}
+
+fn fetch_sat_ids() -> Vec<u64> {
+    vec![1, 2, 3]
+}
+
+fn main() {
+    let mut mail = Mailbox { messages: vec![] };
+    let base = GroundStation {};
+    let sat_ids = fetch_sat_ids();
+
+    for sat_id in sat_ids {
+        let sat = base.connect(sat_id);
+        let msg = Message { to: sat_id, content: String::from("hello") };
+        base.send(&mut mail, msg)
+    }
+
+    let sat_ids = fetch_sat_ids();
+
+    for sat_id in sat_ids {
+        let sat = base.connect(sat_id);
+        let msg = sat.recv(&mut mail);
+        println!("{:?}: {:?}", sat, msg);
+    }
+}
+```
+
+**3. 값의 사본 만들기**  
+복제(deep copy에 준하는 전체 구조와 값의 복제)와 복사(shallow copy에 준하는 최소한의 복사)를 통해 사본을 만들 수 있다.
+
+| 복제 | 복사 |
+| --- | --- |
+| std::clone::Clone에 의해 정의 | std::marker::Copy에 의해 정의 |
+| 느리고 비쌀 수 있음 | 언제나 빠르고 쌈 |
+| 항상 명시적, .clone() 메서드 호출이 언제나 필요 | 항상 암묵적 |
+| 원래 값과 달라질 수 있음 | 원래 값을 비트 대 비트로 사본을 만드므로 언제나 동일 |
+<br>
+
+Rust 프로그래머가 항상 Copy만 쓰지 않는 이유  
+  * Copy 트레이트는 성능에 미치는 영향이 미미해야 함을 암시한다.  
+  이는 숫자 같은 경우에는 해당되지만 String 같은 임의의 큰 타입에는 해당되지 않는다.
+
+  * Copy는 동일한 복사본을 만들기 때문에 참조를 제대로 다룰 수 없다.  
+  T에 대한 참조를 복사하면 T의 두 번째 소유자를 만들어 내거나 만들려고 한다.  
+  참조가 삭제될 때마다 T를 삭제하려고 시도할 수 있어 문제를 일으킬 수 있다.
+
+  * 어떤 타입은 Clone 트레이트를 오버로드한다.  
+  예를 들어 std::rc::Rc&lt;T&gt;는 .clone()이 호출될 대 추가적인 참조를 만드는 목적으로 Clone을 이용한다.
+<br>
+
+``` Rust
+// #[derive(Debug, Clone, Copy)]
+struct CubeSat {
+    id: u64,
+}
+
+// #[derive(Debug, Clone, Copy)]
+enum StatusMessage {
+    Ok,
+}
+
+// Copy, Clone 트레이트 수동 구현
+impl Copy for CubeSat { }
+
+impl Copy for status StatusMessage { }
+
+impl Clone for CubeSat {
+    fn clone(&self) -> Self {
+        CubeSat { id: self.id }                         // 새로운 객체 직접 생성
+    }
+}
+
+impl Clone for StatusMessage {
+    fn clone(&self) -> Self {
+        *self                                           // self 역참조
+    }
+}
+
+fn check_status
+
+fn main() {
+    let sat_a = CubeSat { id : 0 };
+    let a_status = check_status(sat_a.clone());         // 복제
+    println!("a: {:?}", a_status.clone());
+
+    let a_status = check_status(sat_a);                 // 복사
+    println!("a: {:?}", a_status);
+}
+```
+
+**4. 데이터를 특별한 타입으로 감싸기**  
+래퍼(wrapper) 타입은 기본적으로 가능한 것보다 더 많은 유연성을 제공하지만, 안전성 보장을 위한 런타임 비용이 발생한다.  
+std::rc::Rc는 일반적으로 타입 매개 변수 T를 받고 Rc&lt;T&gt;로 표기된다.  
+Rc&lt;T&gt;는 '타입 T의 참조 카운트값'을 의미하며, T의 공유 소유권을 제공한다.  
+공유 소유권은 모든 소유자가 삭제되기 전까지 T가 메모리에서 삭제되는 것을 막는다.  
+참조 생성 시(Clone) 내부 카운트가 1 늘어나고 참조가 사라지면(Drop) 1 줄어들며, 카운트가 0으로 떨어지면 T도 없어진다.  
+
+Rc&lt;T&gt;는 변경을 허용하지 않으므로 변경을 위해서는 래퍼로 감싸야 한다.  
+Rc&lt;RefCell&lt;T&gt;&gt;는 내부 변경을 수행하는 데 사용할 수 있는 타입이다.  
+내부 변경이 가능한 객체는 겉으로는 불변이지만 내부 값은 바뀔 수 있다.  
+Rc&lt;RefCell&lt;T&gt;&gt;는 T에 대한 공유 읽기-쓰기 접근을 허용하면서 Rc&lt;T&gt;에 비해 런타임 비용이 추가 발생한다.  
+
+다른 타입으로 감싸서 더 많은 기능을 타입에 추가하면 일반적으로 런타임 성능이 떨어진다.  
+Clone 구현이 금지해야 할 정도로 비싸다면 Rc&lt;T&gt;는 간편한 대안이다. (모두 공유 소유권 허용)
+
+``` Rust
+use std::rc::Rc;
+use std::cell::RefCell;
+
+#[derive(Debug)]
+struct GroundStation {
+    radio_freq: f64,
+}
+
+fn main() {
+    let base: Rc<RefCell<GroundStation>> = Rc::new(RefCell::new(GroundStation {
+        radio_freq: 87.65
+    }));
+    println!("base: {:?}", base);
+
+    {
+        let mut base_2 = base.borrow_mut();
+        base_2.radio_freq -= 12.34;
+        println!("base_2: {:?}", base_2);
+    }
+    println!("base: {:?}", base);
+
+    let mut base_3 = base.borrow_mut();
+    base_3.radio_freq += 43.21;
+    println!("base: {:?}", base);
+    println!("base_3: {:?}", base_3);
+}
+```
+<br>
+
+※ 다중 스레드 코드에서는 Rc&lt;T&gt;를 Arc&lt;T&gt;로, Rc&lt;RefCell&lt;T&gt;&gt;를 Arc&lt;Mutex&lt;T&gt;&gt;로 대체하는 것이 낫다.  
+※ arc는 원자적 참조 카운터를 의미한다.
+
+***
+### 데이터 심화 <a id="anchor5"></a>
